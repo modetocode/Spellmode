@@ -9,6 +9,7 @@ public class MainCharacterComponent : MonoBehaviour {
     private Rigidbody2D characterRigidBody;
     private CircleCollider2D groundCollider;
     private bool isGrounded;
+    private float moveSpeed;
 
     public void Awake() {
         this.animator = this.GetComponent<Animator>();
@@ -17,7 +18,7 @@ public class MainCharacterComponent : MonoBehaviour {
     }
 
     public void Start() {
-        //this.SetMoveAnimation();
+        this.characterRigidBody.freezeRotation = true;
     }
 
     public void Update() {
@@ -27,15 +28,23 @@ public class MainCharacterComponent : MonoBehaviour {
     }
 
     public void FixedUpdate() {
+        if (moveSpeed > 0f) {
+            float currentMoveSpeed = Time.fixedDeltaTime * moveSpeed;
+            //TODO check how to properly move a character using Unity Physics
+            this.characterRigidBody.velocity = new Vector2(currentMoveSpeed, this.characterRigidBody.velocity.y);
+            //this.characterRigidBody.AddForce(new Vector2(currentMoveSpeed, 0f));
+            this.animator.SetFloat(Constants.Animation.MainCharacter.MoveSpeedParameterName, currentMoveSpeed);
+        }
+
         this.animator.SetFloat("MoveSpeed", this.characterRigidBody.velocity.x);
         this.animator.SetFloat("VerticalSpeed", this.characterRigidBody.velocity.y);
     }
 
     public void Jump() {
-        this.characterRigidBody.AddForce(new Vector2(0f, 300f));
+        this.characterRigidBody.AddForce(new Vector2(0f, 700f));
     }
 
-    public void SetMoveAnimation() {
-        this.animator.SetFloat(Constants.Animation.MainCharacter.MoveSpeedParameterName, 1f);
+    public void Move(float moveSpeed) {
+        this.moveSpeed = moveSpeed;
     }
 }

@@ -23,6 +23,8 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.InitializeRun();
         this.inputComponent.UnblockInput();
         this.inputComponent.JumpInputed += JumpInputedHandler;
+        //TODO change this
+        this.characterComponent.Move(200f);
     }
 
     public void OnDestroy() {
