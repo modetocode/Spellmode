@@ -2,7 +2,7 @@
 
 
 /// <summary>
-/// Component that moves all the specified object in order to follow the object on the x-axis
+/// Component that moves all the specified objects so they follow the object on the x-axis
 /// </summary>
 public class MoveableGroupComponent : MonoBehaviour {
     [SerializeField]

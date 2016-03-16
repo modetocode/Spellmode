@@ -18,8 +18,17 @@ public class InputComponent : MonoBehaviour {
         if (this.isInputBlocked) {
             return;
         }
-
         if (Input.GetButtonDown(Constants.Input.JumpSpeedInputName)) {
+            if (JumpInputed != null) {
+                JumpInputed();
+            }
+        }
+
+        for (int i = 0; i < Input.touches.Length; i++) {
+            if (Input.touches[i].phase != TouchPhase.Began) {
+                continue;
+            }
+
             if (JumpInputed != null) {
                 JumpInputed();
             }
