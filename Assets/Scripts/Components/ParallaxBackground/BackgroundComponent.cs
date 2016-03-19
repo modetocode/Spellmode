@@ -1,31 +1,59 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// An entity that represents one part of the scrolling background.
+/// Component that resizes and moves various background elements in order to create scrolling background 
 /// </summary>
-[Serializable]
-public class BackgroundComponent {
-    [SerializeField]
-    private GameObject gameObject;
+public class BackgroundComponent : MonoBehaviour {
 
     [SerializeField]
-    private float speedReductionPercentage;
-
+    private Camera backgroundCamera;
     [SerializeField]
-    private bool isMovingForward;
+    private GameObject backgroundResizeGroup;
+    [SerializeField]
+    private BackgroundElement[] backgroundElements;
 
+    private IList<Material> tiledMaterials;
+    private readonly Vector3 topRightViewportPoint = new Vector3(1f, 1f);
+    private readonly float defaultMoveSpeed = 0.2f;
+    private float moveSpeed;
 
-    public GameObject GameObject {
-        get { return this.gameObject; }
+    public void Start() {
+        Vector3 worldPointOffsetFromCenter = backgroundCamera.ViewportToWorldPoint(this.topRightViewportPoint);
+        this.backgroundResizeGroup.transform.localScale = worldPointOffsetFromCenter * 2;
+        this.tiledMaterials = new Material[this.backgroundElements.Length];
+        for (int i = 0; i < this.backgroundElements.Length; i++) {
+            Material sharedMaterial = this.backgroundElements[i].GameObject.GetComponent<Renderer>().sharedMaterial;
+            float newHeight = Screen.height * this.backgroundElements[i].GameObject.transform.localScale.y;
+            float textureAspectRatio = sharedMaterial.mainTexture.width / sharedMaterial.mainTexture.height;
+            float newWidth = newHeight * textureAspectRatio;
+            float newWidthRatio = Screen.width / newWidth;
+            sharedMaterial.mainTextureScale = new Vector2(newWidthRatio, sharedMaterial.mainTextureScale.y);
+            tiledMaterials[i] = sharedMaterial;
+        }
+
+        this.SetMoveSpeed(this.defaultMoveSpeed);
     }
 
-    public float SpeedReductionPercentage {
-        get { return this.speedReductionPercentage; }
+    public void SetMoveSpeed(float moveSpeed) {
+        this.moveSpeed = moveSpeed;
     }
 
-    public bool IsMovingForward {
-        get { return this.isMovingForward; }
+    void FixedUpdate() {
+        if (this.moveSpeed == 0) {
+            return;
+        }
+
+        float textureOffset = moveSpeed * Time.fixedDeltaTime;
+        for (int i = 0; i < tiledMaterials.Count; i++) {
+            float reductionRatio = (100f - backgroundElements[i].SpeedReductionPercentage) / 100f;
+            float direction = backgroundElements[i].IsMovingForward ? 1f : -1f;
+            float newTextureXOffset = (tiledMaterials[i].mainTextureOffset.x + textureOffset * reductionRatio * direction) % 1;
+            if (newTextureXOffset < 0) {
+                newTextureXOffset = 1f - newTextureXOffset;
+            }
+
+            tiledMaterials[i].mainTextureOffset = new Vector2(newTextureXOffset, tiledMaterials[i].mainTextureOffset.y);
+        }
     }
 }
-
