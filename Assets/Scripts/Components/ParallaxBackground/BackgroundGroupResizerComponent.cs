@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Component that resizes and moves various background elements in order to create scrolling background 
+/// </summary>
 public class BackgroundGroupResizerComponent : MonoBehaviour {
 
     [SerializeField]
@@ -8,25 +11,20 @@ public class BackgroundGroupResizerComponent : MonoBehaviour {
     [SerializeField]
     private GameObject backgroundResizeGroup;
     [SerializeField]
-    private GameObject[] backgroundComponents;
+    private BackgroundComponent[] backgroundComponents;
 
     private IList<Material> tiledMaterials;
     private readonly Vector3 topRightViewportPoint = new Vector3(1f, 1f);
-    private readonly float defaultMoveSpeed = 0.3f;
+    private readonly float defaultMoveSpeed = 0.2f;
     private float moveSpeed;
 
     public void Start() {
         Vector3 worldPointOffsetFromCenter = backgroundCamera.ViewportToWorldPoint(this.topRightViewportPoint);
         this.backgroundResizeGroup.transform.localScale = worldPointOffsetFromCenter * 2;
-        //for (int i = 0; i < tiledMaterials.Length; i++) {
-        //    float newWidthRatio = Screen.width / (float)tiledMaterials[i].mainTexture.width;
-        //    tiledMaterials[i].mainTextureScale = new Vector2(newWidthRatio, tiledMaterials[i].mainTextureScale.y);
-        //}
-
         this.tiledMaterials = new Material[this.backgroundComponents.Length];
         for (int i = 0; i < this.backgroundComponents.Length; i++) {
-            Material sharedMaterial = this.backgroundComponents[i].GetComponent<Renderer>().sharedMaterial;
-            float newHeight = Screen.height * this.backgroundComponents[i].transform.localScale.y;
+            Material sharedMaterial = this.backgroundComponents[i].GameObject.GetComponent<Renderer>().sharedMaterial;
+            float newHeight = Screen.height * this.backgroundComponents[i].GameObject.transform.localScale.y;
             float textureAspectRatio = sharedMaterial.mainTexture.width / sharedMaterial.mainTexture.height;
             float newWidth = newHeight * textureAspectRatio;
             float newWidthRatio = Screen.width / newWidth;
@@ -48,7 +46,13 @@ public class BackgroundGroupResizerComponent : MonoBehaviour {
 
         float textureOffset = moveSpeed * Time.fixedDeltaTime;
         for (int i = 0; i < tiledMaterials.Count; i++) {
-            float newTextureXOffset = (tiledMaterials[i].mainTextureOffset.x + textureOffset) % 1;
+            float reductionRatio = (100f - backgroundComponents[i].SpeedReductionPercentage) / 100f;
+            float direction = backgroundComponents[i].IsMovingForward ? 1f : -1f;
+            float newTextureXOffset = (tiledMaterials[i].mainTextureOffset.x + textureOffset * reductionRatio * direction) % 1;
+            if (newTextureXOffset < 0) {
+                newTextureXOffset = 1f - newTextureXOffset;
+            }
+
             tiledMaterials[i].mainTextureOffset = new Vector2(newTextureXOffset, tiledMaterials[i].mainTextureOffset.y);
         }
     }

@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: LowestPlatformMaterial
+  m_Name: CloudsMaterial
   m_Shader: {fileID: 10750, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
@@ -19,9 +19,9 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: c20efdc20aecb424fba1e8a3fff19421, type: 3}
-          m_Scale: {x: 1.3337548, y: 1}
-          m_Offset: {x: 0.14791736, y: -0.01}
+          m_Texture: {fileID: 2800000, guid: ae2efd075ce2efd47a05435ebb44968e, type: 3}
+          m_Scale: {x: 1.6671934, y: 1}
+          m_Offset: {x: 0.27075645, y: 0}
       data:
         first:
           name: _BumpMap
