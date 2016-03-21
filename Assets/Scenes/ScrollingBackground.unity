@@ -194,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundCamera: {fileID: 261655130}
   backgroundResizeGroup: {fileID: 236325954}
+  backgroundGroup: {fileID: 1367297137}
   backgroundElements:
   - gameObject: {fileID: 377567229}
     speedReductionPercentage: 0

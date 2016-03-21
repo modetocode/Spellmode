@@ -20,10 +20,21 @@ public static class Constants {
         };
     }
 
-    public static class Animation {
+    public static class Animations {
         public static class MainCharacter {
             public const string MoveSpeedParameterName = "MoveSpeed";
         }
+    }
+
+    public static class Platforms {
+        public enum PlatformType {
+            Bottom,
+            Top
+        }
+    }
+
+    public static class Units {
+        public const float distanceToTriggerUnitSpawnInMetters = 100f;
     }
 }
 

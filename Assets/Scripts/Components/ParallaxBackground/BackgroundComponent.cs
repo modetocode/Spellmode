@@ -11,6 +11,8 @@ public class BackgroundComponent : MonoBehaviour {
     [SerializeField]
     private GameObject backgroundResizeGroup;
     [SerializeField]
+    private GameObject backgroundGroup;
+    [SerializeField]
     private BackgroundElement[] backgroundElements;
 
     private IList<Material> tiledMaterials;
@@ -19,7 +21,7 @@ public class BackgroundComponent : MonoBehaviour {
     private float moveSpeed;
 
     public void Start() {
-        Vector3 worldPointOffsetFromCenter = backgroundCamera.ViewportToWorldPoint(this.topRightViewportPoint);
+        Vector3 worldPointOffsetFromCenter = backgroundCamera.ViewportToWorldPoint(this.topRightViewportPoint) - backgroundGroup.transform.position;
         this.backgroundResizeGroup.transform.localScale = worldPointOffsetFromCenter * 2;
         this.tiledMaterials = new Material[this.backgroundElements.Length];
         for (int i = 0; i < this.backgroundElements.Length; i++) {

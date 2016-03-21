@@ -33,7 +33,7 @@ public class MainCharacterComponent : MonoBehaviour {
             //TODO check how to properly move a character using Unity Physics
             this.characterRigidBody.velocity = new Vector2(currentMoveSpeed, this.characterRigidBody.velocity.y);
             //this.characterRigidBody.AddForce(new Vector2(currentMoveSpeed, 0f));
-            this.animator.SetFloat(Constants.Animation.MainCharacter.MoveSpeedParameterName, currentMoveSpeed);
+            this.animator.SetFloat(Constants.Animations.MainCharacter.MoveSpeedParameterName, currentMoveSpeed);
         }
 
         this.animator.SetFloat("MoveSpeed", this.characterRigidBody.velocity.x);

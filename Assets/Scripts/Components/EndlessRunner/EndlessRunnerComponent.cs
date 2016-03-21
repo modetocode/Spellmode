@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-class LevelRunComponent : MonoBehaviour {
+class EndlessRunnerComponent : MonoBehaviour {
 
     private LevelRunManager levelRunManager;
 
@@ -8,7 +8,7 @@ class LevelRunComponent : MonoBehaviour {
     private InputComponent inputComponent;
 
     [SerializeField]
-    private InstantiatorComponent instantiatorComponent;
+    private MainCharacterComponent characterComponent;
 
     public void Awake() {
         if (inputComponent == null) {
@@ -18,12 +18,9 @@ class LevelRunComponent : MonoBehaviour {
 
     public void Start() {
         this.inputComponent.BlockInput();
-        this.levelRunManager = new LevelRunManager();
-        this.levelRunManager.InitializeRun();
-        this.instantiatorComponent.InitializeComponent(this.levelRunManager.AttackingTeam, this.levelRunManager.DefendingTeam);
-        this.levelRunManager.StartRun();
-        this.inputComponent.UnblockInput();
         this.inputComponent.JumpInputed += JumpInputedHandler;
+        this.characterComponent.Move(200f);
+        this.inputComponent.UnblockInput();
     }
 
     public void OnDestroy() {
@@ -31,10 +28,11 @@ class LevelRunComponent : MonoBehaviour {
     }
 
     private void JumpInputedHandler() {
-        //TODO implement this
+        //TODO change this
+        this.characterComponent.Jump();
     }
 
     public void Update() {
-        this.levelRunManager.Tick(Time.deltaTime);
+        //this.levelRunManager.Tick(Time.deltaTime);
     }
 }
