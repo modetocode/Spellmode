@@ -4,6 +4,8 @@ using UnityEngine;
 public static class Constants {
     public static class Input {
         public const string JumpSpeedInputName = "Jump";
+        public const string JumpUpInputName = "JumpUp";
+        public const string JumpDownInputName = "JumpDown";
     }
 
     public static class Layers {
@@ -32,6 +34,11 @@ public static class Constants {
             Bottom,
             Top
         }
+
+        public static IDictionary<PlatformType, float> PlatformTypeToCoordinateMap = new Dictionary<PlatformType, float> {
+            {PlatformType.Bottom, 0f},
+            {PlatformType.Top, 3.5f}
+        };
     }
 
     public static class Units {
@@ -50,6 +57,10 @@ public static class Constants {
             /// </summary>
             public static float CameraDepth = -10f;
         }
+    }
+
+    public static class Math {
+        public const float FloatPositiveEpsilon = 0.00001f;
     }
 }
 

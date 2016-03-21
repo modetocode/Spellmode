@@ -4,6 +4,9 @@ using UnityEngine;
 public class InputComponent : MonoBehaviour {
 
     public event Action JumpInputed;
+    public event Action JumpUpInputed;
+    public event Action JumpDownInputed;
+
     private bool isInputBlocked;
 
     public void BlockInput() {
@@ -19,8 +22,20 @@ public class InputComponent : MonoBehaviour {
             return;
         }
         if (Input.GetButtonDown(Constants.Input.JumpSpeedInputName)) {
-            if (JumpInputed != null) {
-                JumpInputed();
+            if (this.JumpInputed != null) {
+                this.JumpInputed();
+            }
+        }
+
+        if (Input.GetButtonDown(Constants.Input.JumpUpInputName)) {
+            if (this.JumpUpInputed != null) {
+                this.JumpUpInputed();
+            }
+        }
+
+        if (Input.GetButtonDown(Constants.Input.JumpDownInputName)) {
+            if (this.JumpDownInputed != null) {
+                this.JumpDownInputed();
             }
         }
 
@@ -29,8 +44,8 @@ public class InputComponent : MonoBehaviour {
                 continue;
             }
 
-            if (JumpInputed != null) {
-                JumpInputed();
+            if (this.JumpInputed != null) {
+                this.JumpInputed();
             }
         }
     }

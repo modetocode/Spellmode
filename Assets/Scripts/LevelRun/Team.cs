@@ -19,12 +19,24 @@ public class Team : ITickable {
         }
     }
 
-    internal void AddUnit(Unit unit) {
+    public void AddUnit(Unit unit) {
         //TODO arg check
         this.UnitsInTeam.Add(unit);
         this.AliveUnitsInTeam.Add(unit);
         if (this.UnitAdded != null) {
             this.UnitAdded(unit);
+        }
+    }
+
+    public void MoveAllAliveUnitsToUpperPlatformIfPossible() {
+        for (int i = 0; i < AliveUnitsInTeam.Count; i++) {
+            this.AliveUnitsInTeam[i].MoveToUpperPlatformIfPossible();
+        }
+    }
+
+    public void MoveAllAliveUnitsToLowerPlatformIfPossible() {
+        for (int i = 0; i < AliveUnitsInTeam.Count; i++) {
+            this.AliveUnitsInTeam[i].MoveToLowerPlatformIfPossible();
         }
     }
 }

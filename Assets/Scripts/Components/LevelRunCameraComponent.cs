@@ -41,8 +41,8 @@ public class LevelRunCameraComponent : MonoBehaviour {
             return;
         }
 
-        Vector3 ofsetFromPreviousPosition = this.trackedObject.transform.position - this.lastPositionOfTrackedObject;
-        this.levelRunCamera.transform.position += ofsetFromPreviousPosition;
+        float ofsetFromPreviousXPosition = this.trackedObject.transform.position.x - this.lastPositionOfTrackedObject.x;
+        this.levelRunCamera.transform.position += new Vector3(ofsetFromPreviousXPosition, 0f, 0f);
         this.lastPositionOfTrackedObject = this.trackedObject.transform.position;
     }
 }

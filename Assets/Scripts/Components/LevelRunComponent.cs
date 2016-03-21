@@ -48,9 +48,23 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.StartRun();
         this.inputComponent.UnblockInput();
         this.inputComponent.JumpInputed += JumpInputedHandler;
+        this.inputComponent.JumpUpInputed += JumpUpInputedHandler;
+        this.inputComponent.JumpDownInputed += JumpDownInputedHandler;
     }
+
+    private void JumpDownInputedHandler() {
+        this.levelRunManager.AttackingTeam.MoveAllAliveUnitsToLowerPlatformIfPossible();
+    }
+
+    private void JumpUpInputedHandler() {
+        this.levelRunManager.AttackingTeam.MoveAllAliveUnitsToUpperPlatformIfPossible();
+    }
+
     public void OnDestroy() {
+        //TODO check if this is the right place for unsubscribe
         this.inputComponent.JumpInputed -= JumpInputedHandler;
+        this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
+        this.inputComponent.JumpDownInputed -= JumpDownInputedHandler;
     }
 
     private void JumpInputedHandler() {
