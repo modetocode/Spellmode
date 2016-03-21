@@ -8,6 +8,7 @@ public class Unit : ITickable {
     /// The position of the unit in the world. The x-axis represents the horizontal distance (in meters) the starting point, and y-axis the vertical distance (in meters).
     /// </summary>
     public Vector2 PositionInMeters { get; private set; }
+    public float CurrentMoveSpeed { get; private set; }
 
     public Unit(UnitSettings unitSettings, Vector2 unitSpawnPosition) {
         //TODO arg check
@@ -16,7 +17,8 @@ public class Unit : ITickable {
     }
 
     public void Tick(float deltaTime) {
-        this.PositionInMeters += new Vector2(this.unitSettings.MovementSpeed * deltaTime, 0f);
+        this.CurrentMoveSpeed = this.unitSettings.MovementSpeed * deltaTime;
+        this.PositionInMeters += new Vector2(this.CurrentMoveSpeed, 0f);
         //TODO check for collisions, attack
     }
 }

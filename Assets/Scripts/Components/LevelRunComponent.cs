@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 class LevelRunComponent : MonoBehaviour {
 
@@ -10,10 +11,23 @@ class LevelRunComponent : MonoBehaviour {
     [SerializeField]
     private InstantiatorComponent instantiatorComponent;
 
+    [SerializeField]
+    private LevelRunCameraComponent cameraComponent;
+
     public void Awake() {
-        if (inputComponent == null) {
-            throw new System.NullReferenceException("inputComponent is null");
+        if (this.inputComponent == null) {
+            throw new NullReferenceException("inputComponent is null");
         }
+
+        if (this.instantiatorComponent == null) {
+            throw new NullReferenceException("instantiatorComponent is null");
+        }
+
+        if (this.cameraComponent == null) {
+            throw new NullReferenceException("cameraComponent is null");
+        }
+
+        //TODO script references check 
     }
 
     public void Start() {
@@ -21,11 +35,20 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager = new LevelRunManager();
         this.levelRunManager.InitializeRun();
         this.instantiatorComponent.InitializeComponent(this.levelRunManager.AttackingTeam, this.levelRunManager.DefendingTeam);
+        this.instantiatorComponent.HeroUnitInstantiated += TrackObject;
+        this.StartRun();
+    }
+
+    private void TrackObject(UnitComponent objectToTrack) {
+        this.instantiatorComponent.HeroUnitInstantiated -= TrackObject;
+        this.cameraComponent.TrackObject(objectToTrack.gameObject);
+    }
+
+    private void StartRun() {
         this.levelRunManager.StartRun();
         this.inputComponent.UnblockInput();
         this.inputComponent.JumpInputed += JumpInputedHandler;
     }
-
     public void OnDestroy() {
         this.inputComponent.JumpInputed -= JumpInputedHandler;
     }

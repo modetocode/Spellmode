@@ -41,7 +41,7 @@ public class UnitSpawner : ITickable {
         this.defendingTeam = defendingTeam;
         this.attackingTeamUnitSpawnData = attackingTeamUnitSpawnData.OrderBy(x => x.PositionOnPlatformInMeters).ToList();
         this.defendingTeamUnitSpawnData = defendingTeamUnitSpawnData.OrderBy(x => x.PositionOnPlatformInMeters).ToList();
-        this.distanceToTriggerUnitSpawnInMetters = Constants.Units.distanceToTriggerUnitSpawnInMetters;
+        this.distanceToTriggerUnitSpawnInMetters = Constants.Units.DistanceToTriggerUnitSpawnInMetters;
     }
 
     public void Tick(float deltaTime) {

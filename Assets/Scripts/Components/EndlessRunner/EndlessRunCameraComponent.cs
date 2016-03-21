@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(Camera))]
-public class LevelRunCameraComponent : MonoBehaviour {
+public class EndlessRunCameraComponent : MonoBehaviour {
 
     //TODO remove this
     [SerializeField]

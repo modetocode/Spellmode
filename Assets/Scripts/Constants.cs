@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class Constants {
     public static class Input {
@@ -34,7 +35,21 @@ public static class Constants {
     }
 
     public static class Units {
-        public const float distanceToTriggerUnitSpawnInMetters = 100f;
+        public const float DistanceToTriggerUnitSpawnInMetters = 100f;
+    }
+
+    public static class Camera {
+        public static class LevelRun {
+            /// <summary>
+            /// The initial focus object position in the camera where (0,0) is bottom left and (1,1) is top right points of the screen
+            /// </summary>
+            public static Vector2 InitialFocusObjectPosition = new Vector2(0.1f, 0.18f);
+
+            /// <summary>
+            /// The worldspace coordinate Z of the camera representing the depth of the camera.
+            /// </summary>
+            public static float CameraDepth = -10f;
+        }
     }
 }
 
