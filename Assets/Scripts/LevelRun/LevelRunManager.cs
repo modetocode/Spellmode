@@ -18,7 +18,7 @@ public class LevelRunManager : ITickable {
 
     public void InitializeRun() {
         //TODO get the appropriate data and set it
-        this.LevelRunData = new LevelRunData(1, 30f, new UnitSpawnData[0]);
+        this.LevelRunData = new LevelRunData(1, 150f, new UnitSpawnData[0]);
         IList<UnitSpawnData> attackingTeamSpawnData = new UnitSpawnData[1];
         attackingTeamSpawnData[0] = new UnitSpawnData(Constants.Platforms.PlatformType.Bottom, 0f, new UnitSettings(movementSpeed: 10f, jumpSpeed: 10f, maxHealth: 100f));
         this.AttackingTeam = new Team();
