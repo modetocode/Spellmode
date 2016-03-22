@@ -5,7 +5,7 @@ using UnityEngine;
 /// Component that is attached to game objects that represent a unit.
 /// </summary>
 [RequireComponent(typeof(Collider2D))]
-public class UnitComponent : MonoBehaviour {
+public class UnitComponent : MonoBehaviour, ITickable {
 
     private Unit unit;
     private Animator unitAnimator;
@@ -28,7 +28,7 @@ public class UnitComponent : MonoBehaviour {
         this.unit = unit;
     }
 
-    public void Update() {
+    public void Tick(float deltaTime) {
         if (this.unit == null) {
             return;
         }
@@ -36,5 +36,9 @@ public class UnitComponent : MonoBehaviour {
         this.transform.position = this.unit.PositionInMeters;
         this.unitAnimator.SetFloat(Constants.Animations.MainCharacter.MoveSpeedParameterName, this.unit.CurrentMoveSpeed);
 
+    }
+
+    public void OnTickingPaused(float deltaTime) {
+        this.unitAnimator.SetFloat(Constants.Animations.MainCharacter.MoveSpeedParameterName, 0f);
     }
 }

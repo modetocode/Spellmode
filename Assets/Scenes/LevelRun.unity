@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputComponent: {fileID: 171953702}
+  backgroundComponent: {fileID: 236325956}
   instantiatorComponent: {fileID: 171953705}
   cameraComponent: {fileID: 409644287}
 --- !u!4 &171953704

@@ -1,11 +1,12 @@
 ﻿using System;
 using UnityEngine;
 
-public class InputComponent : MonoBehaviour {
+public class InputComponent : MonoBehaviour, ITickable {
 
     public event Action JumpInputed;
     public event Action JumpUpInputed;
     public event Action JumpDownInputed;
+    public event Action PauseInputed;
 
     private bool isInputBlocked;
 
@@ -17,10 +18,11 @@ public class InputComponent : MonoBehaviour {
         this.isInputBlocked = false;
     }
 
-    public void Update() {
+    public void Tick(float deltaTime) {
         if (this.isInputBlocked) {
             return;
         }
+
         if (Input.GetButtonDown(Constants.Input.JumpSpeedInputName)) {
             if (this.JumpInputed != null) {
                 this.JumpInputed();
@@ -39,6 +41,8 @@ public class InputComponent : MonoBehaviour {
             }
         }
 
+        this.CheckForPauseInput();
+
         for (int i = 0; i < Input.touches.Length; i++) {
             if (Input.touches[i].phase != TouchPhase.Began) {
                 continue;
@@ -46,6 +50,18 @@ public class InputComponent : MonoBehaviour {
 
             if (this.JumpInputed != null) {
                 this.JumpInputed();
+            }
+        }
+    }
+
+    public void OnTickingPaused(float deltaTime) {
+        this.CheckForPauseInput();
+    }
+
+    private void CheckForPauseInput() {
+        if (Input.GetButtonDown(Constants.Input.PauseInputName)) {
+            if (this.PauseInputed != null) {
+                this.PauseInputed();
             }
         }
     }

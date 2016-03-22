@@ -4,15 +4,20 @@ using UnityEngine;
 class LevelRunComponent : MonoBehaviour {
 
     private LevelRunManager levelRunManager;
+    private Ticker componentTicker;
 
     [SerializeField]
     private InputComponent inputComponent;
+
+    [SerializeField]
+    private BackgroundComponent backgroundComponent;
 
     [SerializeField]
     private InstantiatorComponent instantiatorComponent;
 
     [SerializeField]
     private LevelRunCameraComponent cameraComponent;
+
 
     public void Awake() {
         if (this.inputComponent == null) {
@@ -35,13 +40,16 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager = new LevelRunManager();
         this.levelRunManager.InitializeRun();
         this.instantiatorComponent.InitializeComponent(this.levelRunManager.AttackingTeam, this.levelRunManager.DefendingTeam);
-        this.instantiatorComponent.HeroUnitInstantiated += TrackObject;
+        this.instantiatorComponent.HeroUnitInstantiated += OnUnitInstantiated;
+        componentTicker = new Ticker(new ITickable[] { this.inputComponent, this.cameraComponent, this.backgroundComponent });
         this.StartRun();
     }
 
-    private void TrackObject(UnitComponent objectToTrack) {
-        this.instantiatorComponent.HeroUnitInstantiated -= TrackObject;
-        this.cameraComponent.TrackObject(objectToTrack.gameObject);
+    private void OnUnitInstantiated(UnitComponent unitComponent) {
+        this.instantiatorComponent.HeroUnitInstantiated -= OnUnitInstantiated;
+        this.cameraComponent.TrackObject(unitComponent.gameObject);
+        this.componentTicker.AddTickableObject(unitComponent);
+        //TODO remove tickable object
     }
 
     private void StartRun() {
@@ -50,6 +58,7 @@ class LevelRunComponent : MonoBehaviour {
         this.inputComponent.JumpInputed += JumpInputedHandler;
         this.inputComponent.JumpUpInputed += JumpUpInputedHandler;
         this.inputComponent.JumpDownInputed += JumpDownInputedHandler;
+        this.inputComponent.PauseInputed += PauseInputedHandler;
     }
 
     private void JumpDownInputedHandler() {
@@ -60,11 +69,23 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.AttackingTeam.MoveAllAliveUnitsToUpperPlatformIfPossible();
     }
 
+    private void PauseInputedHandler() {
+        if (this.componentTicker.IsTicking) {
+            this.componentTicker.PauseTicking();
+            this.levelRunManager.PauseGame();
+        }
+        else {
+            this.componentTicker.ResumeTicking();
+            this.levelRunManager.ResumeGame();
+        }
+    }
+
     public void OnDestroy() {
         //TODO check if this is the right place for unsubscribe
         this.inputComponent.JumpInputed -= JumpInputedHandler;
         this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
         this.inputComponent.JumpDownInputed -= JumpDownInputedHandler;
+        this.inputComponent.PauseInputed -= PauseInputedHandler;
     }
 
     private void JumpInputedHandler() {
@@ -72,6 +93,7 @@ class LevelRunComponent : MonoBehaviour {
     }
 
     public void Update() {
+        this.componentTicker.Tick(Time.deltaTime);
         this.levelRunManager.Tick(Time.deltaTime);
     }
 }

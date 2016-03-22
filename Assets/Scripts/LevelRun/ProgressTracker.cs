@@ -46,4 +46,7 @@ public class ProgressTracker : ITickable {
         averagePositionInMeters /= aliveUnits.Count;
         this.CurrentProgressInMeters = averagePositionInMeters;
     }
+
+    public void OnTickingPaused(float deltaTime) {
+    }
 }

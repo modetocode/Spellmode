@@ -83,4 +83,7 @@ public class Unit : ITickable {
         this.isJumping = true;
         this.jumpYDestination = PlatformManager.GetYCoordinateForPlatform(hasNeighbourPlatformResult.PlatformType);
     }
+
+    public void OnTickingPaused(float deltaTime) {
+    }
 }

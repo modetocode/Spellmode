@@ -4,7 +4,7 @@
 /// Component that is attached to the main camera in the Level Run scene. It can follow a given object.
 /// </summary>
 [RequireComponent(typeof(Camera))]
-public class LevelRunCameraComponent : MonoBehaviour {
+public class LevelRunCameraComponent : MonoBehaviour, ITickable {
 
     private GameObject trackedObject;
     private Camera levelRunCamera;
@@ -31,7 +31,7 @@ public class LevelRunCameraComponent : MonoBehaviour {
         this.lastPositionOfTrackedObject = Vector3.zero;
     }
 
-    public void Update() {
+    public void Tick(float deltaTime) {
         if (trackedObject == null) {
             return;
         }
@@ -44,6 +44,9 @@ public class LevelRunCameraComponent : MonoBehaviour {
         float ofsetFromPreviousXPosition = this.trackedObject.transform.position.x - this.lastPositionOfTrackedObject.x;
         this.levelRunCamera.transform.position += new Vector3(ofsetFromPreviousXPosition, 0f, 0f);
         this.lastPositionOfTrackedObject = this.trackedObject.transform.position;
+    }
+
+    public void OnTickingPaused(float deltaTime) {
     }
 }
 

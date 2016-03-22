@@ -32,4 +32,15 @@ public class LevelRunManager : ITickable {
     public void Tick(float deltaTime) {
         this.Ticker.Tick(deltaTime);
     }
+
+    public void PauseGame() {
+        this.Ticker.PauseTicking();
+    }
+
+    public void ResumeGame() {
+        this.Ticker.ResumeTicking();
+    }
+
+    public void OnTickingPaused(float deltaTime) {
+    }
 }

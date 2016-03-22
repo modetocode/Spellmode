@@ -6,6 +6,7 @@ public static class Constants {
         public const string JumpSpeedInputName = "Jump";
         public const string JumpUpInputName = "JumpUp";
         public const string JumpDownInputName = "JumpDown";
+        public const string PauseInputName = "Pause";
     }
 
     public static class Layers {

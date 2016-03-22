@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Component that resizes and moves various background elements in order to create scrolling background 
 /// </summary>
-public class BackgroundComponent : MonoBehaviour {
+public class BackgroundComponent : MonoBehaviour, ITickable {
 
     [SerializeField]
     private Camera backgroundCamera;
@@ -41,12 +41,12 @@ public class BackgroundComponent : MonoBehaviour {
         this.moveSpeed = moveSpeed;
     }
 
-    void FixedUpdate() {
+    public void Tick(float deltaTime) {
         if (this.moveSpeed == 0) {
             return;
         }
 
-        float textureOffset = moveSpeed * Time.fixedDeltaTime;
+        float textureOffset = moveSpeed * deltaTime;
         for (int i = 0; i < tiledMaterials.Count; i++) {
             float reductionRatio = (100f - backgroundElements[i].SpeedReductionPercentage) / 100f;
             float direction = backgroundElements[i].IsMovingForward ? 1f : -1f;
@@ -57,5 +57,8 @@ public class BackgroundComponent : MonoBehaviour {
 
             tiledMaterials[i].mainTextureOffset = new Vector2(newTextureXOffset, tiledMaterials[i].mainTextureOffset.y);
         }
+    }
+
+    public void OnTickingPaused(float deltaTime) {
     }
 }

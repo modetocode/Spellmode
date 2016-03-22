@@ -69,4 +69,7 @@ public class UnitSpawner : ITickable {
             }
         }
     }
+
+    public void OnTickingPaused(float deltaTime) {
+    }
 }

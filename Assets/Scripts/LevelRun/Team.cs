@@ -39,4 +39,7 @@ public class Team : ITickable {
             this.AliveUnitsInTeam[i].MoveToLowerPlatformIfPossible();
         }
     }
+
+    public void OnTickingPaused(float deltaTime) {
+    }
 }
