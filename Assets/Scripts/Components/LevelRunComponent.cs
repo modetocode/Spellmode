@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 class LevelRunComponent : MonoBehaviour {
 
@@ -39,10 +40,18 @@ class LevelRunComponent : MonoBehaviour {
         this.inputComponent.BlockInput();
         this.levelRunManager = new LevelRunManager();
         this.levelRunManager.InitializeRun();
+        this.levelRunManager.RunFinished += FinishRun;
         this.instantiatorComponent.InitializeComponent(this.levelRunManager.AttackingTeam, this.levelRunManager.DefendingTeam);
         this.instantiatorComponent.HeroUnitInstantiated += OnUnitInstantiated;
-        componentTicker = new Ticker(new ITickable[] { this.inputComponent, this.cameraComponent, this.backgroundComponent });
+        this.componentTicker = new Ticker(new ITickable[] { this.inputComponent, this.cameraComponent, this.backgroundComponent });
         this.StartRun();
+    }
+
+    private void FinishRun() {
+        this.levelRunManager.RunFinished -= FinishRun;
+        this.UnsubscribeFromEvents();
+        //TODO add the appropriate logic when level is finished
+        SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
     }
 
     private void OnUnitInstantiated(UnitComponent unitComponent) {
@@ -80,8 +89,7 @@ class LevelRunComponent : MonoBehaviour {
         }
     }
 
-    public void OnDestroy() {
-        //TODO check if this is the right place for unsubscribe
+    public void UnsubscribeFromEvents() {
         this.inputComponent.JumpInputed -= JumpInputedHandler;
         this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
         this.inputComponent.JumpDownInputed -= JumpDownInputedHandler;

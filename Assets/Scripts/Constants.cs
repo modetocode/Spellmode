@@ -63,5 +63,9 @@ public static class Constants {
     public static class Math {
         public const float FloatPositiveEpsilon = 0.00001f;
     }
+
+    public static class Scenes {
+        public const string LevelRunSceneName = "LevelRun";
+    }
 }
 

@@ -6,6 +6,11 @@ using System.Collections.Generic;
 /// </summary>
 public class ProgressTracker : ITickable {
 
+    /// <summary>
+    /// Thrown when the attackin team has completed a level.
+    /// </summary>
+    public event Action ProgressFinished;
+
     public float CurrentProgressInMeters { get; private set; }
     private Team attackingTeam;
     private float levelLengthInMeters;
@@ -31,6 +36,11 @@ public class ProgressTracker : ITickable {
         }
 
         this.UpdateProgressForAliveUnits(aliveUnits);
+        if (this.CurrentProgressInMeters >= this.levelLengthInMeters) {
+            if (this.ProgressFinished != null) {
+                this.ProgressFinished();
+            }
+        }
     }
 
     private void UpdateProgressForAliveUnits(IList<Unit> aliveUnits) {
