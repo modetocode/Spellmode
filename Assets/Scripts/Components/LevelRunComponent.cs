@@ -6,6 +6,7 @@ class LevelRunComponent : MonoBehaviour {
 
     private LevelRunManager levelRunManager;
     private Ticker componentTicker;
+    private Ticker cameraTicker;
 
     [SerializeField]
     private InputComponent inputComponent;
@@ -18,7 +19,6 @@ class LevelRunComponent : MonoBehaviour {
 
     [SerializeField]
     private LevelRunCameraComponent cameraComponent;
-
 
     public void Awake() {
         if (this.inputComponent == null) {
@@ -44,6 +44,7 @@ class LevelRunComponent : MonoBehaviour {
         this.instantiatorComponent.InitializeComponent(this.levelRunManager.AttackingTeam, this.levelRunManager.DefendingTeam);
         this.instantiatorComponent.HeroUnitInstantiated += OnUnitInstantiated;
         this.componentTicker = new Ticker(new ITickable[] { this.inputComponent, this.cameraComponent, this.backgroundComponent });
+        this.cameraTicker = new Ticker(new ITickable[] { this.cameraComponent });
         this.StartRun();
     }
 
@@ -80,12 +81,14 @@ class LevelRunComponent : MonoBehaviour {
 
     private void PauseInputedHandler() {
         if (this.componentTicker.IsTicking) {
-            this.componentTicker.PauseTicking();
             this.levelRunManager.PauseGame();
+            this.componentTicker.PauseTicking();
+            this.cameraTicker.PauseTicking();
         }
         else {
             this.componentTicker.ResumeTicking();
             this.levelRunManager.ResumeGame();
+            this.cameraTicker.ResumeTicking();
         }
     }
 
@@ -101,7 +104,9 @@ class LevelRunComponent : MonoBehaviour {
     }
 
     public void Update() {
-        this.componentTicker.Tick(Time.deltaTime);
         this.levelRunManager.Tick(Time.deltaTime);
+        this.componentTicker.Tick(Time.deltaTime);
+        // The camera ticker should be updated last after all of the moving units have updated the positions
+        this.cameraTicker.Tick(Time.deltaTime);
     }
 }

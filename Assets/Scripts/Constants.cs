@@ -7,7 +7,7 @@ public static class Constants {
         public const string JumpUpInputName = "JumpUp";
         public const string JumpDownInputName = "JumpDown";
         public const string PauseInputName = "Pause";
-        public const float MinimalScreenPercentageConsideredToBeSwipe = 0.2f;
+        public const float MinimalScreenPercentageConsideredToBeSwipe = 0.15f;
     }
 
     public static class Layers {
