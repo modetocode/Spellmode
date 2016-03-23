@@ -10,11 +10,29 @@ public class LevelRunManager : ITickable {
 
     public Team AttackingTeam { get; private set; }
     public Team DefendingTeam { get; private set; }
+    public float CurrentProgressInMeters {
+        get {
+            if (this.ProgressTracker == null) {
+                return 0f;
+            }
+
+            return this.ProgressTracker.CurrentProgressInMeters;
+        }
+    }
+    public float LevelLengthInMeters {
+        get {
+            if (this.ProgressTracker == null) {
+                return 0f;
+            }
+
+            return this.ProgressTracker.LevelLengthInMeters;
+        }
+    }
 
     private Ticker Ticker { get; set; }
-    private ProgressTracker ProgressTracker { get; set; }
     private UnitSpawner UnitSpawner { get; set; }
     private LevelRunData LevelRunData { get; set; }
+    private ProgressTracker ProgressTracker { get; set; }
 
     public void InitializeRun() {
         //TODO get the appropriate data and set it

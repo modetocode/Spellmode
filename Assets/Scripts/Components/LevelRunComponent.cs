@@ -6,7 +6,7 @@ class LevelRunComponent : MonoBehaviour {
 
     private LevelRunManager levelRunManager;
     private Ticker componentTicker;
-    private Ticker cameraTicker;
+    private Ticker lastToTickComponentTicker;
 
     [SerializeField]
     private InputComponent inputComponent;
@@ -19,6 +19,9 @@ class LevelRunComponent : MonoBehaviour {
 
     [SerializeField]
     private LevelRunCameraComponent cameraComponent;
+
+    [SerializeField]
+    private LevelRunGUIComponent levelRunGuiComponent;
 
     public void Awake() {
         if (this.inputComponent == null) {
@@ -33,6 +36,9 @@ class LevelRunComponent : MonoBehaviour {
             throw new NullReferenceException("cameraComponent is null");
         }
 
+        if (this.levelRunGuiComponent == null) {
+            throw new NullReferenceException("levelRunGuiComponent is null");
+        }
         //TODO script references check 
     }
 
@@ -43,8 +49,9 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.RunFinished += FinishRun;
         this.instantiatorComponent.InitializeComponent(this.levelRunManager.AttackingTeam, this.levelRunManager.DefendingTeam);
         this.instantiatorComponent.HeroUnitInstantiated += OnUnitInstantiated;
+        this.levelRunGuiComponent.Initialize(this.levelRunManager);
         this.componentTicker = new Ticker(new ITickable[] { this.inputComponent, this.cameraComponent, this.backgroundComponent });
-        this.cameraTicker = new Ticker(new ITickable[] { this.cameraComponent });
+        this.lastToTickComponentTicker = new Ticker(new ITickable[] { this.cameraComponent, this.levelRunGuiComponent });
         this.StartRun();
     }
 
@@ -83,12 +90,12 @@ class LevelRunComponent : MonoBehaviour {
         if (this.componentTicker.IsTicking) {
             this.levelRunManager.PauseGame();
             this.componentTicker.PauseTicking();
-            this.cameraTicker.PauseTicking();
+            this.lastToTickComponentTicker.PauseTicking();
         }
         else {
-            this.componentTicker.ResumeTicking();
             this.levelRunManager.ResumeGame();
-            this.cameraTicker.ResumeTicking();
+            this.componentTicker.ResumeTicking();
+            this.lastToTickComponentTicker.ResumeTicking();
         }
     }
 
@@ -106,7 +113,7 @@ class LevelRunComponent : MonoBehaviour {
     public void Update() {
         this.levelRunManager.Tick(Time.deltaTime);
         this.componentTicker.Tick(Time.deltaTime);
-        // The camera ticker should be updated last after all of the moving units have updated the positions
-        this.cameraTicker.Tick(Time.deltaTime);
+        // The camera and gui should be updated last after all of the moving units have updated the positions
+        this.lastToTickComponentTicker.Tick(Time.deltaTime);
     }
 }

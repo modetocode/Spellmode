@@ -12,8 +12,8 @@ public class ProgressTracker : ITickable {
     public event Action ProgressFinished;
 
     public float CurrentProgressInMeters { get; private set; }
+    public float LevelLengthInMeters { get; private set; }
     private Team attackingTeam;
-    private float levelLengthInMeters;
 
     public ProgressTracker(Team attackingTeam, float levelLengthInMeters) {
         if (attackingTeam == null) {
@@ -25,7 +25,7 @@ public class ProgressTracker : ITickable {
         }
 
         this.attackingTeam = attackingTeam;
-        this.levelLengthInMeters = levelLengthInMeters;
+        this.LevelLengthInMeters = levelLengthInMeters;
         this.CurrentProgressInMeters = 0.0f;
     }
 
@@ -36,7 +36,7 @@ public class ProgressTracker : ITickable {
         }
 
         this.UpdateProgressForAliveUnits(aliveUnits);
-        if (this.CurrentProgressInMeters >= this.levelLengthInMeters) {
+        if (this.CurrentProgressInMeters >= this.LevelLengthInMeters) {
             if (this.ProgressFinished != null) {
                 this.ProgressFinished();
             }
