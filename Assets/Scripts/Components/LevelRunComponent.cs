@@ -72,7 +72,6 @@ class LevelRunComponent : MonoBehaviour {
     private void StartRun() {
         this.levelRunManager.StartRun();
         this.inputComponent.UnblockInput();
-        this.inputComponent.JumpInputed += JumpInputedHandler;
         this.inputComponent.JumpUpInputed += JumpUpInputedHandler;
         this.inputComponent.JumpDownInputed += JumpDownInputedHandler;
         this.inputComponent.PauseInputed += PauseInputedHandler;
@@ -100,14 +99,9 @@ class LevelRunComponent : MonoBehaviour {
     }
 
     public void UnsubscribeFromEvents() {
-        this.inputComponent.JumpInputed -= JumpInputedHandler;
         this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
         this.inputComponent.JumpDownInputed -= JumpDownInputedHandler;
         this.inputComponent.PauseInputed -= PauseInputedHandler;
-    }
-
-    private void JumpInputedHandler() {
-        //TODO implement this
     }
 
     public void Update() {
