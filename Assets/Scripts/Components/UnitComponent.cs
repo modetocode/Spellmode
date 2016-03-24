@@ -41,4 +41,7 @@ public class UnitComponent : MonoBehaviour, ITickable {
     public void OnTickingPaused(float deltaTime) {
         this.unitAnimator.SetFloat(Constants.Animations.MainCharacter.MoveSpeedParameterName, 0f);
     }
+
+    public void OnTickingFinished() {
+    }
 }

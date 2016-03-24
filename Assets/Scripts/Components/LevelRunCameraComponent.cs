@@ -48,5 +48,8 @@ public class LevelRunCameraComponent : MonoBehaviour, ITickable {
 
     public void OnTickingPaused(float deltaTime) {
     }
+
+    public void OnTickingFinished() {
+    }
 }
 

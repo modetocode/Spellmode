@@ -61,4 +61,7 @@ public class BackgroundComponent : MonoBehaviour, ITickable {
 
     public void OnTickingPaused(float deltaTime) {
     }
+
+    public void OnTickingFinished() {
+    }
 }

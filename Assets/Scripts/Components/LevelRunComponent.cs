@@ -58,6 +58,8 @@ class LevelRunComponent : MonoBehaviour {
     private void FinishRun() {
         this.levelRunManager.RunFinished -= FinishRun;
         this.UnsubscribeFromEvents();
+        this.componentTicker.FinishTicking();
+        this.lastToTickComponentTicker.FinishTicking();
         //TODO add the appropriate logic when level is finished
         SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
     }
@@ -105,7 +107,17 @@ class LevelRunComponent : MonoBehaviour {
     }
 
     public void Update() {
+        if (this.componentTicker.TickingFinished) {
+            return;
+        }
+
         this.levelRunManager.Tick(Time.deltaTime);
+
+        // Level run can be finished in this tick, so additional check for ticking is required
+        if (this.componentTicker.TickingFinished) {
+            return;
+        }
+
         this.componentTicker.Tick(Time.deltaTime);
         // The camera and gui should be updated last after all of the moving units have updated the positions
         this.lastToTickComponentTicker.Tick(Time.deltaTime);

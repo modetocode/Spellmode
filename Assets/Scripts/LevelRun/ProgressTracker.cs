@@ -59,4 +59,7 @@ public class ProgressTracker : ITickable {
 
     public void OnTickingPaused(float deltaTime) {
     }
+
+    public void OnTickingFinished() {
+    }
 }

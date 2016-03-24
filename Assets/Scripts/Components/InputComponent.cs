@@ -133,4 +133,7 @@ public class InputComponent : MonoBehaviour, ITickable {
 
         }
     }
+
+    public void OnTickingFinished() {
+    }
 }

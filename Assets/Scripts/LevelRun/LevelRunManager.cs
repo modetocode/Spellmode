@@ -33,17 +33,31 @@ public class LevelRunManager : ITickable {
     private UnitSpawner UnitSpawner { get; set; }
     private LevelRunData LevelRunData { get; set; }
     private ProgressTracker ProgressTracker { get; set; }
+    private CombatManager CombatManager { get; set; }
+    private BulletManager BulletManager { get; set; }
 
     public void InitializeRun() {
         //TODO get the appropriate data and set it
-        this.LevelRunData = new LevelRunData(1, 150f, new UnitSpawnData[0]);
+        this.LevelRunData = new LevelRunData(1, 10f, new UnitSpawnData[0]);
         IList<UnitSpawnData> attackingTeamSpawnData = new UnitSpawnData[1];
-        attackingTeamSpawnData[0] = new UnitSpawnData(Constants.Platforms.PlatformType.Bottom, 0f, new UnitSettings(movementSpeed: 10f, jumpSpeed: 10f, maxHealth: 100f));
+        attackingTeamSpawnData[0] = new UnitSpawnData(Constants.Platforms.PlatformType.Bottom, 0f, new UnitSettings(movementSpeed: 10f, jumpSpeed: 10f, maxHealth: 100f), new WeaponSettings(isMeleeWeapon: false, damagePerHit: 10f, timeBetweenShots: 0.2f, bulletSpeed: 30f));
         this.AttackingTeam = new Team();
         this.DefendingTeam = new Team();
         this.ProgressTracker = new ProgressTracker(this.AttackingTeam, this.LevelRunData.LengthInMeters);
         this.ProgressTracker.ProgressFinished += ProgressFinishedHandler;
         this.UnitSpawner = new UnitSpawner(this.ProgressTracker, this.AttackingTeam, this.DefendingTeam, attackingTeamSpawnData, this.LevelRunData.DefendingTeamUnitSpawnData);
+        this.CombatManager = new CombatManager(this.AttackingTeam, this.DefendingTeam);
+        this.BulletManager = new BulletManager();
+        this.AttackingTeam.UnitAdded += SubscribeForBulletsSpawn;
+        this.DefendingTeam.UnitAdded += SubscribeForBulletsSpawn;
+    }
+
+    private void SubscribeForBulletsSpawn(Unit unit) {
+        unit.Weapon.BulletFired += BulletFiredHandler;
+    }
+
+    private void BulletFiredHandler(Bullet bullet) {
+        this.BulletManager.AddBullet(bullet);
     }
 
     private void ProgressFinishedHandler() {
@@ -52,6 +66,7 @@ public class LevelRunManager : ITickable {
     }
 
     private void FinishRun() {
+        this.Ticker.FinishTicking();
         if (this.RunFinished != null) {
             this.RunFinished();
         }
@@ -62,7 +77,7 @@ public class LevelRunManager : ITickable {
             throw new System.InvalidOperationException("The run is already started");
         }
 
-        this.Ticker = new Ticker(new ITickable[] { this.AttackingTeam, this.DefendingTeam, this.ProgressTracker, this.UnitSpawner });
+        this.Ticker = new Ticker(new ITickable[] { this.AttackingTeam, this.DefendingTeam, this.ProgressTracker, this.UnitSpawner, this.CombatManager, this.BulletManager });
     }
 
     public void Tick(float deltaTime) {
@@ -78,5 +93,15 @@ public class LevelRunManager : ITickable {
     }
 
     public void OnTickingPaused(float deltaTime) {
+    }
+
+    public void OnTickingFinished() {
+        for (int i = 0; i < this.AttackingTeam.UnitsInTeam.Count; i++) {
+            this.AttackingTeam.UnitsInTeam[i].Weapon.BulletFired -= BulletFiredHandler;
+        }
+
+        for (int i = 0; i < this.DefendingTeam.UnitsInTeam.Count; i++) {
+            this.DefendingTeam.UnitsInTeam[i].Weapon.BulletFired -= BulletFiredHandler;
+        }
     }
 }
