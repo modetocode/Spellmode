@@ -17,10 +17,8 @@ class EndlessRunnerComponent : MonoBehaviour {
     }
 
     public void Start() {
-        this.inputComponent.BlockInput();
         this.inputComponent.JumpInputed += JumpInputedHandler;
         this.characterComponent.Move(200f);
-        this.inputComponent.UnblockInput();
     }
 
     public void OnDestroy() {

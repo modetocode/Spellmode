@@ -9,22 +9,9 @@ public class InputComponent : MonoBehaviour {
     //TODO remove this event when removing endless runner prototype
     public event Action JumpInputed;
 
-    private bool isInputBlocked;
     private Vector2 touchStartPosition;
 
-    public void BlockInput() {
-        this.isInputBlocked = true;
-    }
-
-    public void UnblockInput() {
-        this.isInputBlocked = false;
-    }
-
     public void Update() {
-        if (this.isInputBlocked) {
-            return;
-        }
-
         if (Input.GetButtonDown(Constants.Input.JumpSpeedInputName)) {
             if (this.JumpInputed != null) {
                 this.JumpInputed();

@@ -4,8 +4,6 @@ using UnityEngine.SceneManagement;
 
 class LevelRunComponent : MonoBehaviour {
 
-    private LevelRunManager levelRunManager;
-
     [SerializeField]
     private InputComponent inputComponent;
 
@@ -20,6 +18,9 @@ class LevelRunComponent : MonoBehaviour {
 
     [SerializeField]
     private LevelRunGUIComponent levelRunGuiComponent;
+
+    private LevelRunManager levelRunManager;
+    private bool runFinished;
 
     public void Awake() {
         if (this.inputComponent == null) {
@@ -41,19 +42,28 @@ class LevelRunComponent : MonoBehaviour {
     }
 
     public void Start() {
-        this.inputComponent.BlockInput();
+        this.runFinished = false;
         this.levelRunManager = new LevelRunManager();
         this.levelRunManager.InitializeRun();
         this.levelRunManager.RunFinished += FinishRun;
         this.instantiatorComponent.InitializeComponent(this.levelRunManager.AttackingTeam, this.levelRunManager.DefendingTeam);
         this.instantiatorComponent.HeroUnitInstantiated += OnUnitInstantiated;
         this.levelRunGuiComponent.Initialize(this.levelRunManager);
+        this.inputComponent.JumpUpInputed += JumpUpInputedHandler;
+        this.inputComponent.JumpDownInputed += JumpDownInputedHandler;
+        this.inputComponent.PauseInputed += PauseInputedHandler;
         this.StartRun();
+    }
+
+    private void StartRun() {
+        this.levelRunManager.StartRun();
+        ;
     }
 
     private void FinishRun() {
         this.levelRunManager.RunFinished -= FinishRun;
         this.UnsubscribeFromEvents();
+        this.runFinished = true;
         //TODO add the appropriate logic when level is finished
         SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
     }
@@ -61,14 +71,6 @@ class LevelRunComponent : MonoBehaviour {
     private void OnUnitInstantiated(UnitComponent unitComponent) {
         this.instantiatorComponent.HeroUnitInstantiated -= OnUnitInstantiated;
         this.cameraComponent.TrackObject(unitComponent.gameObject);
-    }
-
-    private void StartRun() {
-        this.levelRunManager.StartRun();
-        this.inputComponent.UnblockInput();
-        this.inputComponent.JumpUpInputed += JumpUpInputedHandler;
-        this.inputComponent.JumpDownInputed += JumpDownInputedHandler;
-        this.inputComponent.PauseInputed += PauseInputedHandler;
     }
 
     private void JumpDownInputedHandler() {
@@ -106,6 +108,10 @@ class LevelRunComponent : MonoBehaviour {
 
     public void Update() {
         if (this.levelRunManager.IsGamePaused) {
+            return;
+        }
+
+        if (this.runFinished) {
             return;
         }
 
