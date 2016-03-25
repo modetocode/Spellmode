@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Component that resizes and moves various background elements in order to create scrolling background 
 /// </summary>
-public class BackgroundComponent : MonoBehaviour, ITickable {
+public class BackgroundComponent : MonoBehaviour {
 
     [SerializeField]
     private Camera backgroundCamera;
@@ -19,6 +19,7 @@ public class BackgroundComponent : MonoBehaviour, ITickable {
     private readonly Vector3 topRightViewportPoint = new Vector3(1f, 1f);
     private readonly float defaultMoveSpeed = 0.2f;
     private float moveSpeed;
+    private bool movementPaused;
 
     public void Start() {
         Vector3 worldPointOffsetFromCenter = backgroundCamera.ViewportToWorldPoint(this.topRightViewportPoint) - backgroundGroup.transform.position;
@@ -35,18 +36,31 @@ public class BackgroundComponent : MonoBehaviour, ITickable {
         }
 
         this.SetMoveSpeed(this.defaultMoveSpeed);
+        this.movementPaused = false;
     }
 
     public void SetMoveSpeed(float moveSpeed) {
         this.moveSpeed = moveSpeed;
     }
 
-    public void Tick(float deltaTime) {
+    public void PauseMovement() {
+        this.movementPaused = true;
+    }
+
+    public void ResumeMovement() {
+        this.movementPaused = false;
+    }
+
+    public void FixedUpdate() {
+        if (this.movementPaused) {
+            return;
+        }
+
         if (this.moveSpeed == 0) {
             return;
         }
 
-        float textureOffset = moveSpeed * deltaTime;
+        float textureOffset = moveSpeed * Time.fixedDeltaTime;
         for (int i = 0; i < tiledMaterials.Count; i++) {
             float reductionRatio = (100f - backgroundElements[i].SpeedReductionPercentage) / 100f;
             float direction = backgroundElements[i].IsMovingForward ? 1f : -1f;
@@ -57,11 +71,5 @@ public class BackgroundComponent : MonoBehaviour, ITickable {
 
             tiledMaterials[i].mainTextureOffset = new Vector2(newTextureXOffset, tiledMaterials[i].mainTextureOffset.y);
         }
-    }
-
-    public void OnTickingPaused(float deltaTime) {
-    }
-
-    public void OnTickingFinished() {
     }
 }

@@ -10,6 +10,8 @@ public class LevelRunManager : ITickable {
 
     public Team AttackingTeam { get; private set; }
     public Team DefendingTeam { get; private set; }
+    public bool IsGamePaused { get; private set; }
+
     public float CurrentProgressInMeters {
         get {
             if (this.ProgressTracker == null) {
@@ -38,7 +40,7 @@ public class LevelRunManager : ITickable {
 
     public void InitializeRun() {
         //TODO get the appropriate data and set it
-        this.LevelRunData = new LevelRunData(1, 10f, new UnitSpawnData[0]);
+        this.LevelRunData = new LevelRunData(1, 1000f, new UnitSpawnData[0]);
         IList<UnitSpawnData> attackingTeamSpawnData = new UnitSpawnData[1];
         attackingTeamSpawnData[0] = new UnitSpawnData(Constants.Platforms.PlatformType.Bottom, 0f, new UnitSettings(movementSpeed: 10f, jumpSpeed: 10f, maxHealth: 100f), new WeaponSettings(isMeleeWeapon: false, damagePerHit: 10f, timeBetweenShots: 0.2f, bulletSpeed: 30f));
         this.AttackingTeam = new Team();
@@ -50,6 +52,7 @@ public class LevelRunManager : ITickable {
         this.BulletManager = new BulletManager();
         this.AttackingTeam.UnitAdded += SubscribeForBulletsSpawn;
         this.DefendingTeam.UnitAdded += SubscribeForBulletsSpawn;
+        this.IsGamePaused = false;
     }
 
     private void SubscribeForBulletsSpawn(Unit unit) {
@@ -74,7 +77,7 @@ public class LevelRunManager : ITickable {
 
     public void StartRun() {
         if (this.Ticker != null) {
-            throw new System.InvalidOperationException("The run is already started");
+            throw new InvalidOperationException("The run is already started");
         }
 
         this.Ticker = new Ticker(new ITickable[] { this.AttackingTeam, this.DefendingTeam, this.ProgressTracker, this.UnitSpawner, this.CombatManager, this.BulletManager });
@@ -85,14 +88,18 @@ public class LevelRunManager : ITickable {
     }
 
     public void PauseGame() {
-        this.Ticker.PauseTicking();
+        if (this.IsGamePaused) {
+            throw new InvalidOperationException("The game is already paused");
+        }
+        this.IsGamePaused = true;
     }
 
     public void ResumeGame() {
-        this.Ticker.ResumeTicking();
-    }
+        if (!this.IsGamePaused) {
+            throw new InvalidOperationException("The game was not paused");
+        }
 
-    public void OnTickingPaused(float deltaTime) {
+        this.IsGamePaused = false;
     }
 
     public void OnTickingFinished() {

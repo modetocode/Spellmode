@@ -117,9 +117,6 @@ public class Unit : ITickable, IHealthable {
         this.jumpYDestination = PlatformManager.GetYCoordinateForPlatform(hasNeighbourPlatformResult.PlatformType);
     }
 
-    public void OnTickingPaused(float deltaTime) {
-    }
-
     public void OnTickingFinished() {
     }
 }

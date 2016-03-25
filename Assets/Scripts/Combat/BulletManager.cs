@@ -28,9 +28,6 @@ public class BulletManager : ITickable {
         }
     }
 
-    public void OnTickingPaused(float deltaTime) {
-    }
-
     public void OnTickingFinished() {
         for (int i = 0; i < bullets.Count; i++) {
             this.bullets[i].Destroy();

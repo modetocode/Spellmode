@@ -51,9 +51,6 @@ public class Team : ITickable {
         return this.UnitsInTeam.Contains(unit);
     }
 
-    public void OnTickingPaused(float deltaTime) {
-    }
-
     public void OnTickingFinished() {
         for (int i = 0; i < this.AliveUnitsInTeam.Count; i++) {
             this.AliveUnitsInTeam[i].Died -= OnDiedRemoveFromAliveList;

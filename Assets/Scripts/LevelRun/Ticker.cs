@@ -5,11 +5,6 @@ public class Ticker {
     private IList<ITickable> tickableObjects;
 
     /// <summary>
-    /// Returns true if the ticker is ticking, or false if the ticker is paused
-    /// </summary>
-    public bool IsTicking { get; private set; }
-
-    /// <summary>
     /// Returns true if the ticker has finished ticking.
     /// </summary>
     public bool TickingFinished { get; private set; }
@@ -20,7 +15,6 @@ public class Ticker {
         }
 
         this.tickableObjects = new List<ITickable>(tickableObjects);
-        this.IsTicking = true;
         this.TickingFinished = false;
     }
 
@@ -28,23 +22,8 @@ public class Ticker {
         this.CheckIsTickingFinished();
         for (int i = 0; i < this.tickableObjects.Count; i++) {
             ITickable tickableObject = this.tickableObjects[i];
-            if (this.IsTicking) {
-                tickableObject.Tick(deltaTime);
-            }
-            else {
-                tickableObject.OnTickingPaused(deltaTime);
-            }
+            tickableObject.Tick(deltaTime);
         }
-    }
-
-    public void PauseTicking() {
-        this.CheckIsTickingFinished();
-        this.IsTicking = false;
-    }
-
-    public void ResumeTicking() {
-        this.CheckIsTickingFinished();
-        this.IsTicking = true;
     }
 
     public void FinishTicking() {

@@ -61,9 +61,6 @@ public class Bullet : ITickable {
         this.position += speed * direction * deltaTime;
     }
 
-    public void OnTickingPaused(float deltaTime) {
-    }
-
     public void OnTickingFinished() {
     }
 }

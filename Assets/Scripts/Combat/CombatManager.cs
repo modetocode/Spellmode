@@ -64,9 +64,6 @@ public class CombatManager : ITickable {
     public void Tick(float deltaTime) {
     }
 
-    public void OnTickingPaused(float deltaTime) {
-    }
-
     public void OnTickingFinished() {
         for (int i = 0; i < this.attackingTeam.AliveUnitsInTeam.Count; i++) {
             this.UnsubsribeFromUnitReadyToFire(this.attackingTeam.AliveUnitsInTeam[i]);

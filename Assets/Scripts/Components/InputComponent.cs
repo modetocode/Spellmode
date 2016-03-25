@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class InputComponent : MonoBehaviour, ITickable {
+public class InputComponent : MonoBehaviour {
 
     public event Action JumpUpInputed;
     public event Action JumpDownInputed;
@@ -20,7 +20,7 @@ public class InputComponent : MonoBehaviour, ITickable {
         this.isInputBlocked = false;
     }
 
-    public void Tick(float deltaTime) {
+    public void Update() {
         if (this.isInputBlocked) {
             return;
         }
@@ -39,26 +39,13 @@ public class InputComponent : MonoBehaviour, ITickable {
             this.OnJumpDownInputed();
         }
 
-        this.CheckForPauseInput();
+        if (Input.GetButtonDown(Constants.Input.PauseInputName)) {
+            this.OnPauseInputed();
+        }
 
         Action swipeUpAction = this.OnJumpUpInputed;
         Action swipeDownAction = this.OnJumpDownInputed;
-        this.HandleTouchInput(swipeUpAction: swipeUpAction, swipeDownAction: swipeDownAction, swipeLeftAction: null, swipeRightAction: null, touchAction: null);
-    }
-
-    public void OnTickingPaused(float deltaTime) {
-        this.CheckForPauseInput();
-    }
-
-    private void CheckForPauseInput() {
-        if (Input.GetButtonDown(Constants.Input.PauseInputName)) {
-            if (this.PauseInputed != null) {
-                this.PauseInputed();
-            }
-        }
-
-        //TODO remove the touch to pause feature when GUI is done
-        this.HandleTouchInput(swipeUpAction: null, swipeDownAction: null, swipeLeftAction: null, swipeRightAction: null, touchAction: this.OnPauseInputed);
+        this.HandleTouchInput(swipeUpAction: swipeUpAction, swipeDownAction: swipeDownAction, swipeLeftAction: null, swipeRightAction: null, touchAction: this.OnPauseInputed);
     }
 
     private void OnPauseInputed() {
@@ -132,8 +119,5 @@ public class InputComponent : MonoBehaviour, ITickable {
 
 
         }
-    }
-
-    public void OnTickingFinished() {
     }
 }
