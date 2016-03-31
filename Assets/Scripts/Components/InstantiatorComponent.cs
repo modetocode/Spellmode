@@ -14,19 +14,19 @@ public class InstantiatorComponent : MonoBehaviour {
     [SerializeField]
     private UnitComponent heroUnitTemplate;
 
-    private Team attackingTeam;
-    private Team defendingTeam;
+    [SerializeField]
+    private BulletComponent arrowTemplate;
 
-    public void InitializeComponent(Team attackingTeam, Team defendingTeam) {
-        //TODO arg check
-        this.attackingTeam = attackingTeam;
-        this.defendingTeam = defendingTeam;
-        this.attackingTeam.UnitAdded += OnUnitAddedHandler;
-        this.defendingTeam.UnitAdded += OnUnitAddedHandler;
-        //TODO unsubscribe from these events
+    private void OnBulletAddedHandler(Bullet newBullet) {
+        BulletComponent instantiatedComponent = (BulletComponent)Instantiate(arrowTemplate, newBullet.CurrentPosition, Quaternion.identity);
+        instantiatedComponent.Initialize(newBullet);
     }
 
-    private void OnUnitAddedHandler(Unit newUnit) {
+    public void InstantiateUnit(Unit newUnit) {
+        if (newUnit == null) {
+            throw new ArgumentNullException("newUnit");
+        }
+
         //TODO instantiate the proper game object
         //TODO object pool?
         UnitComponent instantiatedComponent = (UnitComponent)Instantiate(heroUnitTemplate, newUnit.PositionInMeters, Quaternion.identity);
@@ -34,6 +34,16 @@ public class InstantiatorComponent : MonoBehaviour {
         if (this.HeroUnitInstantiated != null) {
             this.HeroUnitInstantiated(instantiatedComponent);
         }
+    }
+
+    public void InstantiateBullet(Bullet newBullet) {
+        if (newBullet == null) {
+            throw new ArgumentNullException("newBullet");
+        }
+
+        //TODO object pool?
+        BulletComponent instantiatedComponent = (BulletComponent)Instantiate(arrowTemplate, newBullet.CurrentPosition, Quaternion.identity);
+        instantiatedComponent.Initialize(newBullet);
     }
 }
 

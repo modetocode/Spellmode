@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// Resonsible for ticking all of the bullets that are currenly in the scene. Also when the run finishes it cleans all the remaining bullets.
 /// </summary>
 public class BulletManager : ITickable {
+
+    public event Action<Bullet> BulletAdded;
 
     private IList<Bullet> bullets;
 
@@ -15,6 +18,9 @@ public class BulletManager : ITickable {
         //TODO arg check
         bullet.Destroyed += RemoveBullet;
         this.bullets.Add(bullet);
+        if (this.BulletAdded != null) {
+            this.BulletAdded(bullet);
+        }
     }
 
     private void RemoveBullet(Bullet bullet) {

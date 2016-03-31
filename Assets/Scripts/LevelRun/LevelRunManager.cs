@@ -35,14 +35,14 @@ public class LevelRunManager : ITickable {
     private UnitSpawner UnitSpawner { get; set; }
     private LevelRunData LevelRunData { get; set; }
     private ProgressTracker ProgressTracker { get; set; }
-    private CombatManager CombatManager { get; set; }
-    private BulletManager BulletManager { get; set; }
+    public CombatManager CombatManager { get; private set; }
+    public BulletManager BulletManager { get; private set; }
 
     public void InitializeRun() {
         //TODO get the appropriate data and set it
         this.LevelRunData = new LevelRunData(1, 1000f, new UnitSpawnData[0]);
         IList<UnitSpawnData> attackingTeamSpawnData = new UnitSpawnData[1];
-        attackingTeamSpawnData[0] = new UnitSpawnData(Constants.Platforms.PlatformType.Bottom, 0f, new UnitSettings(movementSpeed: 10f, jumpSpeed: 10f, maxHealth: 100f), new WeaponSettings(isMeleeWeapon: false, damagePerHit: 10f, timeBetweenShots: 0.2f, bulletSpeed: 30f));
+        attackingTeamSpawnData[0] = new UnitSpawnData(Constants.Platforms.PlatformType.Bottom, 0f, new UnitSettings(movementSpeed: 10f, jumpSpeed: 10f, maxHealth: 100f, weaponMountYOffset: 0.7f), new WeaponSettings(isMeleeWeapon: false, damagePerHit: 10f, timeBetweenShots: 0.2f, bulletSpeed: 30f, rangeInMeters: 30f), unitHasAutoAttack: false);
         this.AttackingTeam = new Team();
         this.DefendingTeam = new Team();
         this.ProgressTracker = new ProgressTracker(this.AttackingTeam, this.LevelRunData.LengthInMeters);

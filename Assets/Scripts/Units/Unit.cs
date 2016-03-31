@@ -13,6 +13,11 @@ public class Unit : ITickable, IHealthable {
     public Weapon Weapon { get; private set; }
     public HealthElement HealthElement { get; private set; }
 
+    /// <summary>
+    /// True if the units auto-attacks when the weapon is ready to fire, or false it the firing is triggered manually.
+    /// </summary>
+    public bool HasAutoAttack { get; private set; }
+
     public float Health {
         get { return this.HealthElement.Health; }
     }
@@ -25,18 +30,21 @@ public class Unit : ITickable, IHealthable {
         get { return this.Health > 0; }
     }
 
+    public float WeaponMountYOffset { get { return this.unitSettings.WeaponMountYOffset; } }
+
     private bool isJumping;
     private float jumpDirection;
     private float jumpYDestination;
     private UnitSettings unitSettings;
 
-    public Unit(UnitSettings unitSettings, WeaponSettings weaponSettings, Vector2 unitSpawnPosition) {
+    public Unit(UnitSettings unitSettings, WeaponSettings weaponSettings, Vector2 unitSpawnPosition, bool hasAutoAttack) {
         //TODO arg check
         this.unitSettings = unitSettings;
         this.PositionInMeters = unitSpawnPosition;
         this.Weapon = new Weapon(weaponSettings, this);
         this.HealthElement = new HealthElement(unitSettings.MaxHealth);
         this.HealthElement.HealthChanged += HealthChangedHandler;
+        this.HasAutoAttack = hasAutoAttack;
     }
 
     public void Tick(float deltaTime) {
@@ -53,6 +61,8 @@ public class Unit : ITickable, IHealthable {
                 this.PositionInMeters += new Vector2(0f, currentJumpSpeed);
             }
         }
+
+        this.Weapon.Tick(deltaTime);
     }
 
     public void TakeDamage(float amount) {

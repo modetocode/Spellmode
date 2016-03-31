@@ -46,18 +46,20 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager = new LevelRunManager();
         this.levelRunManager.InitializeRun();
         this.levelRunManager.RunFinished += FinishRun;
-        this.instantiatorComponent.InitializeComponent(this.levelRunManager.AttackingTeam, this.levelRunManager.DefendingTeam);
-        this.instantiatorComponent.HeroUnitInstantiated += OnUnitInstantiated;
+        this.levelRunManager.AttackingTeam.UnitAdded += OnUnitInTeamAdded;
+        this.levelRunManager.DefendingTeam.UnitAdded += OnUnitInTeamAdded;
+        this.levelRunManager.BulletManager.BulletAdded += OnNewBulletAdded;
+        this.instantiatorComponent.HeroUnitInstantiated += OnNewUnitInstantiated;
         this.levelRunGuiComponent.Initialize(this.levelRunManager);
-        this.inputComponent.JumpUpInputed += JumpUpInputedHandler;
         this.inputComponent.JumpDownInputed += JumpDownInputedHandler;
+        this.inputComponent.JumpUpInputed += JumpUpInputedHandler;
         this.inputComponent.PauseInputed += PauseInputedHandler;
+        this.inputComponent.ShootInputed += ShootInputedHandler;
         this.StartRun();
     }
 
     private void StartRun() {
         this.levelRunManager.StartRun();
-        ;
     }
 
     private void FinishRun() {
@@ -68,9 +70,18 @@ class LevelRunComponent : MonoBehaviour {
         SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
     }
 
-    private void OnUnitInstantiated(UnitComponent unitComponent) {
-        this.instantiatorComponent.HeroUnitInstantiated -= OnUnitInstantiated;
-        this.cameraComponent.TrackObject(unitComponent.gameObject);
+    private void OnUnitInTeamAdded(Unit newUnit) {
+        this.instantiatorComponent.InstantiateUnit(newUnit);
+    }
+
+    private void OnNewBulletAdded(Bullet newBullet) {
+        this.instantiatorComponent.InstantiateBullet(newBullet);
+    }
+
+    private void OnNewUnitInstantiated(UnitComponent unitComponent) {
+        if (this.levelRunManager.AttackingTeam.IsUnitInTeam(unitComponent.Unit)) {
+            this.cameraComponent.TrackObject(unitComponent.gameObject);
+        }
     }
 
     private void JumpDownInputedHandler() {
@@ -100,10 +111,23 @@ class LevelRunComponent : MonoBehaviour {
         }
     }
 
+    private void ShootInputedHandler() {
+        if (this.levelRunManager.IsGamePaused) {
+            return;
+        }
+
+        this.levelRunManager.CombatManager.TriggerManualAttack();
+    }
+
     public void UnsubscribeFromEvents() {
-        this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
+        this.levelRunManager.AttackingTeam.UnitAdded -= OnUnitInTeamAdded;
+        this.levelRunManager.DefendingTeam.UnitAdded -= OnUnitInTeamAdded;
+        this.instantiatorComponent.HeroUnitInstantiated -= OnNewUnitInstantiated;
+        this.levelRunManager.BulletManager.BulletAdded -= OnNewBulletAdded;
         this.inputComponent.JumpDownInputed -= JumpDownInputedHandler;
+        this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
         this.inputComponent.PauseInputed -= PauseInputedHandler;
+        this.inputComponent.ShootInputed -= ShootInputedHandler;
     }
 
     public void Update() {

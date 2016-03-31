@@ -8,6 +8,7 @@ public class InputComponent : MonoBehaviour {
     public event Action PauseInputed;
     //TODO remove this event when removing endless runner prototype
     public event Action JumpInputed;
+    public event Action ShootInputed;
 
     private Vector2 touchStartPosition;
 
@@ -30,9 +31,13 @@ public class InputComponent : MonoBehaviour {
             this.OnPauseInputed();
         }
 
+        if (Input.GetButtonDown(Constants.Input.ShootInputName)) {
+            this.OnShootInputed();
+        }
+
         Action swipeUpAction = this.OnJumpUpInputed;
         Action swipeDownAction = this.OnJumpDownInputed;
-        this.HandleTouchInput(swipeUpAction: swipeUpAction, swipeDownAction: swipeDownAction, swipeLeftAction: null, swipeRightAction: null, touchAction: this.OnPauseInputed);
+        this.HandleTouchInput(swipeUpAction: swipeUpAction, swipeDownAction: swipeDownAction, swipeLeftAction: null, swipeRightAction: null, touchAction: this.OnShootInputed);
     }
 
     private void OnPauseInputed() {
@@ -50,6 +55,12 @@ public class InputComponent : MonoBehaviour {
     private void OnJumpUpInputed() {
         if (this.JumpUpInputed != null) {
             this.JumpUpInputed();
+        }
+    }
+
+    private void OnShootInputed() {
+        if (this.ShootInputed != null) {
+            this.ShootInputed();
         }
     }
 

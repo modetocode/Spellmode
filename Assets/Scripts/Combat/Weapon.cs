@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon {
+public class Weapon : ITickable {
 
     /// <summary>
     /// Event that is thrown when the weapon is ready to fire
@@ -10,50 +10,78 @@ public class Weapon {
     public event Action<Weapon> ReadyToFire;
 
     /// <summary>
+    /// Event that is thrown when the weapon has fired
+    /// </summary>
+    public event Action<Weapon> WeaponFired;
+
+    /// <summary>
     /// Event that is thrown when a bullet is fired
     /// </summary>
     public event Action<Bullet> BulletFired;
 
+    public bool IsMeleeWeapon { get { return this.weaponSettings.IsMeleeWeapon; } }
+    public Unit Owner { get; private set; }
+
     private WeaponSettings weaponSettings;
-    private Unit owner;
+    private float elapsedTimeFromLastFiring;
+    private bool isReadyToFire;
 
     public Weapon(WeaponSettings weaponSettings, Unit owner) {
-        //TODO arg check
+        if (weaponSettings == null) {
+            throw new ArgumentNullException("weaponSettings");
+        }
+
+        if (owner == null) {
+            throw new ArgumentNullException("owner");
+        }
+
         this.weaponSettings = weaponSettings;
-        this.owner = owner;
+        this.Owner = owner;
+        this.elapsedTimeFromLastFiring = 0f;
     }
 
     /// <summary>
-    /// Order to fire at some possible target. If there is not a target in range then the weapon skips firing.
+    /// Order the weapon to fire
     /// </summary>
     /// <param name="possibleTargetUnits"></param>
     public void Fire(IList<Unit> possibleTargetUnits) {
-        IList<Unit> unitsInRange = this.GetUnitsInRange(possibleTargetUnits);
-        if (unitsInRange.Count == 0) {
-            return;
+        if (!this.isReadyToFire) {
+            throw new InvalidOperationException("The weapon wasn't ready to fire.");
         }
 
-        Unit target = this.ChooseTarget(unitsInRange);
-        if (this.weaponSettings.IsMeleeWeapon) {
-            target.TakeDamage(this.weaponSettings.DamagePerHit);
-        }
-        else {
-            //TODO check for starting positon
-            Vector2 bulletStartPosition = this.owner.PositionInMeters;
-            Bullet bullet = new Bullet(target, this.weaponSettings.DamagePerHit, this.weaponSettings.BulletSpeed, bulletStartPosition);
+        //TODO how to deal damage with melee weapon
+
+        if (!this.weaponSettings.IsMeleeWeapon) {
+            Vector2 bulletStartPosition = this.Owner.PositionInMeters + new Vector2(0f, this.Owner.WeaponMountYOffset);
+            //TODO calculate the bullet direction properly - decide direction for touch position or automatic
+            Bullet bullet = new Bullet(this.weaponSettings.DamagePerHit, this.weaponSettings.BulletSpeed, bulletStartPosition, Vector2.right, possibleTargetUnits);
             if (this.BulletFired != null) {
                 this.BulletFired(bullet);
             }
         }
+
+        this.elapsedTimeFromLastFiring = 0f;
+        this.isReadyToFire = false;
+        if (this.WeaponFired != null) {
+            this.WeaponFired(this);
+        }
     }
 
-    private IList<Unit> GetUnitsInRange(IList<Unit> possibleTargetUnits) {
-        //TODO implement this
-        throw new NotImplementedException();
+    public void Tick(float deltaTime) {
+        this.elapsedTimeFromLastFiring += deltaTime;
+        if (!this.isReadyToFire && this.elapsedTimeFromLastFiring >= this.weaponSettings.TimeBetweenShots) {
+            this.isReadyToFire = true;
+            if (this.ReadyToFire != null) {
+                this.ReadyToFire(this);
+            }
+        }
     }
 
-    private Unit ChooseTarget(IList<Unit> unitsInRange) {
-        //TODO which unit should be picked for target
-        return unitsInRange[0];
+    public void OnTickingFinished() {
+    }
+
+    public bool IsPositionInRange(Vector2 positionInMeters) {
+        //TODO should we check also if the positions are on the same platform
+        return Vector2.Distance(this.Owner.PositionInMeters, positionInMeters) <= this.weaponSettings.RangeInMeters;
     }
 }

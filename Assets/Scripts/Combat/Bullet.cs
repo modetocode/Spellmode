@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -8,47 +9,33 @@ public class Bullet : ITickable {
 
     public event Action<Bullet> Destroyed;
 
-    private Unit target;
-    private float damageOnHit;
-    private Vector2 position;
-    private float speed;
-    private Vector2 direction;
-    private Vector2 targetPosition;
+    public Vector2 CurrentPosition { get; private set; }
+    public Vector2 Direction { get; private set; }
 
-    public Bullet(Unit target, float damageOnHit, float speed, Vector2 startPosition) {
+    private float damageOnHit;
+    private float speed;
+    private IList<Unit> possibleTargets;
+
+    public Bullet(float damageOnHit, float speed, Vector2 startPosition, Vector2 direction, IList<Unit> possibleTargets) {
         //TODO arg check
-        this.target = target;
         this.damageOnHit = damageOnHit;
         this.speed = speed;
-        this.targetPosition = target.PositionInMeters;
-        this.direction = (this.targetPosition - startPosition).normalized;
+        this.CurrentPosition = startPosition;
+        this.Direction = direction;
+        this.possibleTargets = possibleTargets;
     }
 
     public void Tick(float deltaTime) {
-        Vector3 previousPosition = this.position;
         this.Move(deltaTime);
-        if (this.WasTargetReached(previousPosition)) {
-            if (this.IsTargetInRange()) {
-                this.TakeDamage();
-                this.Destroy();
-            }
-            //TODO what to do when target was reached but the target is not in range
+    }
+
+    // Marks that a given target unit is hit
+    public void HitTargetUnit(Unit unit) {
+        if (!this.possibleTargets.Contains(unit)) {
+            throw new InvalidOperationException("The unit is not a target unit");
         }
-    }
 
-    private void TakeDamage() {
-        this.target.TakeDamage(this.damageOnHit);
-    }
-
-    private bool IsTargetInRange() {
-        //TODO how to check if it is in range
-        throw new NotImplementedException();
-    }
-
-    private bool WasTargetReached(Vector2 previousPosition) {
-        float traveledDistance = Vector2.Distance(previousPosition, this.position);
-        float previousPositionToTargetDistance = Vector2.Distance(previousPosition, this.targetPosition);
-        return previousPositionToTargetDistance < traveledDistance;
+        unit.TakeDamage(this.damageOnHit);
     }
 
     public void Destroy() {
@@ -58,7 +45,7 @@ public class Bullet : ITickable {
     }
 
     private void Move(float deltaTime) {
-        this.position += speed * direction * deltaTime;
+        this.CurrentPosition += this.speed * this.Direction * deltaTime;
     }
 
     public void OnTickingFinished() {

@@ -6,12 +6,14 @@ public class WeaponSettings {
     public float DamagePerHit { get; private set; }
     public float TimeBetweenShots { get; private set; }
     public float BulletSpeed { get; private set; }
+    public float RangeInMeters { get; private set; }
 
-    public WeaponSettings(bool isMeleeWeapon, float damagePerHit, float timeBetweenShots, float bulletSpeed) {
+    public WeaponSettings(bool isMeleeWeapon, float damagePerHit, float timeBetweenShots, float bulletSpeed, float rangeInMeters) {
         //TODO arg check
         this.IsMeleeWeapon = isMeleeWeapon;
         this.DamagePerHit = damagePerHit;
         this.TimeBetweenShots = timeBetweenShots;
         this.BulletSpeed = bulletSpeed;
+        this.RangeInMeters = rangeInMeters;
     }
 }
