@@ -4,10 +4,6 @@ using UnityEngine.SceneManagement;
 
 class LevelRunComponent : MonoBehaviour {
 
-    private LevelRunManager levelRunManager;
-    private Ticker componentTicker;
-    private Ticker lastToTickComponentTicker;
-
     [SerializeField]
     private InputComponent inputComponent;
 
@@ -22,6 +18,9 @@ class LevelRunComponent : MonoBehaviour {
 
     [SerializeField]
     private LevelRunGUIComponent levelRunGuiComponent;
+
+    private LevelRunManager levelRunManager;
+    private bool runFinished;
 
     public void Awake() {
         if (this.inputComponent == null) {
@@ -43,71 +42,103 @@ class LevelRunComponent : MonoBehaviour {
     }
 
     public void Start() {
-        this.inputComponent.BlockInput();
+        this.runFinished = false;
         this.levelRunManager = new LevelRunManager();
         this.levelRunManager.InitializeRun();
         this.levelRunManager.RunFinished += FinishRun;
-        this.instantiatorComponent.InitializeComponent(this.levelRunManager.AttackingTeam, this.levelRunManager.DefendingTeam);
-        this.instantiatorComponent.HeroUnitInstantiated += OnUnitInstantiated;
+        this.levelRunManager.AttackingTeam.UnitAdded += OnUnitInTeamAdded;
+        this.levelRunManager.DefendingTeam.UnitAdded += OnUnitInTeamAdded;
+        this.levelRunManager.BulletManager.BulletAdded += OnNewBulletAdded;
+        this.instantiatorComponent.HeroUnitInstantiated += OnNewUnitInstantiated;
         this.levelRunGuiComponent.Initialize(this.levelRunManager);
-        this.componentTicker = new Ticker(new ITickable[] { this.inputComponent, this.cameraComponent, this.backgroundComponent });
-        this.lastToTickComponentTicker = new Ticker(new ITickable[] { this.cameraComponent, this.levelRunGuiComponent });
+        this.inputComponent.JumpDownInputed += JumpDownInputedHandler;
+        this.inputComponent.JumpUpInputed += JumpUpInputedHandler;
+        this.inputComponent.PauseInputed += PauseInputedHandler;
+        this.inputComponent.ShootInputed += ShootInputedHandler;
         this.StartRun();
+    }
+
+    private void StartRun() {
+        this.levelRunManager.StartRun();
     }
 
     private void FinishRun() {
         this.levelRunManager.RunFinished -= FinishRun;
         this.UnsubscribeFromEvents();
+        this.runFinished = true;
         //TODO add the appropriate logic when level is finished
         SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
     }
 
-    private void OnUnitInstantiated(UnitComponent unitComponent) {
-        this.instantiatorComponent.HeroUnitInstantiated -= OnUnitInstantiated;
-        this.cameraComponent.TrackObject(unitComponent.gameObject);
-        this.componentTicker.AddTickableObject(unitComponent);
-        //TODO remove tickable object
+    private void OnUnitInTeamAdded(Unit newUnit) {
+        this.instantiatorComponent.InstantiateUnit(newUnit);
     }
 
-    private void StartRun() {
-        this.levelRunManager.StartRun();
-        this.inputComponent.UnblockInput();
-        this.inputComponent.JumpUpInputed += JumpUpInputedHandler;
-        this.inputComponent.JumpDownInputed += JumpDownInputedHandler;
-        this.inputComponent.PauseInputed += PauseInputedHandler;
+    private void OnNewBulletAdded(Bullet newBullet) {
+        this.instantiatorComponent.InstantiateBullet(newBullet);
+    }
+
+    private void OnNewUnitInstantiated(UnitComponent unitComponent) {
+        if (this.levelRunManager.AttackingTeam.IsUnitInTeam(unitComponent.Unit)) {
+            this.cameraComponent.TrackObject(unitComponent.gameObject);
+        }
     }
 
     private void JumpDownInputedHandler() {
+        if (this.levelRunManager.IsGamePaused) {
+            return;
+        }
+
         this.levelRunManager.AttackingTeam.MoveAllAliveUnitsToLowerPlatformIfPossible();
     }
 
     private void JumpUpInputedHandler() {
+        if (this.levelRunManager.IsGamePaused) {
+            return;
+        }
+
         this.levelRunManager.AttackingTeam.MoveAllAliveUnitsToUpperPlatformIfPossible();
     }
 
     private void PauseInputedHandler() {
-        if (this.componentTicker.IsTicking) {
-            this.levelRunManager.PauseGame();
-            this.componentTicker.PauseTicking();
-            this.lastToTickComponentTicker.PauseTicking();
+        if (this.levelRunManager.IsGamePaused) {
+            this.levelRunManager.ResumeGame();
+            this.backgroundComponent.ResumeMovement();
         }
         else {
-            this.levelRunManager.ResumeGame();
-            this.componentTicker.ResumeTicking();
-            this.lastToTickComponentTicker.ResumeTicking();
+            this.levelRunManager.PauseGame();
+            this.backgroundComponent.PauseMovement();
         }
+    }
+
+    private void ShootInputedHandler() {
+        if (this.levelRunManager.IsGamePaused) {
+            return;
+        }
+
+        this.levelRunManager.CombatManager.TriggerManualAttack();
     }
 
     public void UnsubscribeFromEvents() {
-        this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
+        this.levelRunManager.AttackingTeam.UnitAdded -= OnUnitInTeamAdded;
+        this.levelRunManager.DefendingTeam.UnitAdded -= OnUnitInTeamAdded;
+        this.instantiatorComponent.HeroUnitInstantiated -= OnNewUnitInstantiated;
+        this.levelRunManager.BulletManager.BulletAdded -= OnNewBulletAdded;
         this.inputComponent.JumpDownInputed -= JumpDownInputedHandler;
+        this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
         this.inputComponent.PauseInputed -= PauseInputedHandler;
+        this.inputComponent.ShootInputed -= ShootInputedHandler;
     }
 
     public void Update() {
+        if (this.levelRunManager.IsGamePaused) {
+            return;
+        }
+
+        if (this.runFinished) {
+            return;
+        }
+
         this.levelRunManager.Tick(Time.deltaTime);
-        this.componentTicker.Tick(Time.deltaTime);
-        // The camera and gui should be updated last after all of the moving units have updated the positions
-        this.lastToTickComponentTicker.Tick(Time.deltaTime);
     }
 }

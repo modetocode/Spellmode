@@ -26,6 +26,13 @@ public class Team : ITickable {
         if (this.UnitAdded != null) {
             this.UnitAdded(unit);
         }
+
+        unit.Died += OnDiedRemoveFromAliveList;
+    }
+
+    private void OnDiedRemoveFromAliveList(Unit deadUnit) {
+        this.AliveUnitsInTeam.Remove(deadUnit);
+        deadUnit.Died -= OnDiedRemoveFromAliveList;
     }
 
     public void MoveAllAliveUnitsToUpperPlatformIfPossible() {
@@ -40,6 +47,13 @@ public class Team : ITickable {
         }
     }
 
-    public void OnTickingPaused(float deltaTime) {
+    public bool IsUnitInTeam(Unit unit) {
+        return this.UnitsInTeam.Contains(unit);
+    }
+
+    public void OnTickingFinished() {
+        for (int i = 0; i < this.AliveUnitsInTeam.Count; i++) {
+            this.AliveUnitsInTeam[i].Died -= OnDiedRemoveFromAliveList;
+        }
     }
 }

@@ -1,30 +1,18 @@
 ﻿using System;
 using UnityEngine;
 
-public class InputComponent : MonoBehaviour, ITickable {
+public class InputComponent : MonoBehaviour {
 
     public event Action JumpUpInputed;
     public event Action JumpDownInputed;
     public event Action PauseInputed;
     //TODO remove this event when removing endless runner prototype
     public event Action JumpInputed;
+    public event Action ShootInputed;
 
-    private bool isInputBlocked;
     private Vector2 touchStartPosition;
 
-    public void BlockInput() {
-        this.isInputBlocked = true;
-    }
-
-    public void UnblockInput() {
-        this.isInputBlocked = false;
-    }
-
-    public void Tick(float deltaTime) {
-        if (this.isInputBlocked) {
-            return;
-        }
-
+    public void Update() {
         if (Input.GetButtonDown(Constants.Input.JumpSpeedInputName)) {
             if (this.JumpInputed != null) {
                 this.JumpInputed();
@@ -39,26 +27,17 @@ public class InputComponent : MonoBehaviour, ITickable {
             this.OnJumpDownInputed();
         }
 
-        this.CheckForPauseInput();
+        if (Input.GetButtonDown(Constants.Input.PauseInputName)) {
+            this.OnPauseInputed();
+        }
+
+        if (Input.GetButtonDown(Constants.Input.ShootInputName)) {
+            this.OnShootInputed();
+        }
 
         Action swipeUpAction = this.OnJumpUpInputed;
         Action swipeDownAction = this.OnJumpDownInputed;
-        this.HandleTouchInput(swipeUpAction: swipeUpAction, swipeDownAction: swipeDownAction, swipeLeftAction: null, swipeRightAction: null, touchAction: null);
-    }
-
-    public void OnTickingPaused(float deltaTime) {
-        this.CheckForPauseInput();
-    }
-
-    private void CheckForPauseInput() {
-        if (Input.GetButtonDown(Constants.Input.PauseInputName)) {
-            if (this.PauseInputed != null) {
-                this.PauseInputed();
-            }
-        }
-
-        //TODO remove the touch to pause feature when GUI is done
-        this.HandleTouchInput(swipeUpAction: null, swipeDownAction: null, swipeLeftAction: null, swipeRightAction: null, touchAction: this.OnPauseInputed);
+        this.HandleTouchInput(swipeUpAction: swipeUpAction, swipeDownAction: swipeDownAction, swipeLeftAction: null, swipeRightAction: null, touchAction: this.OnShootInputed);
     }
 
     private void OnPauseInputed() {
@@ -76,6 +55,12 @@ public class InputComponent : MonoBehaviour, ITickable {
     private void OnJumpUpInputed() {
         if (this.JumpUpInputed != null) {
             this.JumpUpInputed();
+        }
+    }
+
+    private void OnShootInputed() {
+        if (this.ShootInputed != null) {
+            this.ShootInputed();
         }
     }
 
@@ -120,7 +105,6 @@ public class InputComponent : MonoBehaviour, ITickable {
                             swipeDownAction();
                         }
                     }
-
                 }
                 else {
                     //it is only a small swipe/touch

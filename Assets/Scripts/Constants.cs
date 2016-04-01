@@ -7,6 +7,7 @@ public static class Constants {
         public const string JumpUpInputName = "JumpUp";
         public const string JumpDownInputName = "JumpDown";
         public const string PauseInputName = "Pause";
+        public const string ShootInputName = "Fire1";
         public const float MinimalScreenPercentageConsideredToBeSwipe = 0.15f;
     }
 
@@ -28,6 +29,8 @@ public static class Constants {
     public static class Animations {
         public static class MainCharacter {
             public const string MoveSpeedParameterName = "MoveSpeed";
+            public const string FireTriggerParameterName = "Fire";
+            public const string DeathTriggerParameterName = "Death";
         }
     }
 

@@ -7,8 +7,7 @@
     void Tick(float deltaTime);
 
     /// <summary>
-    /// Executed regularly when the ticking is paused
+    /// Executed once when the ticking is finished.
     /// </summary>
-    /// <param name="deltaTime"></param>
-    void OnTickingPaused(float deltaTime);
+    void OnTickingFinished();
 }

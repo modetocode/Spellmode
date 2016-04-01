@@ -5,7 +5,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Responsible for all of the GUI elements on the screen for the level run
 /// </summary>
-public class LevelRunGUIComponent : MonoBehaviour, ITickable {
+public class LevelRunGUIComponent : MonoBehaviour {
 
     [SerializeField]
     private Text ProgressInfoText;
@@ -19,8 +19,7 @@ public class LevelRunGUIComponent : MonoBehaviour, ITickable {
         this.levelRunManager = levelRunManager;
     }
 
-
-    public void Tick(float deltaTime) {
+    public void Update() {
         if (this.levelRunManager == null) {
             return;
         }
@@ -28,8 +27,4 @@ public class LevelRunGUIComponent : MonoBehaviour, ITickable {
         //TODO extract the format in constants
         this.ProgressInfoText.text = string.Format("{0:0.} / {1:0.}", this.levelRunManager.CurrentProgressInMeters, this.levelRunManager.LevelLengthInMeters);
     }
-
-    public void OnTickingPaused(float deltaTime) {
-    }
-
 }

@@ -1,25 +1,51 @@
 ﻿using System;
 using UnityEngine;
 
-public class Unit : ITickable {
+public class Unit : ITickable, IHealthable {
 
-    private UnitSettings unitSettings;
+    public event Action<Unit> Died;
 
     /// <summary>
     /// The position of the unit in the world. The x-axis represents the horizontal distance (in meters) the starting point, and y-axis the vertical distance (in meters).
     /// </summary>
     public Vector2 PositionInMeters { get; private set; }
     public float CurrentMoveSpeed { get; private set; }
+    public Weapon Weapon { get; private set; }
+    public HealthElement HealthElement { get; private set; }
+    public UnitType UnitType { get { return this.unitSettings.UnitType; } }
+
+    /// <summary>
+    /// True if the units auto-attacks when the weapon is ready to fire, or false it the firing is triggered manually.
+    /// </summary>
+    public bool HasAutoAttack { get; private set; }
+
+    public float Health {
+        get { return this.HealthElement.Health; }
+    }
+
+    public float MaxHealth {
+        get { return this.HealthElement.MaxHealth; }
+    }
+
+    public bool IsAlive {
+        get { return this.Health > 0; }
+    }
+
+    public float WeaponMountYOffset { get { return this.unitSettings.WeaponMountYOffset; } }
 
     private bool isJumping;
     private float jumpDirection;
     private float jumpYDestination;
+    private UnitSettings unitSettings;
 
-
-    public Unit(UnitSettings unitSettings, Vector2 unitSpawnPosition) {
+    public Unit(UnitSettings unitSettings, WeaponSettings weaponSettings, Vector2 unitSpawnPosition, bool hasAutoAttack) {
         //TODO arg check
         this.unitSettings = unitSettings;
         this.PositionInMeters = unitSpawnPosition;
+        this.Weapon = new Weapon(weaponSettings, this);
+        this.HealthElement = new HealthElement(unitSettings.MaxHealth);
+        this.HealthElement.HealthChanged += HealthChangedHandler;
+        this.HasAutoAttack = hasAutoAttack;
     }
 
     public void Tick(float deltaTime) {
@@ -37,7 +63,25 @@ public class Unit : ITickable {
             }
         }
 
-        //TODO check for collisions, attack
+        this.Weapon.Tick(deltaTime);
+    }
+
+    public void TakeDamage(float amount) {
+        if (!this.IsAlive) {
+            Debug.LogError("taking damage to already dead unit");
+            return;
+        }
+
+        this.HealthElement.DecreaseHealth(amount);
+    }
+
+    private void HealthChangedHandler(float amount) {
+        if (!this.IsAlive) {
+            this.HealthElement.HealthChanged -= this.HealthChangedHandler;
+            if (this.Died != null) {
+                this.Died(this);
+            }
+        }
     }
 
     private bool isJumpDestinationReached(float positionY) {
@@ -84,6 +128,6 @@ public class Unit : ITickable {
         this.jumpYDestination = PlatformManager.GetYCoordinateForPlatform(hasNeighbourPlatformResult.PlatformType);
     }
 
-    public void OnTickingPaused(float deltaTime) {
+    public void OnTickingFinished() {
     }
 }
