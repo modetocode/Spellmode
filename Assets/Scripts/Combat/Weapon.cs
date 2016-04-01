@@ -54,7 +54,8 @@ public class Weapon : ITickable {
         if (!this.weaponSettings.IsMeleeWeapon) {
             Vector2 bulletStartPosition = this.Owner.PositionInMeters + new Vector2(0f, this.Owner.WeaponMountYOffset);
             //TODO calculate the bullet direction properly - decide direction for touch position or automatic
-            Bullet bullet = new Bullet(this.weaponSettings.DamagePerHit, this.weaponSettings.BulletSpeed, bulletStartPosition, Vector2.right, possibleTargetUnits);
+            Vector2 bulletDirection = (this.Owner.UnitType == UnitType.HeroUnit) ? Vector2.right : Vector2.left;
+            Bullet bullet = new Bullet(this.weaponSettings.DamagePerHit, this.weaponSettings.BulletSpeed, bulletStartPosition, bulletDirection, possibleTargetUnits);
             if (this.BulletFired != null) {
                 this.BulletFired(bullet);
             }

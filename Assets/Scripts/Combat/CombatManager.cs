@@ -41,7 +41,7 @@ public class CombatManager : ITickable {
         }
 
         unit.Weapon.ReadyToFire += AddReadyToFireWeapon;
-        unit.Died -= OnUnitDiedHandler;
+        unit.Died += OnUnitDiedHandler;
     }
 
     private void AddReadyToFireWeapon(Weapon weapon) {
@@ -49,6 +49,11 @@ public class CombatManager : ITickable {
     }
 
     private void OnUnitDiedHandler(Unit unit) {
+        unit.Died -= OnUnitDiedHandler;
+        if (this.unitsReadyToFire.Contains(unit)) {
+            this.unitsReadyToFire.Remove(unit);
+        }
+
         this.UnsubsribeFromUnitReadyToFire(unit);
     }
 

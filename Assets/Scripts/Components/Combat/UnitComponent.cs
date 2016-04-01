@@ -9,7 +9,6 @@ public class UnitComponent : MonoBehaviour {
 
     public Unit Unit { get; private set; }
     private Animator unitAnimator;
-    private Collider2D unitCollider2D;
     private Vector2 previousUnitPosition;
 
     public void Awake() {
@@ -21,8 +20,6 @@ public class UnitComponent : MonoBehaviour {
         if (this.unitAnimator == null) {
             throw new InvalidOperationException("No animator attached");
         }
-
-        this.unitCollider2D = this.GetComponent<Collider2D>();
     }
 
     public void Initialize(Unit unit) {
@@ -33,6 +30,7 @@ public class UnitComponent : MonoBehaviour {
         this.Unit = unit;
         this.previousUnitPosition = Vector2.zero;
         this.Unit.Weapon.WeaponFired += ShowFireAnimation;
+        this.Unit.Died += ShowDeathAnimation;
     }
 
     public void Update() {
@@ -55,7 +53,12 @@ public class UnitComponent : MonoBehaviour {
         this.unitAnimator.SetTrigger(Constants.Animations.MainCharacter.FireTriggerParameterName);
     }
 
+    private void ShowDeathAnimation(Unit unit) {
+        this.unitAnimator.SetTrigger(Constants.Animations.MainCharacter.DeathTriggerParameterName);
+    }
+
     public void OnDestroy() {
         this.Unit.Weapon.WeaponFired -= ShowFireAnimation;
+        this.Unit.Died -= ShowDeathAnimation;
     }
 }

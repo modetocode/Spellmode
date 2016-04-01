@@ -30,6 +30,7 @@ public static class Constants {
         public static class MainCharacter {
             public const string MoveSpeedParameterName = "MoveSpeed";
             public const string FireTriggerParameterName = "Fire";
+            public const string DeathTriggerParameterName = "Death";
         }
     }
 

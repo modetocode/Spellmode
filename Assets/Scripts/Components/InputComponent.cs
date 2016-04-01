@@ -105,7 +105,6 @@ public class InputComponent : MonoBehaviour {
                             swipeDownAction();
                         }
                     }
-
                 }
                 else {
                     //it is only a small swipe/touch

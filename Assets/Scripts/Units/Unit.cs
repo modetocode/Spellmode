@@ -12,6 +12,7 @@ public class Unit : ITickable, IHealthable {
     public float CurrentMoveSpeed { get; private set; }
     public Weapon Weapon { get; private set; }
     public HealthElement HealthElement { get; private set; }
+    public UnitType UnitType { get { return this.unitSettings.UnitType; } }
 
     /// <summary>
     /// True if the units auto-attacks when the weapon is ready to fire, or false it the firing is triggered manually.

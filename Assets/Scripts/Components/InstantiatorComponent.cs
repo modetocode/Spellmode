@@ -15,6 +15,9 @@ public class InstantiatorComponent : MonoBehaviour {
     private UnitComponent heroUnitTemplate;
 
     [SerializeField]
+    private UnitComponent defendingUnitTemplate;
+
+    [SerializeField]
     private BulletComponent arrowTemplate;
 
     private void OnBulletAddedHandler(Bullet newBullet) {
@@ -29,10 +32,13 @@ public class InstantiatorComponent : MonoBehaviour {
 
         //TODO instantiate the proper game object
         //TODO object pool?
-        UnitComponent instantiatedComponent = (UnitComponent)Instantiate(heroUnitTemplate, newUnit.PositionInMeters, Quaternion.identity);
+        UnitComponent unitTemplate = newUnit.UnitType == UnitType.HeroUnit ? this.heroUnitTemplate : this.defendingUnitTemplate;
+        UnitComponent instantiatedComponent = (UnitComponent)Instantiate(unitTemplate, newUnit.PositionInMeters, Quaternion.identity);
         instantiatedComponent.Initialize(newUnit);
-        if (this.HeroUnitInstantiated != null) {
-            this.HeroUnitInstantiated(instantiatedComponent);
+        if (newUnit.UnitType == UnitType.HeroUnit) {
+            if (this.HeroUnitInstantiated != null) {
+                this.HeroUnitInstantiated(instantiatedComponent);
+            }
         }
     }
 

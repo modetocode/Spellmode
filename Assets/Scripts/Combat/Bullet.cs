@@ -11,10 +11,10 @@ public class Bullet : ITickable {
 
     public Vector2 CurrentPosition { get; private set; }
     public Vector2 Direction { get; private set; }
+    public IList<Unit> PossibleTargets { get; private set; }
 
     private float damageOnHit;
     private float speed;
-    private IList<Unit> possibleTargets;
 
     public Bullet(float damageOnHit, float speed, Vector2 startPosition, Vector2 direction, IList<Unit> possibleTargets) {
         //TODO arg check
@@ -22,20 +22,21 @@ public class Bullet : ITickable {
         this.speed = speed;
         this.CurrentPosition = startPosition;
         this.Direction = direction;
-        this.possibleTargets = possibleTargets;
+        this.PossibleTargets = possibleTargets;
     }
 
     public void Tick(float deltaTime) {
         this.Move(deltaTime);
     }
 
-    // Marks that a given target unit is hit
+    // Marks that a given target unit is hit and destroys the bullet
     public void HitTargetUnit(Unit unit) {
-        if (!this.possibleTargets.Contains(unit)) {
+        if (!this.PossibleTargets.Contains(unit)) {
             throw new InvalidOperationException("The unit is not a target unit");
         }
 
         unit.TakeDamage(this.damageOnHit);
+        this.Destroy();
     }
 
     public void Destroy() {

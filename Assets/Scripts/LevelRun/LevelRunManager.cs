@@ -40,9 +40,11 @@ public class LevelRunManager : ITickable {
 
     public void InitializeRun() {
         //TODO get the appropriate data and set it
-        this.LevelRunData = new LevelRunData(1, 1000f, new UnitSpawnData[0]);
         IList<UnitSpawnData> attackingTeamSpawnData = new UnitSpawnData[1];
-        attackingTeamSpawnData[0] = new UnitSpawnData(Constants.Platforms.PlatformType.Bottom, 0f, new UnitSettings(movementSpeed: 10f, jumpSpeed: 10f, maxHealth: 100f, weaponMountYOffset: 0.7f), new WeaponSettings(isMeleeWeapon: false, damagePerHit: 10f, timeBetweenShots: 0.2f, bulletSpeed: 30f, rangeInMeters: 30f), unitHasAutoAttack: false);
+        attackingTeamSpawnData[0] = new UnitSpawnData(Constants.Platforms.PlatformType.Bottom, 0f, new UnitSettings(unitType: UnitType.HeroUnit, movementSpeed: 2f, jumpSpeed: 10f, maxHealth: 100f, weaponMountYOffset: 0.7f), new WeaponSettings(isMeleeWeapon: false, damagePerHit: 10f, timeBetweenShots: 0.2f, bulletSpeed: 30f, rangeInMeters: 30f), unitHasAutoAttack: false);
+        IList<UnitSpawnData> defendingTeamSpawnData = new UnitSpawnData[1];
+        defendingTeamSpawnData[0] = new UnitSpawnData(Constants.Platforms.PlatformType.Bottom, 15f, new UnitSettings(unitType: UnitType.DefendingUnit, movementSpeed: 0f, jumpSpeed: 0f, maxHealth: 30f, weaponMountYOffset: 0.7f), new WeaponSettings(isMeleeWeapon: false, damagePerHit: 2f, timeBetweenShots: 1f, bulletSpeed: 10f, rangeInMeters: 12f), unitHasAutoAttack: true);
+        this.LevelRunData = new LevelRunData(1, 25f, defendingTeamSpawnData);
         this.AttackingTeam = new Team();
         this.DefendingTeam = new Team();
         this.ProgressTracker = new ProgressTracker(this.AttackingTeam, this.LevelRunData.LengthInMeters);

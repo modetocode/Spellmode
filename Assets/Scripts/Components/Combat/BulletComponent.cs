@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Collider2D))]
 public class BulletComponent : MonoBehaviour {
 
     public Bullet Bullet { get; private set; }
@@ -23,5 +24,16 @@ public class BulletComponent : MonoBehaviour {
         }
 
         this.gameObject.transform.position = this.Bullet.CurrentPosition;
+    }
+
+    void OnTriggerEnter2D(Collider2D other) {
+        UnitComponent unitComponent = other.gameObject.GetComponent<UnitComponent>();
+        if (unitComponent == null) {
+            return;
+        }
+
+        if (this.Bullet.PossibleTargets.Contains(unitComponent.Unit)) {
+            this.Bullet.HitTargetUnit(unitComponent.Unit);
+        }
     }
 }
