@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class Team : ITickable {
 
     public event Action<Unit> UnitAdded;
+    public event Action AllUnitsDied;
 
     public IList<Unit> UnitsInTeam { get; private set; }
     public IList<Unit> AliveUnitsInTeam { get; private set; }
@@ -32,6 +33,12 @@ public class Team : ITickable {
 
     private void OnDiedRemoveFromAliveList(Unit deadUnit) {
         this.AliveUnitsInTeam.Remove(deadUnit);
+        if (this.AliveUnitsInTeam.Count == 0) {
+            if (this.AllUnitsDied != null) {
+                this.AllUnitsDied();
+            }
+        }
+
         deadUnit.Died -= OnDiedRemoveFromAliveList;
     }
 

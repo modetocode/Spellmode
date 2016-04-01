@@ -71,5 +71,12 @@ public static class Constants {
     public static class Scenes {
         public const string LevelRunSceneName = "LevelRun";
     }
+
+    public static class LevelRun {
+        /// <summary>
+        /// The time (in seconds) after the run is finished that the user will wait 
+        /// </summary>
+        public const float WaitTimeAfterRunFinishedInSeconds = 2f;
+    }
 }
 

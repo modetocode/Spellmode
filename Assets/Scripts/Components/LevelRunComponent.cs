@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -58,6 +59,18 @@ class LevelRunComponent : MonoBehaviour {
         this.StartRun();
     }
 
+    public void Update() {
+        if (this.levelRunManager.IsGamePaused) {
+            return;
+        }
+
+        if (this.runFinished) {
+            return;
+        }
+
+        this.levelRunManager.Tick(Time.deltaTime);
+    }
+
     private void StartRun() {
         this.levelRunManager.StartRun();
     }
@@ -67,7 +80,7 @@ class LevelRunComponent : MonoBehaviour {
         this.UnsubscribeFromEvents();
         this.runFinished = true;
         //TODO add the appropriate logic when level is finished
-        SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
+        this.StartCoroutine(FinishRunCoroutine(Constants.LevelRun.WaitTimeAfterRunFinishedInSeconds));
     }
 
     private void OnUnitInTeamAdded(Unit newUnit) {
@@ -130,15 +143,9 @@ class LevelRunComponent : MonoBehaviour {
         this.inputComponent.ShootInputed -= ShootInputedHandler;
     }
 
-    public void Update() {
-        if (this.levelRunManager.IsGamePaused) {
-            return;
-        }
-
-        if (this.runFinished) {
-            return;
-        }
-
-        this.levelRunManager.Tick(Time.deltaTime);
+    IEnumerator FinishRunCoroutine(float waitTime) {
+        this.backgroundComponent.PauseMovement();
+        yield return new WaitForSeconds(waitTime);
+        SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
     }
 }
