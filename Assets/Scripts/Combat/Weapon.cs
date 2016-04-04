@@ -82,7 +82,21 @@ public class Weapon : ITickable {
     }
 
     public bool IsPositionInRange(Vector2 positionInMeters) {
-        //TODO should we check also if the positions are on the same platform
-        return Vector2.Distance(this.Owner.PositionInMeters, positionInMeters) <= this.weaponSettings.RangeInMeters;
+        float distanceToPosition = Vector2.Distance(this.Owner.PositionInMeters, positionInMeters);
+        if (distanceToPosition > this.weaponSettings.RangeInMeters) {
+            return false;
+        }
+
+        PlatformManager.PlatformResult positionOnPlatformResult = PlatformManager.IsPositionOnPlatform(positionInMeters);
+        if (!positionOnPlatformResult.Successful) {
+            return false;
+        }
+
+        PlatformManager.PlatformResult ownerPlatformResult = PlatformManager.IsPositionOnPlatform(this.Owner.PositionInMeters);
+        if (!ownerPlatformResult.Successful) {
+            return false;
+        }
+
+        return positionOnPlatformResult.PlatformType == ownerPlatformResult.PlatformType;
     }
 }

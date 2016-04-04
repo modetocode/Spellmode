@@ -14,6 +14,6 @@ MonoBehaviour:
   isMeleeWeapon: 0
   baseDamagePerHit: 50
   damageIncreasePerLevel: 1
-  timeBetweenShots: 1
-  bulletSpeed: 10
-  rangeInMeters: 12
+  timeBetweenShots: 2
+  bulletSpeed: 5
+  rangeInMeters: 10

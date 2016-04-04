@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public static class GameMechanicsManager {
@@ -52,6 +54,7 @@ public static class GameMechanicsManager {
         return unitProgressionData;
     }
 
+#if UNITY_EDITOR
     [MenuItem(Constants.GameMechanics.GameMechanicsMenuName + "/" + Constants.GameMechanics.UnitsMenuName + "/" + Constants.GameMechanics.HeroUnitMenuName)]
     private static void DisplayHeroUnitProgressionData() {
         Selection.activeObject = GetUnitProgressionData(UnitType.HeroUnit);
@@ -61,4 +64,6 @@ public static class GameMechanicsManager {
     private static void DisplayDefendingUnitProgressionData() {
         Selection.activeObject = GetUnitProgressionData(UnitType.DefendingUnit);
     }
+#endif
+
 }
