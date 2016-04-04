@@ -94,6 +94,7 @@ class LevelRunComponent : MonoBehaviour {
     private void OnNewUnitInstantiated(UnitComponent unitComponent) {
         if (this.levelRunManager.AttackingTeam.IsUnitInTeam(unitComponent.Unit)) {
             this.cameraComponent.TrackObject(unitComponent.gameObject);
+            this.backgroundComponent.SetMoveSpeed(unitComponent.Unit.MovementSpeed * Constants.LevelRun.BackgroundSpeedFactor);
         }
     }
 

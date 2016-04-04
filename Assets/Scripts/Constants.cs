@@ -77,6 +77,8 @@ public static class Constants {
         /// The time (in seconds) after the run is finished that the user will wait 
         /// </summary>
         public const float WaitTimeAfterRunFinishedInSeconds = 2f;
+
+        public const float BackgroundSpeedFactor = 0.1f;
     }
 
     public static class GameMechanics {
