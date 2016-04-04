@@ -60,7 +60,8 @@ public class UnitSpawner : ITickable {
             if (teamUnitSpawnData[i].PositionOnPlatformInMeters <= spawnablePosition) {
                 float unitSpawnYPosition = PlatformManager.GetYCoordinateForPlatform(teamUnitSpawnData[i].PlatformType);
                 Vector2 unitSpawnPosition = new Vector2(teamUnitSpawnData[i].PositionOnPlatformInMeters, unitSpawnYPosition);
-                team.AddUnit(new Unit(teamUnitSpawnData[i].UnitSettings, teamUnitSpawnData[i].WeaponSettings, unitSpawnPosition, teamUnitSpawnData[i].UnitHasAutoAttack));
+                Unit newUnit = UnitFactory.CreateUnit(teamUnitSpawnData[i].UnitType, teamUnitSpawnData[i].UnitLevel, unitSpawnPosition, teamUnitSpawnData[i].UnitHasAutoAttack);
+                team.AddUnit(newUnit);
                 teamUnitSpawnData.RemoveAt(i);
                 i--;
             }

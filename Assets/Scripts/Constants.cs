@@ -78,5 +78,20 @@ public static class Constants {
         /// </summary>
         public const float WaitTimeAfterRunFinishedInSeconds = 2f;
     }
+
+    public static class GameMechanics {
+        public const string ResourcesPath = "Assets/Resources/";
+        public const string GameMechanicsRelativePath = "GameMechanics/";
+        public const string AssetsExtension = ".asset";
+        public static IDictionary<UnitType, string> UnitTypeToProgressionAssetNameMap = new Dictionary<UnitType, string> {
+            {UnitType.HeroUnit, "HeroUnitProgressionData"},
+            {UnitType.DefendingUnit, "DefendingUnitProgressionData"}
+        };
+
+        public const string GameMechanicsMenuName = "Game Mechanics";
+        public const string UnitsMenuName = "Units";
+        public const string HeroUnitMenuName = "Hero Unit";
+        public const string DefendingUnitMenuName = "Defending Unit";
+    }
 }
 
