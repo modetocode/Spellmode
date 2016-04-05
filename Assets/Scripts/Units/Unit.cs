@@ -46,7 +46,14 @@ public class Unit : ITickable {
     private UnitSettings unitSettings;
 
     public Unit(UnitSettings unitSettings, WeaponSettings weaponSettings, Vector2 unitSpawnPosition, bool hasAutoAttack) {
-        //TODO arg check
+        if (unitSettings == null) {
+            throw new ArgumentNullException("unitSettings");
+        }
+
+        if (weaponSettings == null) {
+            throw new ArgumentNullException("weaponSettings");
+        }
+
         this.unitSettings = unitSettings;
         this.PositionInMeters = unitSpawnPosition;
         this.Weapon = new Weapon(weaponSettings, this);

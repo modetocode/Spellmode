@@ -12,13 +12,13 @@ public class WeaponProgressionData : ScriptableObject {
     [SerializeField]
     private float damageIncreasePerLevel;
     [SerializeField]
-    [Range(0f, 10f)]
+    [Range(0.001f, 10f)]
     private float timeBetweenShots;
     [SerializeField]
-    [Range(0f, 100f)]
+    [Range(0.001f, 100f)]
     private float bulletSpeed;
     [SerializeField]
-    [Range(0f, 100f)]
+    [Range(0.001f, 100f)]
     private float rangeInMeters;
 
     public bool IsMeleeWeapon { get { return this.isMeleeWeapon; } }

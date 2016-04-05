@@ -291,7 +291,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heroUnitTemplate: {fileID: 11465978, guid: cc44deaa1a23ac44b914f42a68c5c346, type: 2}
-  defendingUnitTemplate: {fileID: 11465978, guid: 89f973cb049d55147b5873e03e389dac,
+  defendingArcherUnitTemplate: {fileID: 11465978, guid: 89f973cb049d55147b5873e03e389dac,
+    type: 2}
+  defendingMeleeUnitTemplate: {fileID: 11465978, guid: 8c7927a65a1598f43883e55861482869,
     type: 2}
   arrowTemplate: {fileID: 11472182, guid: 3634237409058c748a031cd115217731, type: 2}
 --- !u!1 &236325954

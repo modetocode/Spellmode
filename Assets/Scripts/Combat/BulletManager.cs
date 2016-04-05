@@ -15,7 +15,10 @@ public class BulletManager : ITickable {
     }
 
     public void AddBullet(Bullet bullet) {
-        //TODO arg check
+        if (bullet == null) {
+            throw new ArgumentNullException("bullet");
+        }
+
         bullet.Destroyed += RemoveBullet;
         this.bullets.Add(bullet);
         if (this.BulletAdded != null) {

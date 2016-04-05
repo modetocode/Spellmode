@@ -48,7 +48,7 @@ public static class Constants {
     }
 
     public static class Units {
-        public const float DistanceToTriggerUnitSpawnInMetters = 100f;
+        public const float DistanceToTriggerUnitSpawnInMetters = 25f;
     }
 
     public static class Camera {
@@ -88,13 +88,15 @@ public static class Constants {
         public const string AssetsExtension = ".asset";
         public static IDictionary<UnitType, string> UnitTypeToProgressionAssetNameMap = new Dictionary<UnitType, string> {
             {UnitType.HeroUnit, "HeroUnitProgressionData"},
-            {UnitType.DefendingUnit, "DefendingUnitProgressionData"}
+            {UnitType.DefendingArcherUnit, "DefendingArcherUnitProgressionData"},
+            {UnitType.DefendingMeleeUnit, "DefendingMeleeUnitProgressionData"},
         };
 
         public const string GameMechanicsMenuName = "Game Mechanics";
         public const string UnitsMenuName = "Units";
         public const string HeroUnitMenuName = "Hero Unit";
-        public const string DefendingUnitMenuName = "Defending Unit";
+        public const string DefendingArcherUnitMenuName = "Defending Archer Unit";
+        public const string DefendingMeleeUnitMenuName = "Defending Melee Unit";
     }
 }
 

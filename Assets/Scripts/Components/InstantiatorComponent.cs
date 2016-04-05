@@ -15,7 +15,10 @@ public class InstantiatorComponent : MonoBehaviour {
     private UnitComponent heroUnitTemplate;
 
     [SerializeField]
-    private UnitComponent defendingUnitTemplate;
+    private UnitComponent defendingArcherUnitTemplate;
+
+    [SerializeField]
+    private UnitComponent defendingMeleeUnitTemplate;
 
     [SerializeField]
     private BulletComponent arrowTemplate;
@@ -30,9 +33,22 @@ public class InstantiatorComponent : MonoBehaviour {
             throw new ArgumentNullException("newUnit");
         }
 
-        //TODO instantiate the proper game object
         //TODO object pool?
-        UnitComponent unitTemplate = newUnit.UnitType == UnitType.HeroUnit ? this.heroUnitTemplate : this.defendingUnitTemplate;
+        UnitComponent unitTemplate;
+        switch (newUnit.UnitType) {
+            case UnitType.HeroUnit:
+                unitTemplate = this.heroUnitTemplate;
+                break;
+            case UnitType.DefendingArcherUnit:
+                unitTemplate = this.defendingArcherUnitTemplate;
+                break;
+            case UnitType.DefendingMeleeUnit:
+                unitTemplate = this.defendingMeleeUnitTemplate;
+                break;
+            default:
+                throw new InvalidOperationException("Unit type not supported");
+        }
+
         UnitComponent instantiatedComponent = (UnitComponent)Instantiate(unitTemplate, newUnit.PositionInMeters, Quaternion.identity);
         instantiatedComponent.Initialize(newUnit);
         if (newUnit.UnitType == UnitType.HeroUnit) {

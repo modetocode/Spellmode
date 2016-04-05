@@ -43,9 +43,9 @@ public class LevelRunManager : ITickable {
         IList<UnitSpawnData> attackingTeamSpawnData = new UnitSpawnData[1];
         attackingTeamSpawnData[0] = new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 0f, unitType: UnitType.HeroUnit, unitLevel: 1, unitHasAutoAttack: false);
         IList<UnitSpawnData> defendingTeamSpawnData = new UnitSpawnData[3];
-        defendingTeamSpawnData[0] = new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 15f, unitType: UnitType.DefendingUnit, unitLevel: 1, unitHasAutoAttack: true);
-        defendingTeamSpawnData[1] = new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 18f, unitType: UnitType.DefendingUnit, unitLevel: 1, unitHasAutoAttack: true);
-        defendingTeamSpawnData[2] = new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 20f, unitType: UnitType.DefendingUnit, unitLevel: 1, unitHasAutoAttack: true);
+        defendingTeamSpawnData[0] = new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 15f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true);
+        defendingTeamSpawnData[1] = new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 18f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true);
+        defendingTeamSpawnData[2] = new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 20f, unitType: UnitType.DefendingArcherUnit, unitLevel: 1, unitHasAutoAttack: true);
         this.LevelRunData = new LevelRunData(1, 25f, defendingTeamSpawnData);
         this.AttackingTeam = new Team();
         this.DefendingTeam = new Team();

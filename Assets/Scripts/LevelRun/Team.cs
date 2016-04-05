@@ -21,7 +21,10 @@ public class Team : ITickable {
     }
 
     public void AddUnit(Unit unit) {
-        //TODO arg check
+        if (unit == null) {
+            throw new ArgumentNullException("unit");
+        }
+
         this.UnitsInTeam.Add(unit);
         this.AliveUnitsInTeam.Add(unit);
         if (this.UnitAdded != null) {

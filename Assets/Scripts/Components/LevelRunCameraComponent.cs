@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Component that is attached to the main camera in the Level Run scene. It can follow a given object.
@@ -26,7 +27,10 @@ public class LevelRunCameraComponent : MonoBehaviour {
     }
 
     public void TrackObject(GameObject gameObject) {
-        //TODO arg check
+        if (gameObject == null) {
+            throw new ArgumentNullException("gameObject");
+        }
+
         this.trackedObject = gameObject;
         this.lastPositionOfTrackedObject = Vector3.zero;
     }

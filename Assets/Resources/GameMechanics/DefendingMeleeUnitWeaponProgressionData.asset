@@ -9,11 +9,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa4eb868821c6594fba9619235b2ff9c, type: 3}
-  m_Name: DefendingUnitWeaponProgressionData
+  m_Name: DefendingMeleeUnitWeaponProgressionData
   m_EditorClassIdentifier: 
-  isMeleeWeapon: 0
+  isMeleeWeapon: 1
   baseDamagePerHit: 50
   damageIncreasePerLevel: 1
   timeBetweenShots: 2
   bulletSpeed: 6
-  rangeInMeters: 10
+  rangeInMeters: 1.2

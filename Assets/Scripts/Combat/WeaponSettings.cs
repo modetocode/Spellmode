@@ -1,4 +1,5 @@
-﻿/// <summary>
+﻿using System;
+/// <summary>
 /// The settings data of one weapon.
 /// </summary>
 public class WeaponSettings {
@@ -9,7 +10,18 @@ public class WeaponSettings {
     public float RangeInMeters { get; private set; }
 
     public WeaponSettings(bool isMeleeWeapon, float damagePerHit, float timeBetweenShots, float bulletSpeed, float rangeInMeters) {
-        //TODO arg check
+        if (timeBetweenShots <= 0) {
+            throw new ArgumentOutOfRangeException("timeBetweenShots", "Cannot be zero or less.");
+        }
+
+        if (bulletSpeed <= 0) {
+            throw new ArgumentOutOfRangeException("bulletSpeed", "Cannot be zero or less.");
+        }
+
+        if (rangeInMeters <= 0) {
+            throw new ArgumentOutOfRangeException("rangeInMeters", "Cannot be zero or less.");
+        }
+
         this.IsMeleeWeapon = isMeleeWeapon;
         this.DamagePerHit = damagePerHit;
         this.TimeBetweenShots = timeBetweenShots;

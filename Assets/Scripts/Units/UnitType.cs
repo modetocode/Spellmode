@@ -1,4 +1,5 @@
 ﻿public enum UnitType {
     HeroUnit,
-    DefendingUnit,
+    DefendingArcherUnit,
+    DefendingMeleeUnit,
 }

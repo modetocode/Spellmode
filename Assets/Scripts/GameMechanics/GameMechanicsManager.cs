@@ -60,9 +60,14 @@ public static class GameMechanicsManager {
         Selection.activeObject = GetUnitProgressionData(UnitType.HeroUnit);
     }
 
-    [MenuItem(Constants.GameMechanics.GameMechanicsMenuName + "/" + Constants.GameMechanics.UnitsMenuName + "/" + Constants.GameMechanics.DefendingUnitMenuName)]
-    private static void DisplayDefendingUnitProgressionData() {
-        Selection.activeObject = GetUnitProgressionData(UnitType.DefendingUnit);
+    [MenuItem(Constants.GameMechanics.GameMechanicsMenuName + "/" + Constants.GameMechanics.UnitsMenuName + "/" + Constants.GameMechanics.DefendingArcherUnitMenuName)]
+    private static void DisplayDefendingArcherUnitProgressionData() {
+        Selection.activeObject = GetUnitProgressionData(UnitType.DefendingArcherUnit);
+    }
+
+    [MenuItem(Constants.GameMechanics.GameMechanicsMenuName + "/" + Constants.GameMechanics.UnitsMenuName + "/" + Constants.GameMechanics.DefendingMeleeUnitMenuName)]
+    private static void DisplayDefendingMeleeUnitProgressionData() {
+        Selection.activeObject = GetUnitProgressionData(UnitType.DefendingMeleeUnit);
     }
 #endif
 

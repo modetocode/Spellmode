@@ -39,7 +39,6 @@ class LevelRunComponent : MonoBehaviour {
         if (this.levelRunGuiComponent == null) {
             throw new NullReferenceException("levelRunGuiComponent is null");
         }
-        //TODO script references check 
     }
 
     public void Start() {

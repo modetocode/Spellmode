@@ -17,7 +17,14 @@ public class Bullet : ITickable {
     private float speed;
 
     public Bullet(float damageOnHit, float speed, Vector2 startPosition, Vector2 direction, IList<Unit> possibleTargets) {
-        //TODO arg check
+        if (speed <= 0f) {
+            throw new ArgumentOutOfRangeException("speed", "Cannot be zero or less.");
+        }
+
+        if (possibleTargets == null) {
+            throw new ArgumentNullException("possibleTargets");
+        }
+
         this.damageOnHit = damageOnHit;
         this.speed = speed;
         this.CurrentPosition = startPosition;

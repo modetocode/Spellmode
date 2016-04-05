@@ -9,13 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a884e21f61fbb34ab0a088b7bccb0da, type: 3}
-  m_Name: DefendingUnitProgressionData
+  m_Name: DefendingMeleeUnitProgressionData
   m_EditorClassIdentifier: 
-  unitType: 1
+  unitType: 2
   movementSpeed: 0
   jumpSpeed: 0
   baseMaxHealth: 30
   healthIncreasePerLevel: 3
   weaponMountYOffset: 0.7
-  weaponProgressionData: {fileID: 11400000, guid: 00a7a27a8572edd458a6c4633def5bd0,
+  weaponProgressionData: {fileID: 11400000, guid: 77d12acc549893b469c164e9dc67736b,
     type: 2}
