@@ -31,6 +31,7 @@ public class UnitComponent : MonoBehaviour {
         this.previousUnitPosition = Vector2.zero;
         this.Unit.Weapon.WeaponFired += ShowFireAnimation;
         this.Unit.Died += ShowDeathAnimation;
+        this.Unit.HealthChanged += ShowHitAnimation;
     }
 
     public void Update() {
@@ -55,6 +56,12 @@ public class UnitComponent : MonoBehaviour {
 
     private void ShowDeathAnimation(Unit unit) {
         this.unitAnimator.SetTrigger(Constants.Animations.MainCharacter.DeathTriggerParameterName);
+    }
+
+    private void ShowHitAnimation(float healthDeltaValue) {
+        if (healthDeltaValue < 0 && this.Unit.IsAlive) {
+            this.unitAnimator.SetTrigger(Constants.Animations.MainCharacter.HitTriggerParameterName);
+        }
     }
 
     public void OnDestroy() {

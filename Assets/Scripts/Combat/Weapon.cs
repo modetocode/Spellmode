@@ -49,7 +49,21 @@ public class Weapon : ITickable {
             throw new InvalidOperationException("The weapon wasn't ready to fire.");
         }
 
-        //TODO how to deal damage with melee weapon
+        this.elapsedTimeFromLastFiring = 0f;
+        this.isReadyToFire = false;
+        if (this.WeaponFired != null) {
+            this.WeaponFired(this);
+        }
+
+        //TODO should weapon be responsible for taking damage?
+        //TODO should we introduce direction of melee weapon
+        if (this.weaponSettings.IsMeleeWeapon) {
+            for (int i = 0; i < possibleTargetUnits.Count; i++) {
+                if (IsPositionInRange(possibleTargetUnits[i].PositionInMeters)) {
+                    possibleTargetUnits[i].TakeDamage(this.weaponSettings.DamagePerHit);
+                }
+            }
+        }
 
         if (!this.weaponSettings.IsMeleeWeapon) {
             Vector2 bulletStartPosition = this.Owner.PositionInMeters + new Vector2(0f, this.Owner.WeaponMountYOffset);
@@ -61,11 +75,7 @@ public class Weapon : ITickable {
             }
         }
 
-        this.elapsedTimeFromLastFiring = 0f;
-        this.isReadyToFire = false;
-        if (this.WeaponFired != null) {
-            this.WeaponFired(this);
-        }
+
     }
 
     public void Tick(float deltaTime) {

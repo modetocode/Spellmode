@@ -1,9 +1,15 @@
 ﻿using System;
 using UnityEngine;
 
-public class Unit : ITickable, IHealthable {
+public class Unit : ITickable {
+
 
     public event Action<Unit> Died;
+
+    /// <summary>
+    /// Thrown when the health is changed. The difference from the previous health is specified (delta).
+    /// </summary>
+    public event Action<float> HealthChanged;
 
     /// <summary>
     /// The position of the unit in the world. The x-axis represents the horizontal distance (in meters) the starting point, and y-axis the vertical distance (in meters).
@@ -11,7 +17,6 @@ public class Unit : ITickable, IHealthable {
     public Vector2 PositionInMeters { get; private set; }
     public float CurrentMoveSpeed { get; private set; }
     public Weapon Weapon { get; private set; }
-    public HealthElement HealthElement { get; private set; }
     public UnitType UnitType { get { return this.unitSettings.UnitType; } }
     public float MovementSpeed { get { return this.unitSettings.MovementSpeed; } }
 
@@ -21,11 +26,11 @@ public class Unit : ITickable, IHealthable {
     public bool HasAutoAttack { get; private set; }
 
     public float Health {
-        get { return this.HealthElement.Health; }
+        get { return this.healthElement.Health; }
     }
 
     public float MaxHealth {
-        get { return this.HealthElement.MaxHealth; }
+        get { return this.healthElement.MaxHealth; }
     }
 
     public bool IsAlive {
@@ -34,6 +39,7 @@ public class Unit : ITickable, IHealthable {
 
     public float WeaponMountYOffset { get { return this.unitSettings.WeaponMountYOffset; } }
 
+    private HealthElement healthElement;
     private bool isJumping;
     private float jumpDirection;
     private float jumpYDestination;
@@ -44,8 +50,8 @@ public class Unit : ITickable, IHealthable {
         this.unitSettings = unitSettings;
         this.PositionInMeters = unitSpawnPosition;
         this.Weapon = new Weapon(weaponSettings, this);
-        this.HealthElement = new HealthElement(unitSettings.MaxHealth);
-        this.HealthElement.HealthChanged += HealthChangedHandler;
+        this.healthElement = new HealthElement(unitSettings.MaxHealth);
+        this.healthElement.HealthChanged += HealthChangedHandler;
         this.HasAutoAttack = hasAutoAttack;
     }
 
@@ -73,12 +79,16 @@ public class Unit : ITickable, IHealthable {
             return;
         }
 
-        this.HealthElement.DecreaseHealth(amount);
+        this.healthElement.DecreaseHealth(amount);
     }
 
     private void HealthChangedHandler(float amount) {
+        if (this.HealthChanged != null) {
+            this.HealthChanged(amount);
+        }
+
         if (!this.IsAlive) {
-            this.HealthElement.HealthChanged -= this.HealthChangedHandler;
+            this.healthElement.HealthChanged -= this.HealthChangedHandler;
             if (this.Died != null) {
                 this.Died(this);
             }

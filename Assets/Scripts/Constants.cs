@@ -31,6 +31,7 @@ public static class Constants {
             public const string MoveSpeedParameterName = "MoveSpeed";
             public const string FireTriggerParameterName = "Fire";
             public const string DeathTriggerParameterName = "Death";
+            public const string HitTriggerParameterName = "Hit";
         }
     }
 
