@@ -15,5 +15,5 @@ MonoBehaviour:
   baseDamagePerHit: 50
   damageIncreasePerLevel: 1
   timeBetweenShots: 2
-  bulletSpeed: 5
+  bulletSpeed: 6
   rangeInMeters: 10

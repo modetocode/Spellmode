@@ -13,7 +13,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitType: 0
   movementSpeed: 2
-  jumpSpeed: 10
+  jumpSpeed: 12
   baseMaxHealth: 100
   healthIncreasePerLevel: 10
   weaponMountYOffset: 0.7
