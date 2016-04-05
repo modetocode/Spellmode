@@ -8,7 +8,7 @@ public class CombatManager : ITickable {
 
     private Team attackingTeam;
     private Team defendingTeam;
-    private List<Unit> unitsReadyToFire;
+    private IList<Unit> unitsReadyToFire;
 
     public CombatManager(Team attackingTeam, Team defendingTeam) {
         if (attackingTeam == null) {
@@ -83,16 +83,30 @@ public class CombatManager : ITickable {
     }
 
     private void FireAllReadyUnits(bool onlyAutoAttackingUnits, bool fireOnlyWhenThereIsATargetInRange) {
-        for (int i = 0; i < this.unitsReadyToFire.Count; i++) {
-            if (this.unitsReadyToFire[i].HasAutoAttack == onlyAutoAttackingUnits) {
-                Unit unitToFire = this.unitsReadyToFire[i];
-                bool hasFired = this.Fire(unitToFire: unitToFire, fireOnlyWhenThereIsATargetInRange: fireOnlyWhenThereIsATargetInRange);
-                if (hasFired) {
-                    this.unitsReadyToFire.RemoveAt(i);
-                    i--;
-                }
+        IList<Unit> unitsNotReadyToFire = new List<Unit>();
+        while (this.unitsReadyToFire.Count > 0) {
+            Unit unitToFire = this.unitsReadyToFire[0];
+            this.unitsReadyToFire.RemoveAt(0);
+            if (unitToFire.HasAutoAttack != onlyAutoAttackingUnits) {
+                unitsNotReadyToFire.Add(unitToFire);
+                continue;
+            }
+
+            bool hasFired = this.Fire(unitToFire: unitToFire, fireOnlyWhenThereIsATargetInRange: fireOnlyWhenThereIsATargetInRange);
+            if (!hasFired) {
+                unitsNotReadyToFire.Add(unitToFire);
             }
         }
+
+        // Check if some unit has died prior to firing and was passed before
+        for (int i = 0; i < unitsNotReadyToFire.Count; i++) {
+            if (!unitsNotReadyToFire[i].IsAlive) {
+                unitsNotReadyToFire.RemoveAt(i);
+                i--;
+            }
+        }
+
+        this.unitsReadyToFire = unitsNotReadyToFire;
     }
 
     private bool Fire(Unit unitToFire, bool fireOnlyWhenThereIsATargetInRange) {

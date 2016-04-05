@@ -3,7 +3,6 @@ using UnityEngine;
 
 public static class Constants {
     public static class Input {
-        public const string JumpSpeedInputName = "Jump";
         public const string JumpUpInputName = "JumpUp";
         public const string JumpDownInputName = "JumpDown";
         public const string PauseInputName = "Pause";

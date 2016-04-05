@@ -34,6 +34,10 @@ public class UnitComponent : MonoBehaviour {
         this.Unit.HealthChanged += ShowHitAnimation;
     }
 
+    public void Destroy() {
+        Destroy(this.gameObject);
+    }
+
     public void Update() {
         if (this.Unit == null) {
             return;
@@ -64,8 +68,14 @@ public class UnitComponent : MonoBehaviour {
         }
     }
 
+    private void UnsubsribeFromEvents() {
+        if (this.Unit != null) {
+            this.Unit.Weapon.WeaponFired -= ShowFireAnimation;
+            this.Unit.Died -= ShowDeathAnimation;
+        }
+    }
+
     public void OnDestroy() {
-        this.Unit.Weapon.WeaponFired -= ShowFireAnimation;
-        this.Unit.Died -= ShowDeathAnimation;
+        this.UnsubsribeFromEvents();
     }
 }
