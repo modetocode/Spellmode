@@ -21,27 +21,27 @@ public class HealthElement {
     }
 
     /// <summary>
-    /// Increases the current health for the given ammount. The new value cannot surpass the value of the max health.
+    /// Increases the current health for the given amount. The new value cannot surpass the value of the max health.
     /// </summary>
-    /// <param name="ammount"></param>
-    public void IncreaseHealth(float ammount) {
-        if (ammount < 0) {
-            throw new ArgumentOutOfRangeException("ammount");
+    /// <param name="amount"></param>
+    public void IncreaseHealth(float amount) {
+        if (amount < 0) {
+            throw new ArgumentOutOfRangeException("amount");
         }
 
-        this.ChangeHealth(ammount);
+        this.ChangeHealth(amount);
     }
 
     /// <summary>
-    /// Decreases the current health for the given ammount.
+    /// Decreases the current health for the given amount.
     /// </summary>
-    /// <param name="ammount"></param>
-    public void DecreaseHealth(float ammount) {
-        if (ammount < 0) {
-            throw new ArgumentOutOfRangeException("ammount");
+    /// <param name="amount"></param>
+    public void DecreaseHealth(float amount) {
+        if (amount < 0) {
+            throw new ArgumentOutOfRangeException("amount");
         }
 
-        this.ChangeHealth(-ammount);
+        this.ChangeHealth(-amount);
     }
 
     private void ChangeHealth(float deltaHealth) {

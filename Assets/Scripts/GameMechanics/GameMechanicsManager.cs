@@ -29,7 +29,7 @@ public static class GameMechanicsManager {
         T instance = ScriptableObject.CreateInstance<T>();
 #if UNITY_EDITOR
         string resourcesPath = Path.Combine(Constants.GameMechanics.ResourcesPath, Constants.GameMechanics.GameMechanicsRelativePath);
-        string assetPath = Path.Combine(relativePath, Constants.GameMechanics.AssetsExtension);
+        string assetPath = string.Concat(relativePath, Constants.GameMechanics.AssetsExtension);
         string fullPath = Path.Combine(resourcesPath, assetPath);
         AssetDatabase.CreateAsset(instance as ScriptableObject, fullPath);
         AssetDatabase.SaveAssets();
@@ -54,6 +54,10 @@ public static class GameMechanicsManager {
         return unitProgressionData;
     }
 
+    public static LootTableProgressionData GetLootTableProgressionData() {
+        return GetInstance<LootTableProgressionData>(Constants.GameMechanics.LootTableAssetName);
+    }
+
 #if UNITY_EDITOR
     [MenuItem(Constants.GameMechanics.GameMechanicsMenuName + "/" + Constants.GameMechanics.UnitsMenuName + "/" + Constants.GameMechanics.HeroUnitMenuName)]
     private static void DisplayHeroUnitProgressionData() {
@@ -69,6 +73,11 @@ public static class GameMechanicsManager {
     private static void DisplayDefendingMeleeUnitProgressionData() {
         Selection.activeObject = GetUnitProgressionData(UnitType.DefendingMeleeUnit);
     }
-#endif
 
+    [MenuItem(Constants.GameMechanics.GameMechanicsMenuName + "/" + Constants.GameMechanics.LootTableMenuName)]
+    private static void DisplayLootTableData() {
+        Selection.activeObject = GetLootTableProgressionData();
+    }
+
+#endif
 }

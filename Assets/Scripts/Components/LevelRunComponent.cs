@@ -49,6 +49,7 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.AttackingTeam.UnitAdded += OnUnitInTeamAdded;
         this.levelRunManager.DefendingTeam.UnitAdded += OnUnitInTeamAdded;
         this.levelRunManager.BulletManager.BulletAdded += OnNewBulletAdded;
+        this.levelRunManager.LootItemManager.LootItemAdded += OnNewLootItemAdded;
         this.instantiatorComponent.HeroUnitInstantiated += OnNewUnitInstantiated;
         this.levelRunGuiComponent.Initialize(this.levelRunManager);
         this.inputComponent.JumpDownInputed += JumpDownInputedHandler;
@@ -88,6 +89,11 @@ class LevelRunComponent : MonoBehaviour {
 
     private void OnNewBulletAdded(Bullet newBullet) {
         this.instantiatorComponent.InstantiateBullet(newBullet);
+    }
+
+
+    private void OnNewLootItemAdded(LootItem lootItem) {
+        this.instantiatorComponent.InstantiateLootItem(lootItem);
     }
 
     private void OnNewUnitInstantiated(UnitComponent unitComponent) {
@@ -137,6 +143,7 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.DefendingTeam.UnitAdded -= OnUnitInTeamAdded;
         this.instantiatorComponent.HeroUnitInstantiated -= OnNewUnitInstantiated;
         this.levelRunManager.BulletManager.BulletAdded -= OnNewBulletAdded;
+        this.levelRunManager.LootItemManager.LootItemAdded -= OnNewLootItemAdded;
         this.inputComponent.JumpDownInputed -= JumpDownInputedHandler;
         this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
         this.inputComponent.PauseInputed -= PauseInputedHandler;
