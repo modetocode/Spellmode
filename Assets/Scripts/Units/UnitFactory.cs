@@ -10,7 +10,7 @@ public static class UnitFactory {
         UnitProgressionData progressionData = GameMechanicsManager.GetUnitProgressionData(unitType);
         UnitSettings unitSettings = GetUnitSettings(unitLevel, progressionData);
         WeaponSettings weaponSettings = GetWeaponSettings(unitLevel, progressionData.WeaponProgressionData);
-        return new Unit(unitSettings, weaponSettings, unitSpawnPosition, unitHasAutoAttack);
+        return new Unit(unitSettings, unitLevel, weaponSettings, unitSpawnPosition, unitHasAutoAttack);
     }
 
     private static UnitSettings GetUnitSettings(int unitLevel, UnitProgressionData progressionData) {

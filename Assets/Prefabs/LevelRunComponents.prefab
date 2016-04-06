@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &147396
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 425292}
+  - 114: {fileID: 11467070}
+  - 114: {fileID: 11475252}
+  - 114: {fileID: 11465852}
+  m_Layer: 0
+  m_Name: LevelRunComponents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &425292
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147396}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.8941488, y: 15.783541, z: -5.5267525}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11465852
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f318be66af5497498e6871b87aaabc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heroUnitTemplate: {fileID: 11465978, guid: cc44deaa1a23ac44b914f42a68c5c346, type: 2}
+  defendingArcherUnitTemplate: {fileID: 11465978, guid: 89f973cb049d55147b5873e03e389dac,
+    type: 2}
+  defendingMeleeUnitTemplate: {fileID: 11465978, guid: 8c7927a65a1598f43883e55861482869,
+    type: 2}
+  arrowTemplate: {fileID: 11472182, guid: 3634237409058c748a031cd115217731, type: 2}
+  goldLootItemComponentTemplate: {fileID: 11462662, guid: 8645a0f5dbe846a4bae22a67d2144035,
+    type: 2}
+--- !u!114 &11467070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6a01d3ccc45104b84ea4c64cb09a61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputComponent: {fileID: 11475252}
+  backgroundComponent: {fileID: 0}
+  instantiatorComponent: {fileID: 11465852}
+  cameraComponent: {fileID: 0}
+  levelRunGuiComponent: {fileID: 0}
+--- !u!114 &11475252
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41eb2879180b30645827b4e891e5a4b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 147396}
+  m_IsPrefabParent: 1

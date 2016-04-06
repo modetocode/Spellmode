@@ -46,10 +46,6 @@ public static class Constants {
         };
     }
 
-    public static class Units {
-        public const float DistanceToTriggerUnitSpawnInMetters = 25f;
-    }
-
     public static class Camera {
         public static class LevelRun {
             /// <summary>
@@ -79,6 +75,8 @@ public static class Constants {
         public const float WaitTimeAfterRunFinishedInSeconds = 2f;
 
         public const float BackgroundSpeedFactor = 0.1f;
+
+        public const float DistanceToTriggerObjectSpawnInMetters = 25f;
     }
 
     public static class GameMechanics {
@@ -96,6 +94,8 @@ public static class Constants {
         public const string HeroUnitMenuName = "Hero Unit";
         public const string DefendingArcherUnitMenuName = "Defending Archer Unit";
         public const string DefendingMeleeUnitMenuName = "Defending Melee Unit";
+        public const string LootTableMenuName = "Loot Table";
+        public const string LootTableAssetName = "LootTable";
     }
 }
 

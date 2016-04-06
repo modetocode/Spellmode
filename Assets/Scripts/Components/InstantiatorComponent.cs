@@ -23,6 +23,9 @@ public class InstantiatorComponent : MonoBehaviour {
     [SerializeField]
     private BulletComponent arrowTemplate;
 
+    [SerializeField]
+    private LootItemComponent goldLootItemComponentTemplate;
+
     private void OnBulletAddedHandler(Bullet newBullet) {
         BulletComponent instantiatedComponent = (BulletComponent)Instantiate(arrowTemplate, newBullet.CurrentPosition, Quaternion.identity);
         instantiatedComponent.Initialize(newBullet);
@@ -67,5 +70,22 @@ public class InstantiatorComponent : MonoBehaviour {
         BulletComponent instantiatedComponent = (BulletComponent)Instantiate(arrowTemplate, newBullet.CurrentPosition, Quaternion.identity);
         instantiatedComponent.Initialize(newBullet);
     }
-}
 
+    public void InstantiateLootItem(LootItem newLootItem) {
+        if (newLootItem == null) {
+            throw new ArgumentNullException("newLootItem");
+        }
+
+        LootItemComponent lootItemTemplate;
+        switch (newLootItem.Type) {
+            case LootItemType.Gold:
+                lootItemTemplate = this.goldLootItemComponentTemplate;
+                break;
+            default:
+                throw new InvalidOperationException("Loot item type not supported");
+        }
+
+        LootItemComponent instantiatedComponent = (LootItemComponent)Instantiate(lootItemTemplate, newLootItem.SpawnPosition, Quaternion.identity);
+        instantiatedComponent.Initialize(newLootItem);
+    }
+}

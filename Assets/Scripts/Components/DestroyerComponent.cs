@@ -23,5 +23,10 @@ public class DestroyerComponent : MonoBehaviour {
         if (unitComponent != null) {
             unitComponent.Destroy();
         }
+
+        LootItemComponent lootItemComponent = other.gameObject.GetComponent<LootItemComponent>();
+        if (lootItemComponent != null) {
+            lootItemComponent.Destroy();
+        }
     }
 }
