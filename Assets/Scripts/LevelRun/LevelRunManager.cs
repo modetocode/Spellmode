@@ -46,18 +46,23 @@ public class LevelRunManager : ITickable {
         };
 
         IList<UnitSpawnData> defendingTeamSpawnData = new UnitSpawnData[] {
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 15f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 18f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 20f, unitType: UnitType.DefendingArcherUnit, unitLevel: 1, unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 10f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 13f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 18f, unitType: UnitType.DefendingArcherUnit, unitLevel: 1, unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 25f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 26f, unitType: UnitType.DefendingArcherUnit, unitLevel: 1, unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 32f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 33f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 33.5f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
         };
 
         IList<LootItemSpawnData> lootSpawnData = new LootItemSpawnData[] {
-            new LootItemSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 2f, lootItemType: LootItemType.Gold, lootItemAmount: 5),
-            new LootItemSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 4f, lootItemType: LootItemType.Gold, lootItemAmount: 5),
-            new LootItemSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 17f, lootItemType: LootItemType.Gold, lootItemAmount: 5),
+            new LootItemSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 14f, lootItemType: LootItemType.Ammunition, lootItemAmount: 5),
+            new LootItemSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 26.5f, lootItemType: LootItemType.Ammunition, lootItemAmount: 5),
+            new LootItemSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 33.5f, lootItemType: LootItemType.Gold, lootItemAmount: 100),
         };
 
-        this.LevelRunData = new LevelRunData(levelNumber: 1, lengthInMeters: 25f, defendingTeamUnitSpawnData: defendingTeamSpawnData, lootSpawnData: lootSpawnData);
+        this.LevelRunData = new LevelRunData(levelNumber: 1, lengthInMeters: 35f, defendingTeamUnitSpawnData: defendingTeamSpawnData, lootSpawnData: lootSpawnData);
         this.AttackingTeam = new Team();
         this.DefendingTeam = new Team();
         this.ProgressTracker = new ProgressTracker(this.AttackingTeam, this.LevelRunData.LengthInMeters);
