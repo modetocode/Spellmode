@@ -26,6 +26,9 @@ public class InstantiatorComponent : MonoBehaviour {
     [SerializeField]
     private LootItemComponent goldLootItemComponentTemplate;
 
+    [SerializeField]
+    private LootItemComponent ammunitionLootItemComponentTemplate;
+
     private void OnBulletAddedHandler(Bullet newBullet) {
         BulletComponent instantiatedComponent = (BulletComponent)Instantiate(arrowTemplate, newBullet.CurrentPosition, Quaternion.identity);
         instantiatedComponent.Initialize(newBullet);
@@ -80,6 +83,9 @@ public class InstantiatorComponent : MonoBehaviour {
         switch (newLootItem.Type) {
             case LootItemType.Gold:
                 lootItemTemplate = this.goldLootItemComponentTemplate;
+                break;
+            case LootItemType.Ammunition:
+                lootItemTemplate = this.ammunitionLootItemComponentTemplate;
                 break;
             default:
                 throw new InvalidOperationException("Loot item type not supported");

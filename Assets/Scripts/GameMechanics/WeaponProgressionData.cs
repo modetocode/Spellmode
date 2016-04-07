@@ -20,6 +20,10 @@ public class WeaponProgressionData : ScriptableObject {
     [SerializeField]
     [Range(0.001f, 100f)]
     private float rangeInMeters;
+    [SerializeField]
+    private AmmunitionType ammunitionType;
+    [SerializeField]
+    private int numberOfStartingBulletsPerLevel;
 
     public bool IsMeleeWeapon { get { return this.isMeleeWeapon; } }
     public float BaseDamagePerHit { get { return this.baseDamagePerHit; } }
@@ -27,4 +31,6 @@ public class WeaponProgressionData : ScriptableObject {
     public float TimeBetweenShots { get { return this.timeBetweenShots; } }
     public float BulletSpeed { get { return this.bulletSpeed; } }
     public float RangeInMeters { get { return this.rangeInMeters; } }
+    public AmmunitionType AmmunitionType { get { return this.ammunitionType; } }
+    public int NumberOfStartingBulletsPerLevel { get { return this.numberOfStartingBulletsPerLevel; } }
 }

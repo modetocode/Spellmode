@@ -49,6 +49,8 @@ MonoBehaviour:
   arrowTemplate: {fileID: 11472182, guid: 3634237409058c748a031cd115217731, type: 2}
   goldLootItemComponentTemplate: {fileID: 11462662, guid: 8645a0f5dbe846a4bae22a67d2144035,
     type: 2}
+  ammunitionLootItemComponentTemplate: {fileID: 11434032, guid: 0d72bd64c9b9e6b419ea03b508470044,
+    type: 2}
 --- !u!114 &11467070
 MonoBehaviour:
   m_ObjectHideFlags: 1

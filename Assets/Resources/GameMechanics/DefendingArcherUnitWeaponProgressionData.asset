@@ -17,3 +17,5 @@ MonoBehaviour:
   timeBetweenShots: 2
   bulletSpeed: 6
   rangeInMeters: 10
+  ammunitionType: 1
+  numberOfStartingBulletsPerLevel: 0

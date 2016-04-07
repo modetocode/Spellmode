@@ -21,6 +21,7 @@ public class Weapon : ITickable {
 
     public bool IsMeleeWeapon { get { return this.weaponSettings.IsMeleeWeapon; } }
     public Unit Owner { get; private set; }
+    public int NumberOfBullets { get; private set; }
 
     private WeaponSettings weaponSettings;
     private float elapsedTimeFromLastFiring;
@@ -38,6 +39,7 @@ public class Weapon : ITickable {
         this.weaponSettings = weaponSettings;
         this.Owner = owner;
         this.elapsedTimeFromLastFiring = 0f;
+        this.NumberOfBullets = this.weaponSettings.NumberOfStartingBullets;
     }
 
     /// <summary>
@@ -51,6 +53,13 @@ public class Weapon : ITickable {
 
         this.elapsedTimeFromLastFiring = 0f;
         this.isReadyToFire = false;
+        if (this.weaponSettings.AmmunitionType == AmmunitionType.LimitedAmmunition) {
+            this.NumberOfBullets--;
+            if (this.NumberOfBullets < 0) {
+                throw new InvalidOperationException("The weapon doesn't have ammunition to fire");
+            }
+        }
+
         if (this.WeaponFired != null) {
             this.WeaponFired(this);
         }
@@ -80,7 +89,7 @@ public class Weapon : ITickable {
 
     public void Tick(float deltaTime) {
         this.elapsedTimeFromLastFiring += deltaTime;
-        if (!this.isReadyToFire && this.elapsedTimeFromLastFiring >= this.weaponSettings.TimeBetweenShots) {
+        if (!this.isReadyToFire && this.elapsedTimeFromLastFiring >= this.weaponSettings.TimeBetweenShots && this.HasAmmunitionToFire()) {
             this.isReadyToFire = true;
             if (this.ReadyToFire != null) {
                 this.ReadyToFire(this);
@@ -108,5 +117,21 @@ public class Weapon : ITickable {
         }
 
         return positionOnPlatformResult.PlatformType == ownerPlatformResult.PlatformType;
+    }
+
+    public void AddAmmunition(int amount) {
+        if (amount <= 0) {
+            throw new ArgumentOutOfRangeException("amount", "Cannot be zero or less.");
+        }
+
+        if (this.weaponSettings.AmmunitionType == AmmunitionType.UnlimitedAmmunition) {
+            return;
+        }
+
+        this.NumberOfBullets += amount;
+    }
+
+    private bool HasAmmunitionToFire() {
+        return this.weaponSettings.AmmunitionType == AmmunitionType.UnlimitedAmmunition || (this.weaponSettings.AmmunitionType == AmmunitionType.LimitedAmmunition && this.NumberOfBullets > 0);
     }
 }

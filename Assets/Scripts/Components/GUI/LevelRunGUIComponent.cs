@@ -9,7 +9,14 @@ public class LevelRunGUIComponent : MonoBehaviour {
 
     [SerializeField]
     private Text ProgressInfoText;
+    [SerializeField]
+    private Text AmmunitionLootInfoText;
+    [SerializeField]
+    private Text GoldLootInfoText;
+
     private LevelRunManager levelRunManager;
+    private Team trackedTeam;
+    private Unit trackedUnit;
 
     public void Initialize(LevelRunManager levelRunManager) {
         if (levelRunManager == null) {
@@ -17,6 +24,31 @@ public class LevelRunGUIComponent : MonoBehaviour {
         }
 
         this.levelRunManager = levelRunManager;
+        this.levelRunManager.RunFinished += OnRunFinishedHandler;
+        this.trackedTeam = this.levelRunManager.AttackingTeam;
+        if (this.trackedTeam.UnitsInTeam.Count == 0) {
+            this.trackedTeam.UnitAdded += OnUnitToTrackAddedHandler;
+        }
+        else {
+            if (trackedTeam.UnitsInTeam.Count > 1) {
+                throw new InvalidOperationException("Cannot track more than one unit.");
+            }
+
+            this.trackedUnit = this.trackedTeam.UnitsInTeam[0];
+        }
+    }
+
+    private void OnUnitToTrackAddedHandler(Unit unitToTrack) {
+        if (this.trackedUnit != null) {
+            throw new InvalidOperationException("Cannot track more than one unit.");
+        }
+
+        this.trackedUnit = unitToTrack;
+    }
+
+    private void OnRunFinishedHandler() {
+        this.levelRunManager.RunFinished -= OnRunFinishedHandler;
+        this.trackedTeam.UnitAdded -= OnUnitToTrackAddedHandler;
     }
 
     public void Update() {
@@ -26,5 +58,10 @@ public class LevelRunGUIComponent : MonoBehaviour {
 
         //TODO extract the format in constants
         this.ProgressInfoText.text = string.Format("{0:0.} / {1:0.}", this.levelRunManager.CurrentProgressInMeters, this.levelRunManager.LevelLengthInMeters);
+        if (this.trackedUnit != null) {
+            this.AmmunitionLootInfoText.text = this.trackedUnit.Weapon.NumberOfBullets.ToString();
+        }
+
+        this.GoldLootInfoText.text = this.levelRunManager.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold).ToString();
     }
 }

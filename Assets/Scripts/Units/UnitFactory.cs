@@ -20,7 +20,7 @@ public static class UnitFactory {
             jumpSpeed: progressionData.JumpSpeed,
             maxHealth: progressionData.BaseMaxHealth + progressionData.HealthIncreasePerLevel * (unitLevel - 1),
             weaponMountYOffset: progressionData.WeaponMountYOffset
-            );
+        );
 
         return unitSettings;
     }
@@ -31,8 +31,10 @@ public static class UnitFactory {
             damagePerHit: weaponProgressionData.BaseDamagePerHit + weaponProgressionData.DamageIncreasePerLevel * (unitLevel - 1),
             timeBetweenShots: weaponProgressionData.TimeBetweenShots,
             bulletSpeed: weaponProgressionData.BulletSpeed,
-            rangeInMeters: weaponProgressionData.RangeInMeters
-            );
+            rangeInMeters: weaponProgressionData.RangeInMeters,
+            ammunitionType: weaponProgressionData.AmmunitionType,
+            numberOfStartingBullets: weaponProgressionData.NumberOfStartingBulletsPerLevel * unitLevel
+        );
 
         return weaponSettings;
     }

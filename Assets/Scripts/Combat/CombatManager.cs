@@ -120,7 +120,6 @@ public class CombatManager : ITickable {
         }
 
         if (fireOnlyWhenThereIsATargetInRange) {
-
             for (int i = 0; i < possibleTargets.Count; i++) {
                 if (unitWeapon.IsPositionInRange(possibleTargets[i].PositionInMeters)) {
                     unitWeapon.Fire(possibleTargets);

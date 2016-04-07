@@ -1,4 +1,4 @@
 ﻿public enum LootItemType {
     Gold,
-    Arrow
+    Ammunition
 }

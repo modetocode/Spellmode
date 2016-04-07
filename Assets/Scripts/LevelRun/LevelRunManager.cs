@@ -70,11 +70,13 @@ public class LevelRunManager : ITickable {
         this.CombatManager = new CombatManager(this.AttackingTeam, this.DefendingTeam);
         this.BulletManager = new BulletManager();
         this.LootItemManager = new LootItemManager();
+        this.LootItemManager.LootItemCollected += OnLootItemCollectedHandler;
         this.AttackingTeam.AllUnitsDied += AllAttackingUnitsDiedHandler;
         this.AttackingTeam.UnitAdded += OnUnitAddedHandler;
         this.DefendingTeam.UnitAdded += OnUnitAddedHandler;
         this.IsGamePaused = false;
     }
+
 
     private void OnUnitAddedHandler(Unit unit) {
         unit.Weapon.BulletFired += BulletFiredHandler;
@@ -105,6 +107,14 @@ public class LevelRunManager : ITickable {
     private void AllAttackingUnitsDiedHandler() {
         this.AttackingTeam.AllUnitsDied -= AllAttackingUnitsDiedHandler;
         this.FinishRun();
+    }
+
+    private void OnLootItemCollectedHandler(LootItem lootItem) {
+        if (lootItem.Type == LootItemType.Ammunition) {
+            for (int i = 0; i < this.AttackingTeam.AliveUnitsInTeam.Count; i++) {
+                this.AttackingTeam.AliveUnitsInTeam[i].Weapon.AddAmmunition(lootItem.Amount);
+            }
+        }
     }
 
     private void FinishRun() {
@@ -155,6 +165,7 @@ public class LevelRunManager : ITickable {
 
         this.Spawner.UnitSpawned -= OnUnitSpawnedHandler;
         this.Spawner.LootItemSpawned -= OnLootItemSpawnedHandler;
+        this.LootItemManager.LootItemCollected -= OnLootItemCollectedHandler;
     }
 
     private void OnLootItemSpawnedHandler(LootItem lootItem) {
