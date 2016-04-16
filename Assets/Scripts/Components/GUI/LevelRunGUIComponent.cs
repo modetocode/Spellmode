@@ -10,6 +10,8 @@ public class LevelRunGUIComponent : MonoBehaviour {
     [SerializeField]
     private Text ProgressInfoText;
     [SerializeField]
+    private Slider ProgressBar;
+    [SerializeField]
     private Text AmmunitionLootInfoText;
     [SerializeField]
     private Text GoldLootInfoText;
@@ -58,6 +60,7 @@ public class LevelRunGUIComponent : MonoBehaviour {
 
         //TODO extract the format in constants
         this.ProgressInfoText.text = string.Format("{0:0.} / {1:0.}", this.levelRunManager.CurrentProgressInMeters, this.levelRunManager.LevelLengthInMeters);
+        this.ProgressBar.value = this.levelRunManager.CurrentProgressInMeters / (float)this.levelRunManager.LevelLengthInMeters;
         if (this.trackedUnit != null) {
             this.AmmunitionLootInfoText.text = this.trackedUnit.Weapon.NumberOfBullets.ToString();
         }
