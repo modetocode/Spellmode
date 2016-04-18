@@ -174,6 +174,11 @@ public class LevelRunManager : ITickable {
         }
     }
 
+    public void RestartGame() {
+        //TODO do this properly when loading a level is done
+        this.FinishRun();
+    }
+
     public void OnTickingFinished() {
         for (int i = 0; i < this.AttackingTeam.UnitsInTeam.Count; i++) {
             this.AttackingTeam.UnitsInTeam[i].Weapon.BulletFired -= BulletFiredHandler;

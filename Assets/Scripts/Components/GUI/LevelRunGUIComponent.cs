@@ -19,10 +19,16 @@ public class LevelRunGUIComponent : MonoBehaviour {
     private Text HealthInfoText;
     [SerializeField]
     private Slider HealthBar;
+    [SerializeField]
+    private RectTransform PauseMenuGroup;
 
     private LevelRunManager levelRunManager;
     private Team trackedTeam;
     private Unit trackedUnit;
+
+    public void Awake() {
+        this.PauseMenuGroup.gameObject.SetActive(false);
+    }
 
     public void Initialize(LevelRunManager levelRunManager) {
         if (levelRunManager == null) {
@@ -74,12 +80,30 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.GoldLootInfoText.text = this.levelRunManager.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold).ToString();
     }
 
-    public void TogglePauseMenu() {
+    public void ShowPauseMenu() {
+
+    }
+
+    public void PauseGame() {
         if (this.levelRunManager.IsGamePaused) {
-            this.levelRunManager.ResumeGame();
+            return;
         }
-        else {
-            this.levelRunManager.PauseGame();
+
+        this.levelRunManager.PauseGame();
+        this.PauseMenuGroup.gameObject.SetActive(true);
+    }
+
+    public void ResumeGame() {
+        if (!this.levelRunManager.IsGamePaused) {
+            return;
         }
+
+        this.levelRunManager.ResumeGame();
+        this.PauseMenuGroup.gameObject.SetActive(false);
+    }
+
+    public void RestartGame() {
+        this.levelRunManager.RestartGame();
+        this.PauseMenuGroup.gameObject.SetActive(false);
     }
 }
