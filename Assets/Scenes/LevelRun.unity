@@ -2761,6 +2761,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 11475252, guid: 8f6af819443f10743a725b38dfd58018, type: 2}
+      propertyPath: uiRaycaster
+      value: 
+      objectReference: {fileID: 409981875}
     - target: {fileID: 11467070, guid: 8f6af819443f10743a725b38dfd58018, type: 2}
       propertyPath: backgroundComponent
       value: 
@@ -3392,7 +3396,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1529778279}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 409981874}
+        m_MethodName: TogglePauseMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1529778279

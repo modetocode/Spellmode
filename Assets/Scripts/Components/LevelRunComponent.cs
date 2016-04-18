@@ -50,6 +50,8 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.DefendingTeam.UnitAdded += OnUnitInTeamAdded;
         this.levelRunManager.BulletManager.BulletAdded += OnNewBulletAdded;
         this.levelRunManager.LootItemManager.LootItemAdded += OnNewLootItemAdded;
+        this.levelRunManager.GamePaused += OnGamePaused;
+        this.levelRunManager.GameResumed += OnGameResumed;
         this.instantiatorComponent.HeroUnitInstantiated += OnNewUnitInstantiated;
         this.levelRunGuiComponent.Initialize(this.levelRunManager);
         this.inputComponent.JumpDownInputed += JumpDownInputedHandler;
@@ -122,11 +124,10 @@ class LevelRunComponent : MonoBehaviour {
     private void PauseInputedHandler() {
         if (this.levelRunManager.IsGamePaused) {
             this.levelRunManager.ResumeGame();
-            this.backgroundComponent.ResumeMovement();
+
         }
         else {
             this.levelRunManager.PauseGame();
-            this.backgroundComponent.PauseMovement();
         }
     }
 
@@ -138,12 +139,22 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.CombatManager.TriggerManualAttack();
     }
 
+    private void OnGameResumed() {
+        this.backgroundComponent.ResumeMovement();
+    }
+
+    private void OnGamePaused() {
+        this.backgroundComponent.PauseMovement();
+    }
+
     public void UnsubscribeFromEvents() {
         this.levelRunManager.AttackingTeam.UnitAdded -= OnUnitInTeamAdded;
         this.levelRunManager.DefendingTeam.UnitAdded -= OnUnitInTeamAdded;
         this.instantiatorComponent.HeroUnitInstantiated -= OnNewUnitInstantiated;
         this.levelRunManager.BulletManager.BulletAdded -= OnNewBulletAdded;
         this.levelRunManager.LootItemManager.LootItemAdded -= OnNewLootItemAdded;
+        this.levelRunManager.GamePaused -= OnGamePaused;
+        this.levelRunManager.GameResumed -= OnGameResumed;
         this.inputComponent.JumpDownInputed -= JumpDownInputedHandler;
         this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
         this.inputComponent.PauseInputed -= PauseInputedHandler;

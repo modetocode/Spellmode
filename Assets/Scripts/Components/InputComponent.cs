@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class InputComponent : MonoBehaviour {
 
@@ -8,7 +11,14 @@ public class InputComponent : MonoBehaviour {
     public event Action PauseInputed;
     public event Action ShootInputed;
 
-    private Vector2 touchStartPosition;
+    [SerializeField]
+    public GraphicRaycaster uiRaycaster;
+
+    IDictionary<int, Vector2> touchIdToStartPositionMap;
+
+    public void Awake() {
+        this.touchIdToStartPositionMap = new Dictionary<int, Vector2>();
+    }
 
     public void Update() {
         if (Input.GetButtonDown(Constants.Input.JumpUpInputName)) {
@@ -56,16 +66,27 @@ public class InputComponent : MonoBehaviour {
         }
     }
 
+
     private void HandleTouchInput(Action swipeUpAction, Action swipeDownAction, Action swipeLeftAction, Action swipeRightAction, Action touchAction) {
         for (int i = 0; i < Input.touches.Length; i++) {
-            TouchPhase currentPhase = Input.touches[i].phase;
-            if (currentPhase == TouchPhase.Began) {
-                this.touchStartPosition = Input.touches[i].position;
+            Touch currentTouch = Input.touches[i];
+
+            if (currentTouch.phase == TouchPhase.Began) {
+                if (this.IsGUITouch(Input.touches[i])) {
+                    continue;
+                }
+
+                this.touchIdToStartPositionMap[currentTouch.fingerId] = currentTouch.position;
             }
 
-            if (currentPhase == TouchPhase.Ended) {
+            if (currentTouch.phase == TouchPhase.Ended) {
+                if (!this.touchIdToStartPositionMap.ContainsKey(currentTouch.fingerId)) {
+                    continue;
+                }
+
                 Vector2 touchEndPosition = Input.touches[i].position;
-                Vector2 touchDeltaPositon = touchEndPosition - this.touchStartPosition;
+                Vector2 touchDeltaPositon = touchEndPosition - this.touchIdToStartPositionMap[currentTouch.fingerId];
+                this.touchIdToStartPositionMap.Remove(currentTouch.fingerId);
                 Vector2 toucheDeltaPositionScreenPercentage = new Vector2(touchDeltaPositon.x / Screen.width, touchDeltaPositon.y / Screen.height);
                 Vector2 touchScreenMovementPercentage = new Vector2(Mathf.Abs(toucheDeltaPositionScreenPercentage.x), Mathf.Abs(toucheDeltaPositionScreenPercentage.y));
                 if (touchScreenMovementPercentage.x > Constants.Input.MinimalScreenPercentageConsideredToBeSwipe || touchScreenMovementPercentage.y > Constants.Input.MinimalScreenPercentageConsideredToBeSwipe) {
@@ -108,5 +129,17 @@ public class InputComponent : MonoBehaviour {
 
 
         }
+    }
+
+    private bool IsGUITouch(Touch touch) {
+        if (this.uiRaycaster == null) {
+            return false;
+        }
+
+        PointerEventData eventDataCurrentPosition = new PointerEventData(EventSystem.current);
+        eventDataCurrentPosition.position = touch.position;
+        List<RaycastResult> results = new List<RaycastResult>();
+        uiRaycaster.Raycast(eventDataCurrentPosition, results);
+        return results.Count > 0;
     }
 }

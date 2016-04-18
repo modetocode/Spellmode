@@ -74,7 +74,12 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.GoldLootInfoText.text = this.levelRunManager.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold).ToString();
     }
 
-    public void PauseGame() {
-        this.levelRunManager.PauseGame();
+    public void TogglePauseMenu() {
+        if (this.levelRunManager.IsGamePaused) {
+            this.levelRunManager.ResumeGame();
+        }
+        else {
+            this.levelRunManager.PauseGame();
+        }
     }
 }
