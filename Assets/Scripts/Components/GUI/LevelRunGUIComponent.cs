@@ -15,6 +15,10 @@ public class LevelRunGUIComponent : MonoBehaviour {
     private Text AmmunitionLootInfoText;
     [SerializeField]
     private Text GoldLootInfoText;
+    [SerializeField]
+    private Text HealthInfoText;
+    [SerializeField]
+    private Slider HealthBar;
 
     private LevelRunManager levelRunManager;
     private Team trackedTeam;
@@ -63,8 +67,14 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.ProgressBar.value = this.levelRunManager.CurrentProgressInMeters / (float)this.levelRunManager.LevelLengthInMeters;
         if (this.trackedUnit != null) {
             this.AmmunitionLootInfoText.text = this.trackedUnit.Weapon.NumberOfBullets.ToString();
+            this.HealthBar.value = this.trackedUnit.Health / (float)this.trackedUnit.MaxHealth;
+            this.HealthInfoText.text = this.trackedUnit.Health.ToString();
         }
 
         this.GoldLootInfoText.text = this.levelRunManager.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold).ToString();
+    }
+
+    public void PauseGame() {
+        this.levelRunManager.PauseGame();
     }
 }
