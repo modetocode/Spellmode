@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 /// <summary>
@@ -105,5 +106,11 @@ public class LevelRunGUIComponent : MonoBehaviour {
     public void RestartGame() {
         this.levelRunManager.RestartGame();
         this.PauseMenuGroup.gameObject.SetActive(false);
+    }
+
+
+    public void ExitGame() {
+        //TODO implement this properly
+        SceneManager.LoadScene(Constants.Scenes.AllLevelsSceneName);
     }
 }
