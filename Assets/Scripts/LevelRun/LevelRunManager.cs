@@ -4,9 +4,20 @@ using System.Collections.Generic;
 public class LevelRunManager : ITickable {
 
     /// <summary>
+    /// Event that is thrown when the game is paused
+    /// </summary>
+    public event Action GamePaused;
+
+    /// <summary>
+    /// Event that is thrown when the game is resumed from pause
+    /// </summary>
+    public event Action GameResumed;
+
+    /// <summary>
     /// Event that is thrown when the run is finished
     /// </summary>
     public event Action RunFinished;
+
 
     public Team AttackingTeam { get; private set; }
     public Team DefendingTeam { get; private set; }
@@ -147,6 +158,9 @@ public class LevelRunManager : ITickable {
         }
 
         this.IsGamePaused = true;
+        if (this.GamePaused != null) {
+            this.GamePaused();
+        }
     }
 
     public void ResumeGame() {
@@ -155,6 +169,14 @@ public class LevelRunManager : ITickable {
         }
 
         this.IsGamePaused = false;
+        if (this.GameResumed != null) {
+            this.GameResumed();
+        }
+    }
+
+    public void RestartGame() {
+        //TODO do this properly when loading a level is done
+        this.FinishRun();
     }
 
     public void OnTickingFinished() {

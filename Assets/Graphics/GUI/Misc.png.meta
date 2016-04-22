@@ -1,0 +1,172 @@
+fileFormatVersion: 2
+guid: 04e1244be790eeb4e9532b23528f94c4
+timeCreated: 1460838840
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Misc_0
+    21300002: Misc_1
+    21300004: Misc_2
+    21300006: Misc_3
+    21300008: Misc_4
+    21300010: Misc_5
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Misc_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 1
+        width: 77
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: 9.5, y: 40}
+        - {x: -38.5, y: 40}
+        - {x: -38.5, y: -17}
+        - {x: -28.5, y: -40}
+        - {x: 26.5, y: -40}
+        - {x: 38.5, y: -29}
+        - {x: 38.5, y: 17}
+        - {x: 34.5, y: 26}
+    - name: Misc_1
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 0
+        width: 77
+        height: 80
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -38.5, y: 40}
+        - {x: -38.5, y: -35}
+        - {x: -27.5, y: -40}
+        - {x: 35.5, y: -40}
+        - {x: 38.5, y: -36}
+        - {x: 38.5, y: 24}
+        - {x: 13.5, y: 40}
+    - name: Misc_2
+      rect:
+        serializedVersion: 2
+        x: 221
+        y: 9
+        width: 62
+        height: 67
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -17, y: 33.5}
+        - {x: -31, y: 14.5}
+        - {x: -31, y: -29.5}
+        - {x: -28, y: -33.5}
+        - {x: 13, y: -33.5}
+        - {x: 22, y: -31.5}
+        - {x: 31, y: -12.5}
+        - {x: 31, y: 30.5}
+        - {x: 16, y: 33.5}
+    - name: Misc_3
+      rect:
+        serializedVersion: 2
+        x: 318
+        y: 14
+        width: 68
+        height: 50
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28, y: 25}
+        - {x: -34, y: 22}
+        - {x: -34, y: -8}
+        - {x: -24, y: -25}
+        - {x: 27, y: -25}
+        - {x: 34, y: -9}
+        - {x: 34, y: 22}
+        - {x: 26, y: 25}
+    - name: Misc_4
+      rect:
+        serializedVersion: 2
+        x: 437
+        y: 14
+        width: 57
+        height: 55
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -28.5, y: 27.5}
+        - {x: -28.5, y: -24.5}
+        - {x: -24.5, y: -27.5}
+        - {x: 28.5, y: -27.5}
+        - {x: 28.5, y: 27.5}
+    - name: Misc_5
+      rect:
+        serializedVersion: 2
+        x: 532
+        y: 16
+        width: 58
+        height: 54
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline:
+      - - {x: -29, y: 27}
+        - {x: -29, y: -17}
+        - {x: -24, y: -27}
+        - {x: 23, y: -27}
+        - {x: 29, y: -14}
+        - {x: 29, y: 27}
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
