@@ -66,7 +66,7 @@ public static class Constants {
 
     public static class Scenes {
         public const string LevelRunSceneName = "LevelRun";
-        public const string AllLevelsSceneName = "AllLevels";
+        public const string AllLevelsSceneName = "LevelSelect";
     }
 
     public static class LevelRun {
@@ -78,6 +78,10 @@ public static class Constants {
         public const float BackgroundSpeedFactor = 0.1f;
 
         public const float DistanceToTriggerObjectSpawnInMetters = 25f;
+    }
+
+    public static class GameData {
+        public const string PlayersGameDataFileName = "gameData.gd";
     }
 
     public static class GameMechanics {
