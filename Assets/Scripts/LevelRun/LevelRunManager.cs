@@ -4,6 +4,11 @@ using System.Collections.Generic;
 public class LevelRunManager : ITickable {
 
     /// <summary>
+    /// Event that is theown when the game has started
+    /// </summary>
+    public event Action GameStarted;
+
+    /// <summary>
     /// Event that is thrown when the game is paused
     /// </summary>
     public event Action GamePaused;
@@ -22,6 +27,7 @@ public class LevelRunManager : ITickable {
     public Team AttackingTeam { get; private set; }
     public Team DefendingTeam { get; private set; }
     public bool IsGamePaused { get; private set; }
+    public bool IsGameStarted { get; private set; }
 
     public float CurrentProgressInMeters {
         get {
@@ -78,9 +84,17 @@ public class LevelRunManager : ITickable {
         this.AttackingTeam.AllUnitsDied += AllAttackingUnitsDiedHandler;
         this.AttackingTeam.UnitAdded += OnUnitAddedHandler;
         this.DefendingTeam.UnitAdded += OnUnitAddedHandler;
+        this.IsGameStarted = false;
         this.IsGamePaused = false;
     }
 
+    public void SpawnStartingUnits() {
+        if (this.IsGameStarted) {
+            throw new InvalidOperationException("The game has already started");
+        }
+
+        this.Spawner.SpawnAllVisibleObjects();
+    }
 
     private void OnUnitAddedHandler(Unit unit) {
         unit.Weapon.BulletFired += BulletFiredHandler;
@@ -129,11 +143,15 @@ public class LevelRunManager : ITickable {
     }
 
     public void StartRun() {
-        if (this.Ticker != null) {
+        if (this.IsGameStarted == true) {
             throw new InvalidOperationException("The run is already started");
         }
 
+        this.IsGameStarted = true;
         this.Ticker = new Ticker(new ITickable[] { this.AttackingTeam, this.DefendingTeam, this.ProgressTracker, this.Spawner, this.CombatManager, this.BulletManager });
+        if (this.GameStarted != null) {
+            this.GameStarted();
+        }
     }
 
     public void Tick(float deltaTime) {

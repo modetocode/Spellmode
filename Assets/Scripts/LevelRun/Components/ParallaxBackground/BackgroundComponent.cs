@@ -21,7 +21,7 @@ public class BackgroundComponent : MonoBehaviour {
     private float moveSpeed;
     private bool movementPaused;
 
-    public void Start() {
+    public void Awake() {
         Vector3 worldPointOffsetFromCenter = backgroundCamera.ViewportToWorldPoint(this.topRightViewportPoint) - backgroundGroup.transform.position;
         this.backgroundResizeGroup.transform.localScale = worldPointOffsetFromCenter * 2;
         this.tiledMaterials = new Material[this.backgroundElements.Length];

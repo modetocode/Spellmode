@@ -39,7 +39,7 @@ public class Spawner : ITickable {
         this.SpawnAllVisibleObjects();
     }
 
-    private void SpawnAllVisibleObjects() {
+    public void SpawnAllVisibleObjects() {
         this.SpawnVisibleObjects<UnitSpawnData>(this.unitSpawnData, this.SpawnUnit);
         this.SpawnVisibleObjects<LootItemSpawnData>(this.lootItemSpawnData, this.SpawnLootItem);
     }

@@ -22,13 +22,51 @@ public class LevelRunGUIComponent : MonoBehaviour {
     private Slider HealthBar;
     [SerializeField]
     private RectTransform PauseMenuGroup;
+    [SerializeField]
+    private RectTransform RunInfoGroup;
+    [SerializeField]
+    private Button PauseGameButton;
 
     private LevelRunManager levelRunManager;
     private Team trackedTeam;
     private Unit trackedUnit;
 
     public void Awake() {
+        if (this.ProgressInfoText == null) {
+            throw new NullReferenceException("ProgressInfoText is null");
+        }
+
+        if (this.ProgressBar == null) {
+            throw new NullReferenceException("ProgressBar is null");
+        }
+
+        if (this.AmmunitionLootInfoText == null) {
+            throw new NullReferenceException("AmmunitionLootInfoText is null");
+        }
+
+        if (this.GoldLootInfoText == null) {
+            throw new NullReferenceException("GoldLootInfoText is null");
+        }
+
+        if (this.HealthInfoText == null) {
+            throw new NullReferenceException("HealthInfoText is null");
+        }
+
+        if (this.PauseMenuGroup == null) {
+            throw new NullReferenceException("PauseMenuGroup is null");
+        }
+
+        if (this.RunInfoGroup == null) {
+            throw new NullReferenceException("RunInfoGroup is null");
+        }
+
+        if (this.PauseGameButton == null) {
+            throw new NullReferenceException("PauseGameButton is null");
+        }
+
         this.PauseMenuGroup.gameObject.SetActive(false);
+        this.RunInfoGroup.gameObject.SetActive(true);
+        this.PauseGameButton.interactable = false;
     }
 
     public void Initialize(LevelRunManager levelRunManager) {
@@ -81,8 +119,10 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.GoldLootInfoText.text = this.levelRunManager.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold).ToString();
     }
 
-    public void ShowPauseMenu() {
-
+    public void StartRun() {
+        this.RunInfoGroup.gameObject.SetActive(false);
+        this.PauseGameButton.interactable = true;
+        this.levelRunManager.StartRun();
     }
 
     public void PauseGame() {

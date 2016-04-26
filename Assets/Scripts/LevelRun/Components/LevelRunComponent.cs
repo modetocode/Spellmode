@@ -50,6 +50,7 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.DefendingTeam.UnitAdded += OnUnitInTeamAdded;
         this.levelRunManager.BulletManager.BulletAdded += OnNewBulletAdded;
         this.levelRunManager.LootItemManager.LootItemAdded += OnNewLootItemAdded;
+        this.levelRunManager.GameStarted += OnGameStarted;
         this.levelRunManager.GamePaused += OnGamePaused;
         this.levelRunManager.GameResumed += OnGameResumed;
         this.instantiatorComponent.HeroUnitInstantiated += OnNewUnitInstantiated;
@@ -58,10 +59,15 @@ class LevelRunComponent : MonoBehaviour {
         this.inputComponent.JumpUpInputed += JumpUpInputedHandler;
         this.inputComponent.PauseInputed += PauseInputedHandler;
         this.inputComponent.ShootInputed += ShootInputedHandler;
-        this.StartRun();
+        this.backgroundComponent.PauseMovement();
+        this.levelRunManager.SpawnStartingUnits();
     }
 
     public void Update() {
+        if (!this.levelRunManager.IsGameStarted) {
+            return;
+        }
+
         if (this.levelRunManager.IsGamePaused) {
             return;
         }
@@ -71,10 +77,6 @@ class LevelRunComponent : MonoBehaviour {
         }
 
         this.levelRunManager.Tick(Time.deltaTime);
-    }
-
-    private void StartRun() {
-        this.levelRunManager.StartRun();
     }
 
     private void FinishRun() {
@@ -101,7 +103,6 @@ class LevelRunComponent : MonoBehaviour {
     private void OnNewUnitInstantiated(UnitComponent unitComponent) {
         if (this.levelRunManager.AttackingTeam.IsUnitInTeam(unitComponent.Unit)) {
             this.cameraComponent.TrackObject(unitComponent.gameObject);
-            this.backgroundComponent.SetMoveSpeed(unitComponent.Unit.MovementSpeed * Constants.LevelRun.BackgroundSpeedFactor);
         }
     }
 
@@ -139,6 +140,16 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.CombatManager.TriggerManualAttack();
     }
 
+    private void OnGameStarted() {
+        if (this.levelRunManager.AttackingTeam.UnitsInTeam.Count == 0) {
+            throw new InvalidOperationException("No units in the attacking team");
+        }
+
+        Unit unit = this.levelRunManager.AttackingTeam.UnitsInTeam[0];
+        this.backgroundComponent.SetMoveSpeed(unit.MovementSpeed * Constants.LevelRun.BackgroundSpeedFactor);
+        this.backgroundComponent.ResumeMovement();
+    }
+
     private void OnGameResumed() {
         this.backgroundComponent.ResumeMovement();
     }
@@ -153,6 +164,7 @@ class LevelRunComponent : MonoBehaviour {
         this.instantiatorComponent.HeroUnitInstantiated -= OnNewUnitInstantiated;
         this.levelRunManager.BulletManager.BulletAdded -= OnNewBulletAdded;
         this.levelRunManager.LootItemManager.LootItemAdded -= OnNewLootItemAdded;
+        this.levelRunManager.GameStarted -= OnGameStarted;
         this.levelRunManager.GamePaused -= OnGamePaused;
         this.levelRunManager.GameResumed -= OnGameResumed;
         this.inputComponent.JumpDownInputed -= JumpDownInputedHandler;
