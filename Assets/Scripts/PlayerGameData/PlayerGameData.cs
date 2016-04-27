@@ -10,7 +10,7 @@ public class PlayerGameData {
     [SerializeField]
     private int goldAmount = 0;
     [SerializeField]
-    private int highestUnlockedLevelNumber = 1;
+    private int highestCompletedLevelNumber = 0;
 
     public int GoldAmount {
         get { return this.goldAmount; }
@@ -20,10 +20,10 @@ public class PlayerGameData {
         }
     }
 
-    public int HighestUnlockedLevelNumber {
-        get { return this.highestUnlockedLevelNumber; }
+    public int HighestCompletedLevelNumber {
+        get { return this.highestCompletedLevelNumber; }
         set {
-            this.highestUnlockedLevelNumber = value;
+            this.highestCompletedLevelNumber = value;
             this.InvokeObjectUpdatedEvent();
         }
     }

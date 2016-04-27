@@ -35,16 +35,14 @@ public class LevelSelectComponent : MonoBehaviour {
 
     public void Start() {
         this.PlayerModel.Initialize();
-
-        //TODO remove this hardoded value when progression is done
-        this.PlayerModel.PlayerGameData.HighestUnlockedLevelNumber = 2;
-
         Action<LevelRunData> onLevelRunButtonClickedAction = (levelRunData => {
             LevelRunModel.Initialize(levelRunData);
             SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
         });
 
-        this.levelRunList.Initialize(listItemData: this.GetLevelRunData(), highestUnlockedLevelNumber: this.PlayerModel.PlayerGameData.HighestUnlockedLevelNumber, onListItemClickedAction: onLevelRunButtonClickedAction);
+        IList<LevelRunData> runData = this.GetLevelRunData();
+        int highestUnlockedLevelNumber = Mathf.Clamp(this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber + 1, 1, runData.Count);
+        this.levelRunList.Initialize(listItemData: runData, highestUnlockedLevelNumber: highestUnlockedLevelNumber, onListItemClickedAction: onLevelRunButtonClickedAction);
         this.scrollableLevelRunTabsAddon.Initialize();
         this.goldAmountText.text = PlayerModel.Instance.PlayerGameData.GoldAmount.ToString();
     }

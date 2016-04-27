@@ -28,6 +28,10 @@ public class LevelRunGUIComponent : MonoBehaviour {
     private Text runInfoHeaderText;
     [SerializeField]
     private Button pauseGameButton;
+    [SerializeField]
+    private RectTransform levelFailedInfoGroup;
+    [SerializeField]
+    private RectTransform levelCompletedInfoGroup;
 
     private LevelRunManager levelRunManager;
     private Team trackedTeam;
@@ -70,7 +74,16 @@ public class LevelRunGUIComponent : MonoBehaviour {
             throw new NullReferenceException("pauseGameButton is null");
         }
 
+        if (this.levelFailedInfoGroup == null) {
+            throw new NullReferenceException("levelFailedInfoGroup is null");
+        }
+
+        if (this.levelCompletedInfoGroup == null) {
+            throw new NullReferenceException("levelCompletedInfoGroup is null");
+        }
         this.pauseMenuGroup.gameObject.SetActive(false);
+        this.levelFailedInfoGroup.gameObject.SetActive(false);
+        this.levelCompletedInfoGroup.gameObject.SetActive(false);
         this.pauseGameButton.interactable = false;
     }
 
@@ -105,9 +118,17 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.trackedUnit = unitToTrack;
     }
 
-    private void OnRunFinishedHandler() {
+    private void OnRunFinishedHandler(LevelRunFinishType finishType) {
         this.levelRunManager.RunFinished -= OnRunFinishedHandler;
         this.trackedTeam.UnitAdded -= OnUnitToTrackAddedHandler;
+        this.pauseGameButton.interactable = false;
+        if (finishType == LevelRunFinishType.RunCompleted) {
+            this.levelCompletedInfoGroup.gameObject.SetActive(true);
+        }
+
+        if (finishType == LevelRunFinishType.RunFailed) {
+            this.levelFailedInfoGroup.gameObject.SetActive(true);
+        }
     }
 
     public void Update() {
@@ -152,13 +173,20 @@ public class LevelRunGUIComponent : MonoBehaviour {
     }
 
     public void RestartGame() {
-        this.levelRunManager.RestartGame();
+        if (!this.levelRunManager.IsGameFinished) {
+            this.levelRunManager.FinishRun();
+        }
+
         this.pauseMenuGroup.gameObject.SetActive(false);
+        SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
     }
 
 
     public void ExitGame() {
-        //TODO implement this properly
+        if (!this.levelRunManager.IsGameFinished) {
+            this.levelRunManager.FinishRun();
+        }
+
         SceneManager.LoadScene(Constants.Scenes.AllLevelsSceneName);
     }
 }

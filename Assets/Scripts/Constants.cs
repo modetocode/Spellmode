@@ -70,13 +70,7 @@ public static class Constants {
     }
 
     public static class LevelRun {
-        /// <summary>
-        /// The time (in seconds) after the run is finished that the user will wait 
-        /// </summary>
-        public const float WaitTimeAfterRunFinishedInSeconds = 2f;
-
         public const float BackgroundSpeedFactor = 0.1f;
-
         public const float DistanceToTriggerObjectSpawnInMetters = 25f;
     }
 

@@ -21,13 +21,13 @@ public class LevelRunManager : ITickable {
     /// <summary>
     /// Event that is thrown when the run is finished
     /// </summary>
-    public event Action RunFinished;
-
+    public event Action<LevelRunFinishType> RunFinished;
 
     public Team AttackingTeam { get; private set; }
     public Team DefendingTeam { get; private set; }
     public bool IsGamePaused { get; private set; }
     public bool IsGameStarted { get; private set; }
+    public bool IsGameFinished { get; private set; }
 
     public float CurrentProgressInMeters {
         get {
@@ -56,6 +56,7 @@ public class LevelRunManager : ITickable {
     private Spawner Spawner { get; set; }
     private ProgressTracker ProgressTracker { get; set; }
     private LevelRunModel LevelRunModel { get { return LevelRunModel.Instance; } }
+    private PlayerModel PlayerModel { get { return PlayerModel.Instance; } }
 
     public void InitializeRun() {
         //TODO get the appropriate attacking team data
@@ -84,8 +85,10 @@ public class LevelRunManager : ITickable {
         this.AttackingTeam.AllUnitsDied += AllAttackingUnitsDiedHandler;
         this.AttackingTeam.UnitAdded += OnUnitAddedHandler;
         this.DefendingTeam.UnitAdded += OnUnitAddedHandler;
+        this.Ticker = new Ticker(new ITickable[] { this.AttackingTeam, this.DefendingTeam, this.ProgressTracker, this.Spawner, this.CombatManager, this.BulletManager });
         this.IsGameStarted = false;
         this.IsGamePaused = false;
+        this.IsGameFinished = false;
     }
 
     public void SpawnStartingUnits() {
@@ -119,12 +122,14 @@ public class LevelRunManager : ITickable {
 
     private void ProgressFinishedHandler() {
         this.ProgressTracker.ProgressFinished -= ProgressFinishedHandler;
-        this.FinishRun();
+        this.FinishRun(LevelRunFinishType.RunCompleted);
+        this.PlayerModel.PlayerGameData.GoldAmount += this.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold);
+        this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber = Math.Max(this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber, this.LevelRunData.LevelNumber);
     }
 
     private void AllAttackingUnitsDiedHandler() {
         this.AttackingTeam.AllUnitsDied -= AllAttackingUnitsDiedHandler;
-        this.FinishRun();
+        this.FinishRun(LevelRunFinishType.RunFailed);
     }
 
     private void OnLootItemCollectedHandler(LootItem lootItem) {
@@ -135,26 +140,38 @@ public class LevelRunManager : ITickable {
         }
     }
 
-    private void FinishRun() {
-        this.Ticker.FinishTicking();
-        if (this.RunFinished != null) {
-            this.RunFinished();
-        }
-    }
-
     public void StartRun() {
-        if (this.IsGameStarted == true) {
+        if (this.IsGameStarted) {
             throw new InvalidOperationException("The run is already started");
         }
 
         this.IsGameStarted = true;
-        this.Ticker = new Ticker(new ITickable[] { this.AttackingTeam, this.DefendingTeam, this.ProgressTracker, this.Spawner, this.CombatManager, this.BulletManager });
         if (this.GameStarted != null) {
             this.GameStarted();
         }
     }
 
+    public void FinishRun() {
+        if (this.IsGameFinished) {
+            throw new InvalidOperationException("The run is already finished");
+        }
+
+        this.FinishRun(LevelRunFinishType.RunInterrupted);
+    }
+
+    private void FinishRun(LevelRunFinishType finishType) {
+        this.Ticker.FinishTicking();
+        this.IsGameFinished = true;
+        if (this.RunFinished != null) {
+            this.RunFinished(finishType);
+        }
+    }
+
     public void Tick(float deltaTime) {
+        if (!this.IsGameStarted) {
+            throw new InvalidOperationException("The run hasn't started yet");
+        }
+
         this.Ticker.Tick(deltaTime);
     }
 
@@ -178,11 +195,6 @@ public class LevelRunManager : ITickable {
         if (this.GameResumed != null) {
             this.GameResumed();
         }
-    }
-
-    public void RestartGame() {
-        //TODO do this properly when loading a level is done
-        this.FinishRun();
     }
 
     public void OnTickingFinished() {

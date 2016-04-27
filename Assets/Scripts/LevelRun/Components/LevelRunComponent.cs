@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 class LevelRunComponent : MonoBehaviour {
 
@@ -79,12 +77,11 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.Tick(Time.deltaTime);
     }
 
-    private void FinishRun() {
+    private void FinishRun(LevelRunFinishType finishType) {
         this.levelRunManager.RunFinished -= FinishRun;
         this.UnsubscribeFromEvents();
+        this.backgroundComponent.PauseMovement();
         this.runFinished = true;
-        //TODO add the appropriate logic when level is finished
-        this.StartCoroutine(FinishRunCoroutine(Constants.LevelRun.WaitTimeAfterRunFinishedInSeconds));
     }
 
     private void OnUnitInTeamAdded(Unit newUnit) {
@@ -171,11 +168,5 @@ class LevelRunComponent : MonoBehaviour {
         this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
         this.inputComponent.PauseInputed -= PauseInputedHandler;
         this.inputComponent.ShootInputed -= ShootInputedHandler;
-    }
-
-    IEnumerator FinishRunCoroutine(float waitTime) {
-        this.backgroundComponent.PauseMovement();
-        yield return new WaitForSeconds(waitTime);
-        SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
     }
 }
