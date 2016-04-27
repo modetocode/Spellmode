@@ -9,64 +9,69 @@ using UnityEngine.UI;
 public class LevelRunGUIComponent : MonoBehaviour {
 
     [SerializeField]
-    private Text ProgressInfoText;
+    private Text progressInfoText;
     [SerializeField]
-    private Slider ProgressBar;
+    private Slider progressBar;
     [SerializeField]
-    private Text AmmunitionLootInfoText;
+    private Text ammunitionLootInfoText;
     [SerializeField]
-    private Text GoldLootInfoText;
+    private Text goldLootInfoText;
     [SerializeField]
-    private Text HealthInfoText;
+    private Text healthInfoText;
     [SerializeField]
-    private Slider HealthBar;
+    private Slider healthBar;
     [SerializeField]
-    private RectTransform PauseMenuGroup;
+    private RectTransform pauseMenuGroup;
     [SerializeField]
-    private RectTransform RunInfoGroup;
+    private RectTransform runInfoGroup;
     [SerializeField]
-    private Button PauseGameButton;
+    private Text runInfoHeaderText;
+    [SerializeField]
+    private Button pauseGameButton;
 
     private LevelRunManager levelRunManager;
     private Team trackedTeam;
     private Unit trackedUnit;
 
     public void Awake() {
-        if (this.ProgressInfoText == null) {
-            throw new NullReferenceException("ProgressInfoText is null");
+        if (this.progressInfoText == null) {
+            throw new NullReferenceException("progressInfoText is null");
         }
 
-        if (this.ProgressBar == null) {
-            throw new NullReferenceException("ProgressBar is null");
+        if (this.progressBar == null) {
+            throw new NullReferenceException("progressBar is null");
         }
 
-        if (this.AmmunitionLootInfoText == null) {
-            throw new NullReferenceException("AmmunitionLootInfoText is null");
+        if (this.ammunitionLootInfoText == null) {
+            throw new NullReferenceException("ammunitionLootInfoText is null");
         }
 
-        if (this.GoldLootInfoText == null) {
-            throw new NullReferenceException("GoldLootInfoText is null");
+        if (this.goldLootInfoText == null) {
+            throw new NullReferenceException("goldLootInfoText is null");
         }
 
-        if (this.HealthInfoText == null) {
-            throw new NullReferenceException("HealthInfoText is null");
+        if (this.healthInfoText == null) {
+            throw new NullReferenceException("healthInfoText is null");
         }
 
-        if (this.PauseMenuGroup == null) {
-            throw new NullReferenceException("PauseMenuGroup is null");
+        if (this.pauseMenuGroup == null) {
+            throw new NullReferenceException("pauseMenuGroup is null");
         }
 
-        if (this.RunInfoGroup == null) {
-            throw new NullReferenceException("RunInfoGroup is null");
+        if (this.runInfoGroup == null) {
+            throw new NullReferenceException("runInfoGroup is null");
         }
 
-        if (this.PauseGameButton == null) {
-            throw new NullReferenceException("PauseGameButton is null");
+        if (this.runInfoHeaderText == null) {
+            throw new NullReferenceException("runInfoHeaderText is null");
         }
 
-        this.PauseMenuGroup.gameObject.SetActive(false);
-        this.RunInfoGroup.gameObject.SetActive(true);
-        this.PauseGameButton.interactable = false;
+        if (this.pauseGameButton == null) {
+            throw new NullReferenceException("pauseGameButton is null");
+        }
+
+        this.pauseMenuGroup.gameObject.SetActive(false);
+        this.pauseGameButton.interactable = false;
     }
 
     public void Initialize(LevelRunManager levelRunManager) {
@@ -87,6 +92,9 @@ public class LevelRunGUIComponent : MonoBehaviour {
 
             this.trackedUnit = this.trackedTeam.UnitsInTeam[0];
         }
+
+        this.runInfoHeaderText.text += " " + this.levelRunManager.LevelRunData.LevelNumber;
+        this.runInfoGroup.gameObject.SetActive(true);
     }
 
     private void OnUnitToTrackAddedHandler(Unit unitToTrack) {
@@ -108,20 +116,20 @@ public class LevelRunGUIComponent : MonoBehaviour {
         }
 
         //TODO extract the format in constants
-        this.ProgressInfoText.text = string.Format("{0:0.} / {1:0.}", this.levelRunManager.CurrentProgressInMeters, this.levelRunManager.LevelLengthInMeters);
-        this.ProgressBar.value = this.levelRunManager.CurrentProgressInMeters / (float)this.levelRunManager.LevelLengthInMeters;
+        this.progressInfoText.text = string.Format("{0:0.} / {1:0.}", this.levelRunManager.CurrentProgressInMeters, this.levelRunManager.LevelLengthInMeters);
+        this.progressBar.value = this.levelRunManager.CurrentProgressInMeters / (float)this.levelRunManager.LevelLengthInMeters;
         if (this.trackedUnit != null) {
-            this.AmmunitionLootInfoText.text = this.trackedUnit.Weapon.NumberOfBullets.ToString();
-            this.HealthBar.value = this.trackedUnit.Health / (float)this.trackedUnit.MaxHealth;
-            this.HealthInfoText.text = this.trackedUnit.Health.ToString();
+            this.ammunitionLootInfoText.text = this.trackedUnit.Weapon.NumberOfBullets.ToString();
+            this.healthBar.value = this.trackedUnit.Health / (float)this.trackedUnit.MaxHealth;
+            this.healthInfoText.text = this.trackedUnit.Health.ToString();
         }
 
-        this.GoldLootInfoText.text = this.levelRunManager.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold).ToString();
+        this.goldLootInfoText.text = this.levelRunManager.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold).ToString();
     }
 
     public void StartRun() {
-        this.RunInfoGroup.gameObject.SetActive(false);
-        this.PauseGameButton.interactable = true;
+        this.runInfoGroup.gameObject.SetActive(false);
+        this.pauseGameButton.interactable = true;
         this.levelRunManager.StartRun();
     }
 
@@ -131,7 +139,7 @@ public class LevelRunGUIComponent : MonoBehaviour {
         }
 
         this.levelRunManager.PauseGame();
-        this.PauseMenuGroup.gameObject.SetActive(true);
+        this.pauseMenuGroup.gameObject.SetActive(true);
     }
 
     public void ResumeGame() {
@@ -140,12 +148,12 @@ public class LevelRunGUIComponent : MonoBehaviour {
         }
 
         this.levelRunManager.ResumeGame();
-        this.PauseMenuGroup.gameObject.SetActive(false);
+        this.pauseMenuGroup.gameObject.SetActive(false);
     }
 
     public void RestartGame() {
         this.levelRunManager.RestartGame();
-        this.PauseMenuGroup.gameObject.SetActive(false);
+        this.pauseMenuGroup.gameObject.SetActive(false);
     }
 
 

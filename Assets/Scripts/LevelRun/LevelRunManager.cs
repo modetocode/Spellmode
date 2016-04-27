@@ -51,9 +51,9 @@ public class LevelRunManager : ITickable {
     public CombatManager CombatManager { get; private set; }
     public BulletManager BulletManager { get; private set; }
     public LootItemManager LootItemManager { get; private set; }
+    public LevelRunData LevelRunData { get; private set; }
     private Ticker Ticker { get; set; }
     private Spawner Spawner { get; set; }
-    private LevelRunData LevelRunData { get; set; }
     private ProgressTracker ProgressTracker { get; set; }
     private LevelRunModel LevelRunModel { get { return LevelRunModel.Instance; } }
 
