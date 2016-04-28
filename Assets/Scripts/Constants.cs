@@ -96,6 +96,8 @@ public static class Constants {
         public const string DefendingMeleeUnitMenuName = "Defending Melee Unit";
         public const string LootTableMenuName = "Loot Table";
         public const string LootTableAssetName = "LootTable";
+        public const string GameConstantsMenuName = "Game Constants";
+        public const string GameConstantsAssetName = "GameConstants";
     }
 }
 

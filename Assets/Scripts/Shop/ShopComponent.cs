@@ -37,6 +37,13 @@ public class ShopComponent : MonoBehaviour {
     [SerializeField]
     private Button backToLevelSelectButton;
 
+    private int healthUpgradeCost;
+    private int damageUpgradeCost;
+    private int ammunitionUpgradeCost;
+    private int availableGoldAmount;
+    private UnitLevelData currentUnitLevelData;
+    private UnitType currentUnitType;
+
     private PlayerModel PlayerModel { get { return PlayerModel.Instance; } }
 
     public void Awake() {
@@ -97,29 +104,88 @@ public class ShopComponent : MonoBehaviour {
         }
 
         this.backToLevelSelectButton.onClick.AddListener(GoToLevelSelect);
+        this.healthUpgradeButton.onClick.AddListener(BuyHealthUpgrade);
+        this.damageUpgradeButton.onClick.AddListener(BuyDamageUpgrade);
+        this.ammunitionUpgradeButton.onClick.AddListener(BuyAmmunitionUpgrade);
     }
 
     public void Start() {
-        this.ShowHeroStats();
-        this.goldAmountText.text = this.PlayerModel.PlayerGameData.GoldAmount.ToString();
+
+        this.UpdateAndDisplayShopData();
     }
 
     public void Destroy() {
         this.backToLevelSelectButton.onClick.RemoveListener(GoToLevelSelect);
+        this.healthUpgradeButton.onClick.RemoveListener(BuyHealthUpgrade);
+        this.damageUpgradeButton.onClick.RemoveListener(BuyDamageUpgrade);
+        this.ammunitionUpgradeButton.onClick.RemoveListener(BuyAmmunitionUpgrade);
+    }
+
+    private void UpdateAndDisplayShopData() {
+        PlayerGameData playerGameData = this.PlayerModel.PlayerGameData;
+        this.currentUnitLevelData = playerGameData.HeroUnitLevelData;
+        this.currentUnitType = playerGameData.HeroUnitType;
+        this.availableGoldAmount = playerGameData.GoldAmount;
+        this.goldAmountText.text = this.availableGoldAmount.ToString();
+        this.UpdateHeroUpgradePrices();
+        this.ShowHeroStats();
+    }
+
+    private void UpdateHeroUpgradePrices() {
+        GameConstants gameConstants = GameMechanicsManager.GetGameConstanstsData();
+        this.healthUpgradeCost = gameConstants.GetGoldCostForHeroStat(this.currentUnitLevelData.HealthUpgradeLevel);
+        this.damageUpgradeCost = gameConstants.GetGoldCostForHeroStat(this.currentUnitLevelData.DamageUpgradeLevel);
+        this.ammunitionUpgradeCost = gameConstants.GetGoldCostForHeroStat(this.currentUnitLevelData.AmmunitionUpgradeLevel);
     }
 
     private void ShowHeroStats() {
-        UnitLevelData unitLevelData = this.PlayerModel.PlayerGameData.HeroUnitLevelData;
-        UnitType heroType = this.PlayerModel.PlayerGameData.HeroUnitType;
-        this.healthInfoText.text = UnitStatsCalculator.CalculateMaxHealthValue(heroType, unitLevelData.HealthUpgradeLevel).ToString();
-        this.damageInfoText.text = UnitStatsCalculator.CalculateDamagePerHitValue(heroType, unitLevelData.DamageUpgradeLevel).ToString();
-        this.ammunitionInfoText.text = UnitStatsCalculator.CalculateAmmunitionValue(heroType, unitLevelData.AmmunitionUpgradeLevel).ToString();
+        this.healthInfoText.text = UnitStatsCalculator.CalculateMaxHealthValue(this.currentUnitType, this.currentUnitLevelData.HealthUpgradeLevel).ToString();
+        this.damageInfoText.text = UnitStatsCalculator.CalculateDamagePerHitValue(this.currentUnitType, this.currentUnitLevelData.DamageUpgradeLevel).ToString();
+        this.ammunitionInfoText.text = UnitStatsCalculator.CalculateAmmunitionValue(this.currentUnitType, this.currentUnitLevelData.AmmunitionUpgradeLevel).ToString();
         string upgradeInfoPrefix = "+";
-        this.healthUpgradeInfoText.text = upgradeInfoPrefix + UnitStatsCalculator.CalculateNextLevelMaxHealthIncreaseValue(heroType, unitLevelData.HealthUpgradeLevel).ToString();
-        this.damageUpgradeInfoText.text = upgradeInfoPrefix + UnitStatsCalculator.CalculateNextLevelDamageIncreaseValue(heroType, unitLevelData.DamageUpgradeLevel).ToString();
-        this.ammunitionUpgradeInfoText.text = upgradeInfoPrefix + UnitStatsCalculator.CalculateNextLevelAmmunitionIncreaseValue(heroType, unitLevelData.AmmunitionUpgradeLevel).ToString();
+        this.healthUpgradeInfoText.text = upgradeInfoPrefix + UnitStatsCalculator.CalculateNextLevelMaxHealthIncreaseValue(this.currentUnitType, this.currentUnitLevelData.HealthUpgradeLevel).ToString();
+        this.damageUpgradeInfoText.text = upgradeInfoPrefix + UnitStatsCalculator.CalculateNextLevelDamageIncreaseValue(this.currentUnitType, this.currentUnitLevelData.DamageUpgradeLevel).ToString();
+        this.ammunitionUpgradeInfoText.text = upgradeInfoPrefix + UnitStatsCalculator.CalculateNextLevelAmmunitionIncreaseValue(this.currentUnitType, this.currentUnitLevelData.AmmunitionUpgradeLevel).ToString();
+        this.healthUpgradeCostText.text = this.healthUpgradeCost.ToString();
+        this.damageUpgradeCostText.text = this.damageUpgradeCost.ToString();
+        this.ammunitionUpgradeCostText.text = this.ammunitionUpgradeCost.ToString();
+        this.healthUpgradeButton.interactable = this.healthUpgradeCost <= this.availableGoldAmount;
+        this.damageUpgradeButton.interactable = this.damageUpgradeCost <= this.availableGoldAmount;
+        this.ammunitionUpgradeButton.interactable = this.ammunitionUpgradeCost <= this.availableGoldAmount;
+    }
 
-        //TODO handle upgrade cost and buttons
+    private void BuyHealthUpgrade() {
+        if (this.availableGoldAmount < this.healthUpgradeCost) {
+            throw new InvalidOperationException("No gold to buy the update");
+        }
+
+        this.ReducePlayersGold(this.healthUpgradeCost);
+        this.currentUnitLevelData.HealthUpgradeLevel++;
+        this.UpdateAndDisplayShopData();
+    }
+
+    private void BuyDamageUpgrade() {
+        if (this.availableGoldAmount < this.damageUpgradeCost) {
+            throw new InvalidOperationException("No gold to buy the update");
+        }
+
+        this.ReducePlayersGold(this.damageUpgradeCost);
+        this.currentUnitLevelData.DamageUpgradeLevel++;
+        this.UpdateAndDisplayShopData();
+    }
+
+    private void BuyAmmunitionUpgrade() {
+        if (this.availableGoldAmount < this.ammunitionUpgradeCost) {
+            throw new InvalidOperationException("No gold to buy the update");
+        }
+
+        this.ReducePlayersGold(this.ammunitionUpgradeCost);
+        this.currentUnitLevelData.AmmunitionUpgradeLevel++;
+        this.UpdateAndDisplayShopData();
+    }
+
+    private void ReducePlayersGold(int amount) {
+        this.PlayerModel.PlayerGameData.GoldAmount -= amount;
     }
 
     private void GoToLevelSelect() {

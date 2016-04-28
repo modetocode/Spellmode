@@ -58,6 +58,10 @@ public static class GameMechanicsManager {
         return GetInstance<LootTableProgressionData>(Constants.GameMechanics.LootTableAssetName);
     }
 
+    public static GameConstants GetGameConstanstsData() {
+        return GetInstance<GameConstants>(Constants.GameMechanics.GameConstantsAssetName);
+    }
+
 #if UNITY_EDITOR
     [MenuItem(Constants.GameMechanics.GameMechanicsMenuName + "/" + Constants.GameMechanics.UnitsMenuName + "/" + Constants.GameMechanics.HeroUnitMenuName)]
     private static void DisplayHeroUnitProgressionData() {
@@ -79,5 +83,9 @@ public static class GameMechanicsManager {
         Selection.activeObject = GetLootTableProgressionData();
     }
 
+    [MenuItem(Constants.GameMechanics.GameMechanicsMenuName + "/" + Constants.GameMechanics.GameConstantsMenuName)]
+    private static void DisplayGameConstantsData() {
+        Selection.activeObject = GetGameConstanstsData();
+    }
 #endif
 }

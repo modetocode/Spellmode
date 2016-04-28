@@ -13,10 +13,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isMeleeWeapon: 0
   baseDamagePerHit: 10
-  damageIncreasePerLevel: 1
+  damageIncreasePerLevel: 2
   timeBetweenShots: 0.2
   bulletSpeed: 20
   rangeInMeters: 30
   ammunitionType: 0
   numberOfStartingBullets: 10
-  numberOfAdditionalBulletsPerLevel: 0
+  numberOfAdditionalBulletsPerLevel: 1
