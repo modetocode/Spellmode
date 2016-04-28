@@ -19,7 +19,7 @@ public class Unit : ITickable {
     public Weapon Weapon { get; private set; }
     public UnitType UnitType { get { return this.unitSettings.UnitType; } }
     public float MovementSpeed { get { return this.unitSettings.MovementSpeed; } }
-    public int Level { get; private set; }
+    public UnitLevelData UnitLevelData { get; private set; }
 
     /// <summary>
     /// True if the units auto-attacks when the weapon is ready to fire, or false it the firing is triggered manually.
@@ -46,13 +46,13 @@ public class Unit : ITickable {
     private float jumpYDestination;
     private UnitSettings unitSettings;
 
-    public Unit(UnitSettings unitSettings, int level, WeaponSettings weaponSettings, Vector2 unitSpawnPosition, bool hasAutoAttack) {
+    public Unit(UnitSettings unitSettings, UnitLevelData unitLevelData, WeaponSettings weaponSettings, Vector2 unitSpawnPosition, bool hasAutoAttack) {
         if (unitSettings == null) {
             throw new ArgumentNullException("unitSettings");
         }
 
-        if (level < 1) {
-            throw new ArgumentOutOfRangeException("level", "Cannot be less than one.");
+        if (unitLevelData == null) {
+            throw new ArgumentNullException("unitLevelData");
         }
 
         if (weaponSettings == null) {
@@ -60,7 +60,7 @@ public class Unit : ITickable {
         }
 
         this.unitSettings = unitSettings;
-        this.Level = level;
+        this.UnitLevelData = unitLevelData;
         this.PositionInMeters = unitSpawnPosition;
         this.Weapon = new Weapon(weaponSettings, this);
         this.healthElement = new HealthElement(unitSettings.MaxHealth);

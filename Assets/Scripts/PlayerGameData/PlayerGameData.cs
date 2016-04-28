@@ -11,6 +11,10 @@ public class PlayerGameData {
     private int goldAmount = 0;
     [SerializeField]
     private int highestCompletedLevelNumber = 0;
+    [SerializeField]
+    private UnitLevelData heroUnitLevelData = new UnitLevelData(1);
+    [SerializeField]
+    private UnitType heroUnitType = UnitType.HeroUnit;
 
     public int GoldAmount {
         get { return this.goldAmount; }
@@ -26,6 +30,18 @@ public class PlayerGameData {
             this.highestCompletedLevelNumber = value;
             this.InvokeObjectUpdatedEvent();
         }
+    }
+
+    public UnitLevelData HeroUnitLevelData {
+        get { return this.heroUnitLevelData; }
+        set {
+            this.heroUnitLevelData = value;
+            this.InvokeObjectUpdatedEvent();
+        }
+    }
+
+    public UnitType HeroUnitType {
+        get { return this.heroUnitType; }
     }
 
     private void InvokeObjectUpdatedEvent() {

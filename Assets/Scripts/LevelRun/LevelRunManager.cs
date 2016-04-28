@@ -59,11 +59,6 @@ public class LevelRunManager : ITickable {
     private PlayerModel PlayerModel { get { return PlayerModel.Instance; } }
 
     public void InitializeRun() {
-        //TODO get the appropriate attacking team data
-        IList<UnitSpawnData> attackingTeamSpawnData = new UnitSpawnData[] {
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 0f, unitType: UnitType.HeroUnit, unitLevel: 1, unitHasAutoAttack: false),
-        };
-
         this.LevelRunData = this.LevelRunModel.LevelRunData;
         if (this.LevelRunData == null) {
             throw new InvalidOperationException("Level Run data is not set.");
@@ -73,6 +68,9 @@ public class LevelRunManager : ITickable {
         this.DefendingTeam = new Team();
         this.ProgressTracker = new ProgressTracker(this.AttackingTeam, this.LevelRunData.LengthInMeters);
         this.ProgressTracker.ProgressFinished += ProgressFinishedHandler;
+        IList<UnitSpawnData> attackingTeamSpawnData = new UnitSpawnData[] {
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 0f, unitType: UnitType.HeroUnit, unitLevelData: this.PlayerModel.PlayerGameData.HeroUnitLevelData, unitHasAutoAttack: false),
+        };
         List<UnitSpawnData> spawnData = new List<UnitSpawnData>(attackingTeamSpawnData);
         spawnData.AddRange(this.LevelRunData.DefendingTeamUnitSpawnData);
         this.Spawner = new Spawner(this.ProgressTracker, spawnData, this.LevelRunData.LootSpawnData);

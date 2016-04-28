@@ -6,18 +6,17 @@
 public class UnitSpawnData : SpawnData {
 
     public UnitType UnitType { get; private set; }
-    public int UnitLevel { get; private set; }
+    public UnitLevelData UnitLevelData { get; private set; }
     public bool UnitHasAutoAttack { get; private set; }
 
-    public UnitSpawnData(Constants.Platforms.PlatformType platformType, float positionOnPlatformInMeters, UnitType unitType, int unitLevel, bool unitHasAutoAttack)
+    public UnitSpawnData(Constants.Platforms.PlatformType platformType, float positionOnPlatformInMeters, UnitType unitType, UnitLevelData unitLevelData, bool unitHasAutoAttack)
     : base(platformType, positionOnPlatformInMeters) {
-
-        if (unitLevel < 1) {
-            throw new ArgumentOutOfRangeException("unitLevel", "Cannot be less than one.");
+        if (unitLevelData == null) {
+            throw new ArgumentNullException("unitLevelData");
         }
 
         this.UnitType = unitType;
-        this.UnitLevel = unitLevel;
+        this.UnitLevelData = unitLevelData;
         this.UnitHasAutoAttack = unitHasAutoAttack;
     }
 }

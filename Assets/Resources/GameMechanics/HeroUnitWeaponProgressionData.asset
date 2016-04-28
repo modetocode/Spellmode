@@ -18,4 +18,5 @@ MonoBehaviour:
   bulletSpeed: 20
   rangeInMeters: 30
   ammunitionType: 0
-  numberOfStartingBulletsPerLevel: 10
+  numberOfStartingBullets: 10
+  numberOfAdditionalBulletsPerLevel: 0

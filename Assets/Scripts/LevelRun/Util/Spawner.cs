@@ -47,7 +47,7 @@ public class Spawner : ITickable {
     private void SpawnUnit(UnitSpawnData unitSpawnData) {
         float unitSpawnYPosition = PlatformManager.GetYCoordinateForPlatform(unitSpawnData.PlatformType);
         Vector2 unitSpawnPosition = new Vector2(unitSpawnData.PositionOnPlatformInMeters, unitSpawnYPosition);
-        Unit newUnit = UnitFactory.CreateUnit(unitSpawnData.UnitType, unitSpawnData.UnitLevel, unitSpawnPosition, unitSpawnData.UnitHasAutoAttack);
+        Unit newUnit = UnitFactory.CreateUnit(unitSpawnData.UnitType, unitSpawnData.UnitLevelData, unitSpawnPosition, unitSpawnData.UnitHasAutoAttack);
         if (this.UnitSpawned != null) {
             this.UnitSpawned(newUnit);
         }

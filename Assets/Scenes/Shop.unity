@@ -1052,7 +1052,7 @@ GameObject:
   - 114: {fileID: 409848638}
   - 114: {fileID: 409848637}
   m_Layer: 5
-  m_Name: UpgradeAmmunitionButton
+  m_Name: AmmunitionUpgradeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1536,7 +1536,7 @@ GameObject:
   - 114: {fileID: 569330310}
   - 114: {fileID: 569330309}
   m_Layer: 5
-  m_Name: UpgradeDamageButton
+  m_Name: DamageUpgradeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1766,18 +1766,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 577364866}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1334243361}
-        m_MethodName: GoToLevelSelect
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &577364866
@@ -2191,7 +2180,7 @@ GameObject:
   - 114: {fileID: 677480380}
   - 114: {fileID: 677480384}
   m_Layer: 5
-  m_Name: NextLevelDamageValue
+  m_Name: DamageUpgradeInfoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3360,7 +3349,7 @@ GameObject:
   - 114: {fileID: 1107169402}
   - 114: {fileID: 1107169406}
   m_Layer: 5
-  m_Name: NextLevelAmmunitionValue
+  m_Name: AmmunitionUpgradeInfoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3804,7 +3793,7 @@ GameObject:
   - 114: {fileID: 1172923012}
   - 114: {fileID: 1172923011}
   m_Layer: 5
-  m_Name: ValueText
+  m_Name: AmmunitionUpgradeCostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4041,7 +4030,7 @@ GameObject:
   - 114: {fileID: 1211348459}
   - 114: {fileID: 1211348458}
   m_Layer: 5
-  m_Name: ValueText
+  m_Name: HealthUpgradeCostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4331,6 +4320,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a297d47aa3b7e7944bf454c7c9dd022c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthInfoText: {fileID: 1245824645}
+  healthUpgradeInfoText: {fileID: 1844450781}
+  healthUpgradeButton: {fileID: 1367874998}
+  healthUpgradeCostText: {fileID: 1211348460}
+  damageInfoText: {fileID: 433201459}
+  damageUpgradeInfoText: {fileID: 677480382}
+  damageUpgradeButton: {fileID: 569330311}
+  damageUpgradeCostText: {fileID: 1436959060}
+  ammunitionInfoText: {fileID: 1417364333}
+  ammunitionUpgradeInfoText: {fileID: 1107169404}
+  ammunitionUpgradeButton: {fileID: 409848639}
+  ammunitionUpgradeCostText: {fileID: 1172923013}
+  goldAmountText: {fileID: 594258826}
+  backToLevelSelectButton: {fileID: 577364865}
 --- !u!114 &1334243362
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4539,7 +4542,7 @@ GameObject:
   - 114: {fileID: 1367874997}
   - 114: {fileID: 1367874996}
   m_Layer: 5
-  m_Name: UpgradeHealthButton
+  m_Name: HealthUpgradeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5048,7 +5051,7 @@ GameObject:
   - 114: {fileID: 1436959059}
   - 114: {fileID: 1436959058}
   m_Layer: 5
-  m_Name: ValueText
+  m_Name: DamageUpgradeCostText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6011,7 +6014,7 @@ GameObject:
   - 114: {fileID: 1844450783}
   - 114: {fileID: 1844450785}
   m_Layer: 5
-  m_Name: NextLevelHealthValue
+  m_Name: HealthUpgradeInfoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

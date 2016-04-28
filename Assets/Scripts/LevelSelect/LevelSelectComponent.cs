@@ -50,14 +50,14 @@ public class LevelSelectComponent : MonoBehaviour {
     private IList<LevelRunData> GetLevelRunData() {
         //TODO move this to appropriate place when the level editor is done.
         IList<UnitSpawnData> defendingTeamSpawnData = new UnitSpawnData[] {
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 10f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 13f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 18f, unitType: UnitType.DefendingArcherUnit, unitLevel: 1, unitHasAutoAttack: true),
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 25f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 26f, unitType: UnitType.DefendingArcherUnit, unitLevel: 1, unitHasAutoAttack: true),
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 32f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 33f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 33.5f, unitType: UnitType.DefendingMeleeUnit, unitLevel: 1, unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 10f, unitType: UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1), unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 13f, unitType: UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1), unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 18f, unitType: UnitType.DefendingArcherUnit, unitLevelData: new UnitLevelData(1), unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 25f, unitType: UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1), unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 26f, unitType: UnitType.DefendingArcherUnit, unitLevelData: new UnitLevelData(1), unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 32f, unitType: UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1), unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 33f, unitType: UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1), unitHasAutoAttack: true),
+            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 33.5f, unitType: UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1), unitHasAutoAttack: true),
         };
 
         IList<LootItemSpawnData> lootSpawnData = new LootItemSpawnData[] {

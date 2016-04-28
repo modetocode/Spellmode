@@ -14,15 +14,15 @@ public static class BountyCalculator {
         IList<LootItem> loot = new List<LootItem>();
         IList<LootItemProgressionData> lootProgression = GameMechanicsManager.GetLootTableProgressionData().GetLootProgressionData(unit.UnitType);
         for (int i = 0; i < lootProgression.Count; i++) {
-            LootItem lootItem = CreateLootItem(lootProgression[i], unit.Level, unit.PositionInMeters);
+            LootItem lootItem = CreateLootItem(lootProgression[i], unit.UnitLevelData, unit.PositionInMeters);
             loot.Add(lootItem);
         }
 
         return loot;
     }
 
-    private static LootItem CreateLootItem(LootItemProgressionData progressionData, int level, Vector2 spawnPosition) {
-        float lootAmount = progressionData.AmountPerLevel * level;
+    private static LootItem CreateLootItem(LootItemProgressionData progressionData, UnitLevelData unitLevelData, Vector2 spawnPosition) {
+        float lootAmount = progressionData.AmountPerLevel * unitLevelData.GetAverageLevel();
         float minValueFactorRatio = 1f - progressionData.RandomFactorRatio;
         float maxValueFactorRatio = 1f + progressionData.RandomFactorRatio;
         float variableAmount = UnityEngine.Random.Range(lootAmount * minValueFactorRatio, lootAmount * maxValueFactorRatio);
