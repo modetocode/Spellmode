@@ -187,6 +187,6 @@ public class LevelRunGUIComponent : MonoBehaviour {
             this.levelRunManager.FinishRun();
         }
 
-        SceneManager.LoadScene(Constants.Scenes.AllLevelsSceneName);
+        SceneManager.LoadScene(Constants.Scenes.LevelSelectSceneName);
     }
 }

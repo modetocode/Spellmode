@@ -66,7 +66,8 @@ public static class Constants {
 
     public static class Scenes {
         public const string LevelRunSceneName = "LevelRun";
-        public const string AllLevelsSceneName = "LevelSelect";
+        public const string LevelSelectSceneName = "LevelSelect";
+        public const string ShopSceneName = "Shop";
     }
 
     public static class LevelRun {

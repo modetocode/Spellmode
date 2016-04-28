@@ -91,4 +91,8 @@ public class LevelSelectComponent : MonoBehaviour {
 
         return listItemData;
     }
+
+    public void GoToShop() {
+        SceneManager.LoadScene(Constants.Scenes.ShopSceneName);
+    }
 }

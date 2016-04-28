@@ -9,3 +9,5 @@ EditorBuildSettings:
     path: Assets/Scenes/LevelSelect.unity
   - enabled: 1
     path: Assets/Scenes/LevelRun.unity
+  - enabled: 1
+    path: Assets/Scenes/Shop.unity
