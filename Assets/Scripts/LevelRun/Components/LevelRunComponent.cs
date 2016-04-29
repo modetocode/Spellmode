@@ -3,6 +3,8 @@ using UnityEngine;
 
 class LevelRunComponent : MonoBehaviour {
 
+    public event Action Initialized;
+
     [SerializeField]
     private InputComponent inputComponent;
 
@@ -20,6 +22,12 @@ class LevelRunComponent : MonoBehaviour {
 
     private LevelRunManager levelRunManager;
     private bool runFinished;
+
+    public bool IsInitialized { get; private set; }
+    public bool IsGamePaused { get { return this.levelRunManager.IsGamePaused; } }
+    public bool IsGameFinished { get { return this.levelRunManager.IsGameFinished; } }
+    private LevelRunModel LevelRunModel { get { return LevelRunModel.Instance; } }
+    private PlayerModel PlayerModel { get { return PlayerModel.Instance; } }
 
     public void Awake() {
         if (this.inputComponent == null) {
@@ -41,9 +49,9 @@ class LevelRunComponent : MonoBehaviour {
 
     public void Start() {
         this.runFinished = false;
+        this.LevelRunModel.RunFinished += FinishRun;
         this.levelRunManager = new LevelRunManager();
-        this.levelRunManager.InitializeRun();
-        this.levelRunManager.RunFinished += FinishRun;
+        this.levelRunManager.InitializeRun(this.LevelRunModel);
         this.levelRunManager.AttackingTeam.UnitAdded += OnUnitInTeamAdded;
         this.levelRunManager.DefendingTeam.UnitAdded += OnUnitInTeamAdded;
         this.levelRunManager.BulletManager.BulletAdded += OnNewBulletAdded;
@@ -52,13 +60,16 @@ class LevelRunComponent : MonoBehaviour {
         this.levelRunManager.GamePaused += OnGamePaused;
         this.levelRunManager.GameResumed += OnGameResumed;
         this.instantiatorComponent.HeroUnitInstantiated += OnNewUnitInstantiated;
-        this.levelRunGuiComponent.Initialize(this.levelRunManager);
         this.inputComponent.JumpDownInputed += JumpDownInputedHandler;
         this.inputComponent.JumpUpInputed += JumpUpInputedHandler;
         this.inputComponent.PauseInputed += PauseInputedHandler;
         this.inputComponent.ShootInputed += ShootInputedHandler;
         this.backgroundComponent.PauseMovement();
         this.levelRunManager.SpawnStartingUnits();
+        this.IsInitialized = true;
+        if (this.Initialized != null) {
+            this.Initialized();
+        }
     }
 
     public void Update() {
@@ -78,9 +89,19 @@ class LevelRunComponent : MonoBehaviour {
     }
 
     private void FinishRun(LevelRunFinishType finishType) {
-        this.levelRunManager.RunFinished -= FinishRun;
+        this.LevelRunModel.RunFinished -= FinishRun;
         this.UnsubscribeFromEvents();
         this.backgroundComponent.PauseMovement();
+        if (finishType == LevelRunFinishType.RunCompleted) {
+            int goldLootedAmount = this.LevelRunModel.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold);
+            GameConstants gameConstants = GameMechanicsManager.GetGameConstanstsData();
+            int levelNumber = this.LevelRunModel.LevelRunData.LevelNumber;
+            int levelCompletedGoldAmount = gameConstants.GetGoldRewardForLevel(levelNumber);
+            this.PlayerModel.PlayerGameData.GoldAmount += goldLootedAmount + levelCompletedGoldAmount;
+            this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber = Math.Max(this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber, levelNumber);
+            this.LevelRunModel.LevelCompletedRewardData = new LevelCompetedRewardData(levelCompletedGoldAmount, goldLootedAmount, this.PlayerModel.PlayerGameData.GoldAmount);
+        }
+
         this.runFinished = true;
     }
 
@@ -138,12 +159,8 @@ class LevelRunComponent : MonoBehaviour {
     }
 
     private void OnGameStarted() {
-        if (this.levelRunManager.AttackingTeam.UnitsInTeam.Count == 0) {
-            throw new InvalidOperationException("No units in the attacking team");
-        }
-
-        Unit unit = this.levelRunManager.AttackingTeam.UnitsInTeam[0];
-        this.backgroundComponent.SetMoveSpeed(unit.MovementSpeed * Constants.LevelRun.BackgroundSpeedFactor);
+        Unit heroUnit = this.LevelRunModel.HeroUnit;
+        this.backgroundComponent.SetMoveSpeed(heroUnit.MovementSpeed * Constants.LevelRun.BackgroundSpeedFactor);
         this.backgroundComponent.ResumeMovement();
     }
 
@@ -168,5 +185,21 @@ class LevelRunComponent : MonoBehaviour {
         this.inputComponent.JumpUpInputed -= JumpUpInputedHandler;
         this.inputComponent.PauseInputed -= PauseInputedHandler;
         this.inputComponent.ShootInputed -= ShootInputedHandler;
+    }
+
+    public void PauseGame() {
+        this.levelRunManager.PauseGame();
+    }
+
+    public void ResumeGame() {
+        this.levelRunManager.ResumeGame();
+    }
+
+    public void StartRun() {
+        this.levelRunManager.StartRun();
+    }
+
+    public void FinishRun() {
+        this.levelRunManager.FinishRun();
     }
 }

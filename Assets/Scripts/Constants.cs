@@ -73,6 +73,7 @@ public static class Constants {
     public static class LevelRun {
         public const float BackgroundSpeedFactor = 0.1f;
         public const float DistanceToTriggerObjectSpawnInMetters = 25f;
+        public const string LevelProgressStringTemplate = "{0:0.} / {1:0.}";
     }
 
     public static class GameData {

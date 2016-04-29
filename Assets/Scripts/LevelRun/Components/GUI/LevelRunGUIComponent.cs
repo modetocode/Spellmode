@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class LevelRunGUIComponent : MonoBehaviour {
 
     [SerializeField]
+    private LevelRunComponent levelRunComponent;
+    [SerializeField]
     private Text progressInfoText;
     [SerializeField]
     private Slider progressBar;
@@ -31,13 +33,17 @@ public class LevelRunGUIComponent : MonoBehaviour {
     [SerializeField]
     private RectTransform levelFailedInfoGroup;
     [SerializeField]
-    private RectTransform levelCompletedInfoGroup;
+    private LevelCompletedGUIComponent levelCompletedComponent;
 
-    private LevelRunManager levelRunManager;
-    private Team trackedTeam;
+    private LevelRunModel LevelRunModel { get { return LevelRunModel.Instance; } }
     private Unit trackedUnit;
+    private bool guiInitialized = false;
 
     public void Awake() {
+        if (this.levelRunComponent == null) {
+            throw new NullReferenceException("levelRunComponent is null");
+        }
+
         if (this.progressInfoText == null) {
             throw new NullReferenceException("progressInfoText is null");
         }
@@ -78,35 +84,30 @@ public class LevelRunGUIComponent : MonoBehaviour {
             throw new NullReferenceException("levelFailedInfoGroup is null");
         }
 
-        if (this.levelCompletedInfoGroup == null) {
-            throw new NullReferenceException("levelCompletedInfoGroup is null");
+        if (this.levelCompletedComponent == null) {
+            throw new NullReferenceException("levelCompletedComponent is null");
         }
         this.pauseMenuGroup.gameObject.SetActive(false);
         this.levelFailedInfoGroup.gameObject.SetActive(false);
-        this.levelCompletedInfoGroup.gameObject.SetActive(false);
+        this.levelCompletedComponent.ShowComponent(false);
         this.pauseGameButton.interactable = false;
     }
 
-    public void Initialize(LevelRunManager levelRunManager) {
-        if (levelRunManager == null) {
-            throw new ArgumentNullException("levelRunManager");
+    public void Start() {
+        if (!this.levelRunComponent.IsInitialized) {
+            this.levelRunComponent.Initialized += InitializeGUI;
+            return;
         }
 
-        this.levelRunManager = levelRunManager;
-        this.levelRunManager.RunFinished += OnRunFinishedHandler;
-        this.trackedTeam = this.levelRunManager.AttackingTeam;
-        if (this.trackedTeam.UnitsInTeam.Count == 0) {
-            this.trackedTeam.UnitAdded += OnUnitToTrackAddedHandler;
-        }
-        else {
-            if (trackedTeam.UnitsInTeam.Count > 1) {
-                throw new InvalidOperationException("Cannot track more than one unit.");
-            }
+        this.InitializeGUI();
+    }
 
-            this.trackedUnit = this.trackedTeam.UnitsInTeam[0];
-        }
-
-        this.runInfoHeaderText.text += " " + this.levelRunManager.LevelRunData.LevelNumber;
+    private void InitializeGUI() {
+        this.guiInitialized = true;
+        this.levelRunComponent.Initialized -= InitializeGUI;
+        this.trackedUnit = this.LevelRunModel.HeroUnit;
+        this.LevelRunModel.RunFinished += OnRunFinishedHandler;
+        this.runInfoHeaderText.text += " " + this.LevelRunModel.LevelRunData.LevelNumber;
         this.runInfoGroup.gameObject.SetActive(true);
     }
 
@@ -119,11 +120,11 @@ public class LevelRunGUIComponent : MonoBehaviour {
     }
 
     private void OnRunFinishedHandler(LevelRunFinishType finishType) {
-        this.levelRunManager.RunFinished -= OnRunFinishedHandler;
-        this.trackedTeam.UnitAdded -= OnUnitToTrackAddedHandler;
+        this.LevelRunModel.RunFinished -= OnRunFinishedHandler;
         this.pauseGameButton.interactable = false;
         if (finishType == LevelRunFinishType.RunCompleted) {
-            this.levelCompletedInfoGroup.gameObject.SetActive(true);
+            this.levelCompletedComponent.Initialize(this.LevelRunModel.LevelCompletedRewardData);
+            this.levelCompletedComponent.ShowComponent(true);
         }
 
         if (finishType == LevelRunFinishType.RunFailed) {
@@ -132,49 +133,50 @@ public class LevelRunGUIComponent : MonoBehaviour {
     }
 
     public void Update() {
-        if (this.levelRunManager == null) {
+        if (!this.guiInitialized) {
             return;
         }
 
-        //TODO extract the format in constants
-        this.progressInfoText.text = string.Format("{0:0.} / {1:0.}", this.levelRunManager.CurrentProgressInMeters, this.levelRunManager.LevelLengthInMeters);
-        this.progressBar.value = this.levelRunManager.CurrentProgressInMeters / (float)this.levelRunManager.LevelLengthInMeters;
+        float currentProgressInMeters = this.LevelRunModel.ProgressTracker.CurrentProgressInMeters;
+        float levelLengthInMeters = this.LevelRunModel.LevelRunData.LengthInMeters;
+        this.progressInfoText.text = string.Format(Constants.LevelRun.LevelProgressStringTemplate, currentProgressInMeters, levelLengthInMeters);
+        this.progressBar.value = currentProgressInMeters / levelLengthInMeters;
         if (this.trackedUnit != null) {
             this.ammunitionLootInfoText.text = this.trackedUnit.Weapon.NumberOfBullets.ToString();
             this.healthBar.value = this.trackedUnit.Health / (float)this.trackedUnit.MaxHealth;
             this.healthInfoText.text = this.trackedUnit.Health.ToString();
         }
 
-        this.goldLootInfoText.text = this.levelRunManager.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold).ToString();
+        this.goldLootInfoText.text = this.LevelRunModel.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold).ToString();
     }
 
     public void StartRun() {
         this.runInfoGroup.gameObject.SetActive(false);
         this.pauseGameButton.interactable = true;
-        this.levelRunManager.StartRun();
+        this.levelRunComponent.StartRun();
     }
 
     public void PauseGame() {
-        if (this.levelRunManager.IsGamePaused) {
+        if (this.levelRunComponent.IsGamePaused) {
             return;
         }
 
-        this.levelRunManager.PauseGame();
+        this.levelRunComponent.PauseGame();
         this.pauseMenuGroup.gameObject.SetActive(true);
     }
 
     public void ResumeGame() {
-        if (!this.levelRunManager.IsGamePaused) {
+        if (!this.levelRunComponent.IsGamePaused) {
             return;
         }
 
-        this.levelRunManager.ResumeGame();
+        this.levelRunComponent.ResumeGame();
         this.pauseMenuGroup.gameObject.SetActive(false);
     }
 
     public void RestartGame() {
-        if (!this.levelRunManager.IsGameFinished) {
-            this.levelRunManager.FinishRun();
+        if (!this.levelRunComponent.IsGameFinished) {
+            this.levelRunComponent.FinishRun();
         }
 
         this.pauseMenuGroup.gameObject.SetActive(false);
@@ -183,8 +185,8 @@ public class LevelRunGUIComponent : MonoBehaviour {
 
 
     public void ExitGame() {
-        if (!this.levelRunManager.IsGameFinished) {
-            this.levelRunManager.FinishRun();
+        if (!this.levelRunComponent.IsGameFinished) {
+            this.levelRunComponent.FinishRun();
         }
 
         SceneManager.LoadScene(Constants.Scenes.LevelSelectSceneName);

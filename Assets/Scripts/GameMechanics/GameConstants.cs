@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Containts varius tweakable values connected with the game.
@@ -13,12 +14,18 @@ public class GameConstants : ScriptableObject {
     private int goldIncreaseCostForHeroStatUpdate;
 
     public int GetGoldRewardForLevel(int levelNumber) {
-        //TODO arg check
+        if (levelNumber < 1) {
+            throw new ArgumentOutOfRangeException("levelNumber");
+        }
+
         return levelNumber * goldIncreaseAmountForLevelCompleted;
     }
 
     public int GetGoldCostForHeroStat(int statLevel) {
-        //TODO arg check
+        if (statLevel < 1) {
+            throw new ArgumentOutOfRangeException("statLevel");
+        }
+
         return statLevel * goldIncreaseCostForHeroStatUpdate;
     }
 }

@@ -36,7 +36,7 @@ public class LevelSelectComponent : MonoBehaviour {
     public void Start() {
         this.PlayerModel.Initialize();
         Action<LevelRunData> onLevelRunButtonClickedAction = (levelRunData => {
-            LevelRunModel.Initialize(levelRunData);
+            LevelRunModel.Initialize(levelRunData, this.GetHeroSpawnData());
             SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
         });
 
@@ -44,7 +44,16 @@ public class LevelSelectComponent : MonoBehaviour {
         int highestUnlockedLevelNumber = Mathf.Clamp(this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber + 1, 1, runData.Count);
         this.levelRunList.Initialize(listItemData: runData, highestUnlockedLevelNumber: highestUnlockedLevelNumber, onListItemClickedAction: onLevelRunButtonClickedAction);
         this.scrollableLevelRunTabsAddon.Initialize();
-        this.goldAmountText.text = PlayerModel.Instance.PlayerGameData.GoldAmount.ToString();
+        this.goldAmountText.text = this.PlayerModel.PlayerGameData.GoldAmount.ToString();
+    }
+
+    private UnitSpawnData GetHeroSpawnData() {
+        return new UnitSpawnData(
+            platformType: Constants.Platforms.PlatformType.Bottom,
+            positionOnPlatformInMeters: 0f,
+            unitType: this.PlayerModel.PlayerGameData.HeroUnitType,
+            unitLevelData: this.PlayerModel.PlayerGameData.HeroUnitLevelData,
+            unitHasAutoAttack: false);
     }
 
     private IList<LevelRunData> GetLevelRunData() {

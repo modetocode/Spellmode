@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 
 /// <summary>
-/// Responsible for tracking the progression of the attacking team towards completion of a level. 
+/// Responsible for tracking the progression of a team towards completion of a level. 
 /// </summary>
 public class ProgressTracker : ITickable {
 
     /// <summary>
-    /// Thrown when the attackin team has completed a level.
+    /// Thrown when the tracking team has finished the progress.
     /// </summary>
     public event Action ProgressFinished;
 
     public float CurrentProgressInMeters { get; private set; }
     public float LevelLengthInMeters { get; private set; }
-    private Team attackingTeam;
+    private Team trackingTeam;
 
-    public ProgressTracker(Team attackingTeam, float levelLengthInMeters) {
-        if (attackingTeam == null) {
+    public ProgressTracker(Team trackingTeam, float levelLengthInMeters) {
+        if (trackingTeam == null) {
             throw new ArgumentNullException("attackingTeam");
         }
 
@@ -24,13 +24,13 @@ public class ProgressTracker : ITickable {
             throw new ArgumentOutOfRangeException("levelLengthInMeters", "Cannot be less or equal to zero");
         }
 
-        this.attackingTeam = attackingTeam;
+        this.trackingTeam = trackingTeam;
         this.LevelLengthInMeters = levelLengthInMeters;
         this.CurrentProgressInMeters = 0.0f;
     }
 
     public void Tick(float deltaTime) {
-        IList<Unit> aliveUnits = this.attackingTeam.AliveUnitsInTeam;
+        IList<Unit> aliveUnits = this.trackingTeam.AliveUnitsInTeam;
         if (aliveUnits.Count == 0) {
             return;
         }

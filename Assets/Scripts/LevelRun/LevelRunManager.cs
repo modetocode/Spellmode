@@ -18,11 +18,6 @@ public class LevelRunManager : ITickable {
     /// </summary>
     public event Action GameResumed;
 
-    /// <summary>
-    /// Event that is thrown when the run is finished
-    /// </summary>
-    public event Action<LevelRunFinishType> RunFinished;
-
     public Team AttackingTeam { get; private set; }
     public Team DefendingTeam { get; private set; }
     public bool IsGamePaused { get; private set; }
@@ -51,38 +46,36 @@ public class LevelRunManager : ITickable {
     public CombatManager CombatManager { get; private set; }
     public BulletManager BulletManager { get; private set; }
     public LootItemManager LootItemManager { get; private set; }
-    public LevelRunData LevelRunData { get; private set; }
     private Ticker Ticker { get; set; }
     private Spawner Spawner { get; set; }
     private ProgressTracker ProgressTracker { get; set; }
-    private LevelRunModel LevelRunModel { get { return LevelRunModel.Instance; } }
-    private PlayerModel PlayerModel { get { return PlayerModel.Instance; } }
+    private LevelRunModel LevelRunModel { get; set; }
 
-    public void InitializeRun() {
-        this.LevelRunData = this.LevelRunModel.LevelRunData;
-        if (this.LevelRunData == null) {
-            throw new InvalidOperationException("Level Run data is not set.");
+    public void InitializeRun(LevelRunModel levelRunModel) {
+        if (levelRunModel == null) {
+            throw new ArgumentNullException("levelRunModel");
         }
 
+        this.LevelRunModel = levelRunModel;
+        LevelRunData levelRunData = this.LevelRunModel.LevelRunData;
         this.AttackingTeam = new Team();
         this.DefendingTeam = new Team();
-        this.ProgressTracker = new ProgressTracker(this.AttackingTeam, this.LevelRunData.LengthInMeters);
+        this.ProgressTracker = new ProgressTracker(this.AttackingTeam, levelRunData.LengthInMeters);
         this.ProgressTracker.ProgressFinished += ProgressFinishedHandler;
-        IList<UnitSpawnData> attackingTeamSpawnData = new UnitSpawnData[] {
-            new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 0f, unitType: UnitType.HeroUnit, unitLevelData: this.PlayerModel.PlayerGameData.HeroUnitLevelData, unitHasAutoAttack: false),
-        };
+        this.LevelRunModel.ProgressTracker = this.ProgressTracker;
+        IList<UnitSpawnData> attackingTeamSpawnData = new UnitSpawnData[] { this.LevelRunModel.HeroSpawnData };
         List<UnitSpawnData> spawnData = new List<UnitSpawnData>(attackingTeamSpawnData);
-        spawnData.AddRange(this.LevelRunData.DefendingTeamUnitSpawnData);
-        this.Spawner = new Spawner(this.ProgressTracker, spawnData, this.LevelRunData.LootSpawnData);
+        spawnData.AddRange(levelRunData.DefendingTeamUnitSpawnData);
+        this.Spawner = new Spawner(this.ProgressTracker, spawnData, levelRunData.LootSpawnData);
         this.Spawner.UnitSpawned += OnUnitSpawnedHandler;
         this.Spawner.LootItemSpawned += OnLootItemSpawnedHandler;
         this.CombatManager = new CombatManager(this.AttackingTeam, this.DefendingTeam);
         this.BulletManager = new BulletManager();
         this.LootItemManager = new LootItemManager();
         this.LootItemManager.LootItemCollected += OnLootItemCollectedHandler;
+        this.LevelRunModel.LootItemManager = this.LootItemManager;
         this.AttackingTeam.AllUnitsDied += AllAttackingUnitsDiedHandler;
-        this.AttackingTeam.UnitAdded += OnUnitAddedHandler;
-        this.DefendingTeam.UnitAdded += OnUnitAddedHandler;
+        //TODO unsubscribe
         this.Ticker = new Ticker(new ITickable[] { this.AttackingTeam, this.DefendingTeam, this.ProgressTracker, this.Spawner, this.CombatManager, this.BulletManager });
         this.IsGameStarted = false;
         this.IsGamePaused = false;
@@ -95,11 +88,6 @@ public class LevelRunManager : ITickable {
         }
 
         this.Spawner.SpawnAllVisibleObjects();
-    }
-
-    private void OnUnitAddedHandler(Unit unit) {
-        unit.Weapon.BulletFired += BulletFiredHandler;
-        unit.Died += OnUnitDiedHandler;
     }
 
     private void OnUnitDiedHandler(Unit unit) {
@@ -121,8 +109,6 @@ public class LevelRunManager : ITickable {
     private void ProgressFinishedHandler() {
         this.ProgressTracker.ProgressFinished -= ProgressFinishedHandler;
         this.FinishRun(LevelRunFinishType.RunCompleted);
-        this.PlayerModel.PlayerGameData.GoldAmount += this.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold);
-        this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber = Math.Max(this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber, this.LevelRunData.LevelNumber);
     }
 
     private void AllAttackingUnitsDiedHandler() {
@@ -160,9 +146,8 @@ public class LevelRunManager : ITickable {
     private void FinishRun(LevelRunFinishType finishType) {
         this.Ticker.FinishTicking();
         this.IsGameFinished = true;
-        if (this.RunFinished != null) {
-            this.RunFinished(finishType);
-        }
+        this.LevelRunModel.FireRunFinishedEvent(finishType);
+        this.UnsubsribeFromEvents();
     }
 
     public void Tick(float deltaTime) {
@@ -216,8 +201,22 @@ public class LevelRunManager : ITickable {
     }
 
     private void OnUnitSpawnedHandler(Unit unit) {
-        //TODO should we check with the hardcoded unit type?
-        Team unitTeam = unit.UnitType == UnitType.HeroUnit ? this.AttackingTeam : this.DefendingTeam;
+        unit.Weapon.BulletFired += BulletFiredHandler;
+        unit.Died += OnUnitDiedHandler;
+        bool isHeroUnit = unit.UnitType == this.LevelRunModel.HeroSpawnData.UnitType;
+        Team unitTeam = isHeroUnit ? this.AttackingTeam : this.DefendingTeam;
+        if (isHeroUnit) {
+            this.LevelRunModel.HeroUnit = unit;
+        }
+
         unitTeam.AddUnit(unit);
+    }
+
+    private void UnsubsribeFromEvents() {
+        this.ProgressTracker.ProgressFinished -= ProgressFinishedHandler;
+        this.Spawner.UnitSpawned -= OnUnitSpawnedHandler;
+        this.Spawner.LootItemSpawned -= OnLootItemSpawnedHandler;
+        this.LootItemManager.LootItemCollected -= OnLootItemCollectedHandler;
+        this.AttackingTeam.AllUnitsDied -= AllAttackingUnitsDiedHandler;
     }
 }
