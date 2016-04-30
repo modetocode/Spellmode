@@ -1,16 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 /// <summary>
 /// The data that is needed for level run
 /// </summary>
+[Serializable]
 public class LevelRunData {
 
-    public int LevelNumber { get; private set; }
-    public float LengthInMeters { get; private set; }
-    public IList<UnitSpawnData> DefendingTeamUnitSpawnData { get; private set; }
-    public IList<LootItemSpawnData> LootSpawnData { get; private set; }
+    [SerializeField]
+    private int levelNumber;
+    [SerializeField]
+    private float lengthInMeters;
+    [SerializeField]
+    private List<UnitSpawnData> defendingTeamUnitSpawnData;
+    [SerializeField]
+    private List<LootItemSpawnData> lootSpawnData;
 
-    public LevelRunData(int levelNumber, float lengthInMeters, IList<UnitSpawnData> defendingTeamUnitSpawnData, IList<LootItemSpawnData> lootSpawnData) {
+    public int LevelNumber { get { return this.levelNumber; } }
+    public float LengthInMeters { get { return this.lengthInMeters; } }
+    public IList<UnitSpawnData> DefendingTeamUnitSpawnData { get { return this.defendingTeamUnitSpawnData; } }
+    public IList<LootItemSpawnData> LootSpawnData { get { return this.lootSpawnData; } }
+
+    public LevelRunData(int levelNumber, float lengthInMeters, List<UnitSpawnData> defendingTeamUnitSpawnData, List<LootItemSpawnData> lootSpawnData) {
         if (levelNumber <= 0f) {
             throw new ArgumentOutOfRangeException("levelNumber", "Cannot be zero or less.");
         }
@@ -27,9 +38,9 @@ public class LevelRunData {
             throw new ArgumentNullException("lootSpawnData");
         }
 
-        this.LevelNumber = levelNumber;
-        this.LengthInMeters = lengthInMeters;
-        this.DefendingTeamUnitSpawnData = defendingTeamUnitSpawnData;
-        this.LootSpawnData = lootSpawnData;
+        this.levelNumber = levelNumber;
+        this.lengthInMeters = lengthInMeters;
+        this.defendingTeamUnitSpawnData = defendingTeamUnitSpawnData;
+        this.lootSpawnData = lootSpawnData;
     }
 }

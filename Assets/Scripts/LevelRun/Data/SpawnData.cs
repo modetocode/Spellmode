@@ -1,18 +1,26 @@
 ﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Base class that contains data for one spawn object
 /// </summary>
+[Serializable]
 public abstract class SpawnData {
-    public Constants.Platforms.PlatformType PlatformType { get; private set; }
-    public float PositionOnPlatformInMeters { get; private set; }
+
+    [SerializeField]
+    private Constants.Platforms.PlatformType platformType;
+    [SerializeField]
+    private float positionOnPlatformInMeters;
+
+    public Constants.Platforms.PlatformType PlatformType { get { return this.platformType; } }
+    public float PositionOnPlatformInMeters { get { return this.positionOnPlatformInMeters; } }
 
     protected SpawnData(Constants.Platforms.PlatformType platformType, float positionOnPlatformInMeters) {
         if (positionOnPlatformInMeters < 0) {
             throw new ArgumentOutOfRangeException("positionOnPlatformInMeters", "Cannot be less than zero.");
         }
 
-        this.PlatformType = platformType;
-        this.PositionOnPlatformInMeters = positionOnPlatformInMeters;
+        this.platformType = platformType;
+        this.positionOnPlatformInMeters = positionOnPlatformInMeters;
     }
 }

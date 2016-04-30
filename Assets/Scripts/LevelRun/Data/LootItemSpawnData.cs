@@ -1,12 +1,19 @@
 ﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Contains data for spawning of one loot item.
 /// </summary>
+[Serializable]
 public class LootItemSpawnData : SpawnData {
 
-    public LootItemType LootItemType { get; private set; }
-    public int LootItemAmount { get; private set; }
+    [SerializeField]
+    private LootItemType lootItemType;
+    [SerializeField]
+    private int lootItemAmount;
+
+    public LootItemType LootItemType { get { return this.lootItemType; } }
+    public int LootItemAmount { get { return this.lootItemAmount; } }
 
     public LootItemSpawnData(Constants.Platforms.PlatformType platformType, float positionOnPlatformInMeters, LootItemType lootItemType, int lootItemAmount)
     : base(platformType, positionOnPlatformInMeters) {
@@ -14,7 +21,7 @@ public class LootItemSpawnData : SpawnData {
             throw new ArgumentOutOfRangeException("lootItemAmount", "Cannot be zero or less.");
         }
 
-        this.LootItemType = lootItemType;
-        this.LootItemAmount = lootItemAmount;
+        this.lootItemType = lootItemType;
+        this.lootItemAmount = lootItemAmount;
     }
 }

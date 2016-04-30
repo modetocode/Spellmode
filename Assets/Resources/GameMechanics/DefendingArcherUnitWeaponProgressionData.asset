@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Name: DefendingArcherUnitWeaponProgressionData
   m_EditorClassIdentifier: 
   isMeleeWeapon: 0
-  baseDamagePerHit: 50
-  damageIncreasePerLevel: 1
+  baseDamagePerHit: 35
+  damageIncreasePerLevel: 17
   timeBetweenShots: 2
   bulletSpeed: 6
   rangeInMeters: 10
   ammunitionType: 1
-  numberOfStartingBulletsPerLevel: 0
+  numberOfStartingBullets: 0
+  numberOfAdditionalBulletsPerLevel: 0

@@ -14,8 +14,8 @@ MonoBehaviour:
   unitType: 1
   movementSpeed: 0
   jumpSpeed: 0
-  baseMaxHealth: 30
-  healthIncreasePerLevel: 3
+  baseMaxHealth: 20
+  healthIncreasePerLevel: 10
   weaponMountYOffset: 0.7
   weaponProgressionData: {fileID: 11400000, guid: 00a7a27a8572edd458a6c4633def5bd0,
     type: 2}
