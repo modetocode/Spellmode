@@ -7,6 +7,9 @@ public class PlayerGameData {
     [field: NonSerialized]
     public event Action ObjectUpdated;
 
+
+    [SerializeField]
+    private string username = string.Empty;
     [SerializeField]
     private int goldAmount = 0;
     [SerializeField]
@@ -15,6 +18,14 @@ public class PlayerGameData {
     private UnitLevelData heroUnitLevelData = new UnitLevelData(1);
     [SerializeField]
     private UnitType heroUnitType = UnitType.HeroUnit;
+
+    public PlayerGameData(string username) {
+        if (username.Equals(string.Empty)) {
+            throw new ArgumentOutOfRangeException("username", "cannot be empty string.");
+        }
+
+        this.username = username;
+    }
 
     public int GoldAmount {
         get { return this.goldAmount; }
@@ -42,6 +53,10 @@ public class PlayerGameData {
 
     public UnitType HeroUnitType {
         get { return this.heroUnitType; }
+    }
+
+    public string Username {
+        get { return this.username; }
     }
 
     private void InvokeObjectUpdatedEvent() {

@@ -15,6 +15,10 @@ public class LevelSelectComponent : MonoBehaviour {
     private LevelRunDataListComponent levelRunList;
     [SerializeField]
     private ScrollableTabsAddon scrollableLevelRunTabsAddon;
+    [SerializeField]
+    private Button shopButton;
+    [SerializeField]
+    private Button logoutButton;
 
     private PlayerModel PlayerModel { get { return PlayerModel.Instance; } }
     private LevelRunModel LevelRunModel { get { return LevelRunModel.Instance; } }
@@ -31,10 +35,20 @@ public class LevelSelectComponent : MonoBehaviour {
         if (this.scrollableLevelRunTabsAddon == null) {
             throw new NullReferenceException("scrollableLevelRunTabsAddon is null");
         }
+
+        if (this.shopButton == null) {
+            throw new NullReferenceException("shopButton is null");
+        }
+
+        if (this.logoutButton == null) {
+            throw new NullReferenceException("logoutButton is null");
+        }
+
+        this.shopButton.onClick.AddListener(GoToShopScene);
+        this.logoutButton.onClick.AddListener(Logout);
     }
 
     public void Start() {
-        this.PlayerModel.Initialize();
         Action<LevelRunData> onLevelRunButtonClickedAction = (levelRunData => {
             LevelRunModel.Initialize(levelRunData, this.GetHeroSpawnData());
             SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
@@ -45,6 +59,11 @@ public class LevelSelectComponent : MonoBehaviour {
         this.levelRunList.Initialize(listItemData: runData, highestUnlockedLevelNumber: highestUnlockedLevelNumber, onListItemClickedAction: onLevelRunButtonClickedAction);
         this.scrollableLevelRunTabsAddon.Initialize();
         this.goldAmountText.text = this.PlayerModel.PlayerGameData.GoldAmount.ToString();
+    }
+
+    public void Destroy() {
+        this.shopButton.onClick.RemoveListener(GoToShopScene);
+        this.logoutButton.onClick.RemoveListener(Logout);
     }
 
     private UnitSpawnData GetHeroSpawnData() {
@@ -101,7 +120,13 @@ public class LevelSelectComponent : MonoBehaviour {
         return listItemData;
     }
 
-    public void GoToShop() {
+    private void GoToShopScene() {
         SceneManager.LoadScene(Constants.Scenes.ShopSceneName);
+    }
+
+    private void Logout() {
+        this.PlayerModel.Clear();
+        this.LevelRunModel.Clear();
+        SceneManager.LoadScene(Constants.Scenes.LoginSceneName);
     }
 }

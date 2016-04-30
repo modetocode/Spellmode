@@ -68,6 +68,7 @@ public static class Constants {
         public const string LevelRunSceneName = "LevelRun";
         public const string LevelSelectSceneName = "LevelSelect";
         public const string ShopSceneName = "Shop";
+        public const string LoginSceneName = "Login";
     }
 
     public static class LevelRun {
@@ -77,7 +78,7 @@ public static class Constants {
     }
 
     public static class GameData {
-        public const string PlayersGameDataFileName = "gameData.gd";
+        public const string GameDataFileName = "gameData.gd";
     }
 
     public static class GameMechanics {
