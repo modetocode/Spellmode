@@ -160,7 +160,7 @@ class LevelRunComponent : MonoBehaviour {
 
     private void OnGameStarted() {
         Unit heroUnit = this.LevelRunModel.HeroUnit;
-        this.backgroundComponent.SetMoveSpeed(heroUnit.MovementSpeed * Constants.LevelRun.BackgroundSpeedFactor);
+        this.backgroundComponent.SetMoveSpeed(heroUnit.MovementSpeed * Constants.Scenes.LevelRun.BackgroundSpeedFactor);
         this.backgroundComponent.ResumeMovement();
     }
 

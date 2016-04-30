@@ -108,7 +108,7 @@ public class ScrollableTabsAddon : MonoBehaviour, IBeginDragHandler, IEndDragHan
         }
     }
 
-    private void SetTab(int newTabIndex) {
+    public void SetTab(int newTabIndex) {
         newTabIndex = Mathf.Clamp(newTabIndex, 0, this.tabCount - 1);
         this.container.anchoredPosition = tabOffsets[newTabIndex];
         this.currentTabIndex = newTabIndex;

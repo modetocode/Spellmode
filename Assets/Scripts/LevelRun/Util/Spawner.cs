@@ -32,7 +32,7 @@ public class Spawner : ITickable {
         this.progressTracker = progressTracker;
         this.unitSpawnData = unitSpawnData.OrderBy(x => x.PositionOnPlatformInMeters).ToList();
         this.lootItemSpawnData = lootItemSpawnData.OrderBy(x => x.PositionOnPlatformInMeters).ToList();
-        this.distanceToTriggerObjectSpawnInMetters = Constants.LevelRun.DistanceToTriggerObjectSpawnInMetters;
+        this.distanceToTriggerObjectSpawnInMetters = Constants.Scenes.LevelRun.DistanceToTriggerObjectSpawnInMetters;
     }
 
     public void Tick(float deltaTime) {

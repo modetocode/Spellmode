@@ -59,6 +59,7 @@ public class LevelSelectComponent : MonoBehaviour {
         int highestUnlockedLevelNumber = Mathf.Clamp(this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber + 1, 1, numberOfLevels);
         this.levelRunList.Initialize(listItemData: runData, highestUnlockedLevelNumber: highestUnlockedLevelNumber, onListItemClickedAction: onLevelRunButtonClickedAction);
         this.scrollableLevelRunTabsAddon.Initialize();
+        this.scrollableLevelRunTabsAddon.SetTab((highestUnlockedLevelNumber - 1) / Constants.Scenes.LevelSelect.NumberOdDisplayedLevelsPerTab);
         this.goldAmountText.text = this.PlayerModel.PlayerGameData.GoldAmount.ToString();
     }
 

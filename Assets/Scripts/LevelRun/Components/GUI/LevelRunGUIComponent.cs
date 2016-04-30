@@ -139,7 +139,7 @@ public class LevelRunGUIComponent : MonoBehaviour {
 
         float currentProgressInMeters = this.LevelRunModel.ProgressTracker.CurrentProgressInMeters;
         float levelLengthInMeters = this.LevelRunModel.LevelRunData.LengthInMeters;
-        this.progressInfoText.text = string.Format(Constants.LevelRun.LevelProgressStringTemplate, currentProgressInMeters, levelLengthInMeters);
+        this.progressInfoText.text = string.Format(Constants.Scenes.LevelRun.LevelProgressStringTemplate, currentProgressInMeters, levelLengthInMeters);
         this.progressBar.value = currentProgressInMeters / levelLengthInMeters;
         if (this.trackedUnit != null) {
             this.ammunitionLootInfoText.text = this.trackedUnit.Weapon.NumberOfBullets.ToString();
