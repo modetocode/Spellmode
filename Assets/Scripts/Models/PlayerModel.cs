@@ -8,7 +8,6 @@ public class PlayerModel : BaseModel<PlayerModel> {
     public void Initialize(string username) {
         this.PlayerGameData = GameDataManager.LoadPlayerGameData(username);
         this.PlayerGameData.ObjectUpdated += SavePlayerData;
-        this.PlayerGameData.HeroUnitLevelData.ObjectUpdated += SavePlayerData;
     }
 
     private void SavePlayerData() {
@@ -17,7 +16,6 @@ public class PlayerModel : BaseModel<PlayerModel> {
 
     public override void Clear() {
         this.PlayerGameData.ObjectUpdated -= SavePlayerData;
-        this.PlayerGameData.HeroUnitLevelData.ObjectUpdated -= SavePlayerData;
         this.PlayerGameData = null;
     }
 }

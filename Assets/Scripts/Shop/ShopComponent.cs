@@ -43,6 +43,7 @@ public class ShopComponent : MonoBehaviour {
     private int availableGoldAmount;
     private UnitLevelData currentUnitLevelData;
     private UnitType currentUnitType;
+    private PlayerGameData playerGameData;
 
     private PlayerModel PlayerModel { get { return PlayerModel.Instance; } }
 
@@ -110,7 +111,6 @@ public class ShopComponent : MonoBehaviour {
     }
 
     public void Start() {
-
         this.UpdateAndDisplayShopData();
     }
 
@@ -122,9 +122,10 @@ public class ShopComponent : MonoBehaviour {
     }
 
     private void UpdateAndDisplayShopData() {
-        PlayerGameData playerGameData = this.PlayerModel.PlayerGameData;
-        this.currentUnitLevelData = playerGameData.HeroUnitLevelData;
-        this.currentUnitType = playerGameData.HeroUnitType;
+        this.playerGameData = this.PlayerModel.PlayerGameData;
+        PlayerHeroData currentHeroData = playerGameData.GetHeroData(UnitType.HeroUnit);
+        this.currentUnitLevelData = currentHeroData.HeroLevelData;
+        this.currentUnitType = currentHeroData.HeroType;
         this.availableGoldAmount = playerGameData.GoldAmount;
         this.goldAmountText.text = this.availableGoldAmount.ToString();
         this.UpdateHeroUpgradePrices();
@@ -160,7 +161,11 @@ public class ShopComponent : MonoBehaviour {
         }
 
         this.ReducePlayersGold(this.healthUpgradeCost);
-        this.currentUnitLevelData.HealthUpgradeLevel++;
+        UnitLevelData newLevelData = new UnitLevelData(
+            healthUpgradeLevel: this.currentUnitLevelData.HealthUpgradeLevel + 1,
+            damageUpgradeLevel: this.currentUnitLevelData.DamageUpgradeLevel,
+            ammunitionUpgradeLevel: this.currentUnitLevelData.AmmunitionUpgradeLevel);
+        this.UpdateCurrentUnitData(newLevelData);
         this.UpdateAndDisplayShopData();
     }
 
@@ -170,7 +175,11 @@ public class ShopComponent : MonoBehaviour {
         }
 
         this.ReducePlayersGold(this.damageUpgradeCost);
-        this.currentUnitLevelData.DamageUpgradeLevel++;
+        UnitLevelData newLevelData = new UnitLevelData(
+            healthUpgradeLevel: this.currentUnitLevelData.HealthUpgradeLevel,
+            damageUpgradeLevel: this.currentUnitLevelData.DamageUpgradeLevel + 1,
+            ammunitionUpgradeLevel: this.currentUnitLevelData.AmmunitionUpgradeLevel);
+        this.UpdateCurrentUnitData(newLevelData);
         this.UpdateAndDisplayShopData();
     }
 
@@ -180,7 +189,11 @@ public class ShopComponent : MonoBehaviour {
         }
 
         this.ReducePlayersGold(this.ammunitionUpgradeCost);
-        this.currentUnitLevelData.AmmunitionUpgradeLevel++;
+        UnitLevelData newLevelData = new UnitLevelData(
+            healthUpgradeLevel: this.currentUnitLevelData.HealthUpgradeLevel,
+            damageUpgradeLevel: this.currentUnitLevelData.DamageUpgradeLevel,
+            ammunitionUpgradeLevel: this.currentUnitLevelData.AmmunitionUpgradeLevel + 1);
+        this.UpdateCurrentUnitData(newLevelData);
         this.UpdateAndDisplayShopData();
     }
 
@@ -190,5 +203,10 @@ public class ShopComponent : MonoBehaviour {
 
     private void GoToLevelSelect() {
         SceneManager.LoadScene(Constants.Scenes.LevelSelectSceneName);
+    }
+
+    private void UpdateCurrentUnitData(UnitLevelData newLevelData) {
+        PlayerHeroData updatedUnitData = new PlayerHeroData(this.currentUnitType, newLevelData);
+        this.playerGameData.UpdateHeroData(updatedUnitData);
     }
 }

@@ -69,11 +69,12 @@ public class LevelSelectComponent : MonoBehaviour {
     }
 
     private UnitSpawnData GetHeroSpawnData() {
+        PlayerHeroData heroData = this.PlayerModel.PlayerGameData.GetHeroData(UnitType.HeroUnit);
         return new UnitSpawnData(
             platformType: Constants.Platforms.PlatformType.Bottom,
             positionOnPlatformInMeters: 0f,
-            unitType: this.PlayerModel.PlayerGameData.HeroUnitType,
-            unitLevelData: this.PlayerModel.PlayerGameData.HeroUnitLevelData,
+            unitType: heroData.HeroType,
+            unitLevelData: heroData.HeroLevelData,
             unitHasAutoAttack: false);
     }
 
