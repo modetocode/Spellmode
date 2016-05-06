@@ -105,5 +105,12 @@ public static class Constants {
         public const string GameConstantsMenuName = "Game Constants";
         public const string GameConstantsAssetName = "GameConstants";
     }
+
+    public static class Strings {
+        public const string HealthInfoTutorialMessage = "This is your health. If your health drops below 0 you will fail the level and must start again.";
+        public const string AmmunitionInfoTutorialMessage = "Your current number of arrows is displayed here. If you run out of arrows you cannot shoot.";
+        public const string ProgressInfoTutorialMessage = "This is your progress in this level. The bar is filled automatically as you walk. When the bar is fully filled you will pass the level.";
+        public const string GoldAmountInfoTutorialMessage = "The gold collected during this level is shown here. You can buy powerful upgrades in the shop with it.";
+    }
 }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -34,6 +35,18 @@ public class LevelRunGUIComponent : MonoBehaviour {
     private RectTransform levelFailedInfoGroup;
     [SerializeField]
     private LevelCompletedGUIComponent levelCompletedComponent;
+    [SerializeField]
+    private GUIHighligherComponent guiHighligherComponent;
+    [SerializeField]
+    private MessagePopupComponent messagePopupComponent;
+    [SerializeField]
+    private RectTransform healthGroupRectTransform;
+    [SerializeField]
+    private RectTransform ammunitionGroupRectTransform;
+    [SerializeField]
+    private RectTransform progressGroupRectTransform;
+    [SerializeField]
+    private RectTransform goldAmountGroupRectTransform;
 
     private LevelRunModel LevelRunModel { get { return LevelRunModel.Instance; } }
     private Unit trackedUnit;
@@ -87,6 +100,31 @@ public class LevelRunGUIComponent : MonoBehaviour {
         if (this.levelCompletedComponent == null) {
             throw new NullReferenceException("levelCompletedComponent is null");
         }
+
+        if (this.guiHighligherComponent == null) {
+            throw new NullReferenceException("guiHighligherComponent is null");
+        }
+
+        if (this.messagePopupComponent == null) {
+            throw new NullReferenceException("messagePopupComponent is null");
+        }
+
+        if (this.healthGroupRectTransform == null) {
+            throw new NullReferenceException("healthGroupRectTransform is null");
+        }
+
+        if (this.ammunitionGroupRectTransform == null) {
+            throw new NullReferenceException("ammunitionGroupRectTransform is null");
+        }
+
+        if (this.progressGroupRectTransform == null) {
+            throw new NullReferenceException("progressGroupRectTransform is null");
+        }
+
+        if (this.goldAmountGroupRectTransform == null) {
+            throw new NullReferenceException("goldAmountGroupRectTransform is null");
+        }
+
         this.pauseMenuGroup.gameObject.SetActive(false);
         this.levelFailedInfoGroup.gameObject.SetActive(false);
         this.levelCompletedComponent.ShowComponent(false);
@@ -109,6 +147,11 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.LevelRunModel.RunFinished += OnRunFinishedHandler;
         this.runInfoHeaderText.text += " " + this.LevelRunModel.LevelRunData.LevelNumber;
         this.runInfoGroup.gameObject.SetActive(true);
+        //TODO determine when the tutorial will be shown.
+        bool shouldShowTutorial = true;
+        if (shouldShowTutorial) {
+            this.ShowTutorialGUI();
+        }
     }
 
     private void OnUnitToTrackAddedHandler(Unit unitToTrack) {
@@ -190,5 +233,39 @@ public class LevelRunGUIComponent : MonoBehaviour {
         }
 
         SceneManager.LoadScene(Constants.Scenes.LevelSelectSceneName);
+    }
+
+    private void ShowTutorialGUI() {
+        UnityAction OnGoldInfoMessageConfirmed = HideMessageAndHighlight;
+        UnityAction OnProgressInfoMessageConfirmed = () => ShowGoldInfoMessage(OnGoldInfoMessageConfirmed);
+        UnityAction OnAmmunitionInfoMessageConfirmed = () => ShowProgressInfoMessage(OnProgressInfoMessageConfirmed);
+        UnityAction OnHealthInfoMessageConfirmed = () => ShowAmmunitionMessage(OnAmmunitionInfoMessageConfirmed);
+        ShowHealthInfoMessage(OnHealthInfoMessageConfirmed);
+    }
+
+    private void ShowGoldInfoMessage(UnityAction onMessageConfirmedAction) {
+        this.ShowMessageAndHighlight(this.goldAmountGroupRectTransform, Constants.Strings.GoldAmountInfoTutorialMessage, onMessageConfirmedAction);
+    }
+
+    private void ShowProgressInfoMessage(UnityAction onMessageConfirmedAction) {
+        this.ShowMessageAndHighlight(this.progressGroupRectTransform, Constants.Strings.ProgressInfoTutorialMessage, onMessageConfirmedAction);
+    }
+
+    private void ShowHealthInfoMessage(UnityAction onMessageConfirmedAction) {
+        this.ShowMessageAndHighlight(this.healthGroupRectTransform, Constants.Strings.HealthInfoTutorialMessage, onMessageConfirmedAction);
+    }
+
+    private void ShowAmmunitionMessage(UnityAction onMessageConfirmedAction) {
+        this.ShowMessageAndHighlight(this.ammunitionGroupRectTransform, Constants.Strings.AmmunitionInfoTutorialMessage, onMessageConfirmedAction);
+    }
+
+    private void ShowMessageAndHighlight(RectTransform highlightedRectTranform, string messsage, UnityAction onConfirmedAction) {
+        this.guiHighligherComponent.HighlightUIElement(highlightedRectTranform);
+        this.messagePopupComponent.Show(messsage, onConfirmedAction);
+    }
+
+    private void HideMessageAndHighlight() {
+        this.guiHighligherComponent.HideHighlight();
+        this.messagePopupComponent.Hide();
     }
 }
