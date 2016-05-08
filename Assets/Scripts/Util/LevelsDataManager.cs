@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 /// <summary>
 /// Responsible for storing the data that are needed for all the levels in the game.
@@ -6,9 +7,12 @@
 public static class LevelsDataManager {
 
 
-    public static IList<LevelRunData> GetLevelsData() {
-        //TODO check if we should only return data for only one level
-        return levelsData;
+    public static LevelRunData GetLevelData(int levelNumber) {
+        if (levelNumber < 1 || levelNumber > GetNumberOfLevels()) {
+            throw new ArgumentOutOfRangeException("levelNumber", "Cannot be less than one or more than the defined levels");
+        }
+
+        return levelsData[levelNumber - 1];
     }
 
     public static int GetNumberOfLevels() {
@@ -17,18 +21,16 @@ public static class LevelsDataManager {
 
     private static IList<LevelRunData> levelsData = new List<LevelRunData> {
         new LevelRunData (
-            levelNumber: 1,
-            lengthInMeters: 20,
+            lengthInMeters: 18,
             defendingTeamUnitSpawnData: new List<UnitSpawnData> {
-                new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 12, unitType:  UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1)),
-                new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 12, unitType:  UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1))
+                new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 13, unitType:  UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1)),
+                new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 13, unitType:  UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1))
             },
             lootSpawnData: new List<LootItemSpawnData> {
-                new LootItemSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 14, lootItemType: LootItemType.Gold, lootItemAmount: 20),
+                new LootItemSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 16, lootItemType: LootItemType.Gold, lootItemAmount: 20),
             }
         ),
         new LevelRunData (
-            levelNumber: 2,
             lengthInMeters: 20,
             defendingTeamUnitSpawnData: new List<UnitSpawnData> {
                 new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 10, unitType:  UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1)),
@@ -42,7 +44,6 @@ public static class LevelsDataManager {
             }
         ),
         new LevelRunData (
-            levelNumber: 3,
             lengthInMeters: 30,
             defendingTeamUnitSpawnData: new List<UnitSpawnData> {
                 new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 10, unitType:  UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1)),
@@ -64,7 +65,6 @@ public static class LevelsDataManager {
             }
         ),
         new LevelRunData (
-            levelNumber: 4,
             lengthInMeters: 35,
             defendingTeamUnitSpawnData: new List<UnitSpawnData> {
                 new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 8, unitType:  UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1)),
@@ -87,7 +87,6 @@ public static class LevelsDataManager {
             }
         ),
         new LevelRunData (
-            levelNumber: 5,
             lengthInMeters: 40,
             defendingTeamUnitSpawnData: new List<UnitSpawnData> {
                 new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 12, unitType:  UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(1)),
@@ -125,7 +124,6 @@ public static class LevelsDataManager {
             }
         ),
         new LevelRunData (
-            levelNumber: 6,
             lengthInMeters: 50,
             defendingTeamUnitSpawnData: new List<UnitSpawnData> {
                 new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Bottom, positionOnPlatformInMeters: 10, unitType:  UnitType.DefendingArcherUnit, unitLevelData: new UnitLevelData(1)),
@@ -146,7 +144,6 @@ public static class LevelsDataManager {
             }
         ),
         new LevelRunData (
-            levelNumber: 7,
             lengthInMeters: 55,
             defendingTeamUnitSpawnData: new List<UnitSpawnData> {
                 new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 10, unitType:  UnitType.DefendingArcherUnit, unitLevelData: new UnitLevelData(1)),
@@ -174,7 +171,6 @@ public static class LevelsDataManager {
             }
         ),
         new LevelRunData (
-            levelNumber: 8,
             lengthInMeters: 60,
             defendingTeamUnitSpawnData: new List<UnitSpawnData> {
                 new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 12, unitType:  UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(2)),
@@ -203,7 +199,6 @@ public static class LevelsDataManager {
             }
         ),
         new LevelRunData (
-            levelNumber: 9,
             lengthInMeters: 70,
             defendingTeamUnitSpawnData: new List<UnitSpawnData> {
                 new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 10, unitType:  UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(3)),
@@ -227,7 +222,6 @@ public static class LevelsDataManager {
             }
         ),
         new LevelRunData (
-            levelNumber: 10,
             lengthInMeters: 100,
             defendingTeamUnitSpawnData: new List<UnitSpawnData> {
                 new UnitSpawnData(platformType: Constants.Platforms.PlatformType.Top, positionOnPlatformInMeters: 7, unitType:  UnitType.DefendingMeleeUnit, unitLevelData: new UnitLevelData(3)),

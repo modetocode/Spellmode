@@ -95,7 +95,7 @@ class LevelRunComponent : MonoBehaviour {
         if (finishType == LevelRunFinishType.RunCompleted) {
             int goldLootedAmount = this.LevelRunModel.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold);
             GameConstants gameConstants = GameMechanicsManager.GetGameConstanstsData();
-            int levelNumber = this.LevelRunModel.LevelRunData.LevelNumber;
+            int levelNumber = this.LevelRunModel.LevelNumber;
             int levelCompletedGoldAmount = gameConstants.GetGoldRewardForLevel(levelNumber);
             this.PlayerModel.PlayerGameData.GoldAmount += goldLootedAmount + levelCompletedGoldAmount;
             this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber = Math.Max(this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber, levelNumber);
@@ -103,6 +103,10 @@ class LevelRunComponent : MonoBehaviour {
         }
 
         this.runFinished = true;
+
+        if (!this.PlayerModel.PlayerGameData.FirstLevelRunTutorialCompleted) {
+            this.PlayerModel.PlayerGameData.FirstLevelRunTutorialCompleted = true;
+        }
     }
 
     private void OnUnitInTeamAdded(Unit newUnit) {

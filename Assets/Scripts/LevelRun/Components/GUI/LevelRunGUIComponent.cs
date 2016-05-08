@@ -36,6 +36,12 @@ public class LevelRunGUIComponent : MonoBehaviour {
     [SerializeField]
     private Button pauseGameButton;
     [SerializeField]
+    private Button pauseMenuResumeGameButton;
+    [SerializeField]
+    private Button pauseMenuRestartGameButton;
+    [SerializeField]
+    private Button pauseMenuExitGameButton;
+    [SerializeField]
     private RectTransform levelFailedInfoGroup;
     [SerializeField]
     private LevelCompletedGUIComponent levelCompletedComponent;
@@ -106,6 +112,18 @@ public class LevelRunGUIComponent : MonoBehaviour {
             throw new NullReferenceException("pauseGameButton is null");
         }
 
+        if (this.pauseMenuResumeGameButton == null) {
+            throw new NullReferenceException("pauseMenuResumeGameButton is null");
+        }
+
+        if (this.pauseMenuRestartGameButton == null) {
+            throw new NullReferenceException("pauseMenuRestartGameButton is null");
+        }
+
+        if (this.pauseMenuExitGameButton == null) {
+            throw new NullReferenceException("pauseMenuExitGameButton is null");
+        }
+
         if (this.levelFailedInfoGroup == null) {
             throw new NullReferenceException("levelFailedInfoGroup is null");
         }
@@ -142,9 +160,13 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.runInfoStartButton.onClick.AddListener(StartRun);
         this.runInfoExitButton.onClick.AddListener(ExitGame);
         this.pauseMenuGroup.gameObject.SetActive(false);
+        this.pauseMenuRestartGameButton.onClick.AddListener(RestartGameClickedHandler);
+        this.pauseMenuResumeGameButton.onClick.AddListener(ResumeGameClickedHandler);
+        this.pauseMenuExitGameButton.onClick.AddListener(ExitGame);
         this.levelFailedInfoGroup.gameObject.SetActive(false);
         this.levelCompletedComponent.ShowComponent(false);
         this.pauseGameButton.interactable = false;
+        this.pauseGameButton.onClick.AddListener(PauseGameClickedHandler);
     }
 
     public void Start() {
@@ -159,6 +181,10 @@ public class LevelRunGUIComponent : MonoBehaviour {
     public void Destroy() {
         this.runInfoStartButton.onClick.RemoveListener(StartRun);
         this.runInfoExitButton.onClick.RemoveListener(ExitGame);
+        this.pauseGameButton.onClick.RemoveListener(PauseGameClickedHandler);
+        this.pauseMenuRestartGameButton.onClick.RemoveListener(RestartGameClickedHandler);
+        this.pauseMenuResumeGameButton.onClick.RemoveListener(ResumeGameClickedHandler);
+        this.pauseMenuExitGameButton.onClick.RemoveListener(ExitGame);
     }
 
     public void Update() {
@@ -201,9 +227,8 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.levelRunComponent.Initialized -= InitializeGUI;
         this.trackedUnit = this.LevelRunModel.HeroUnit;
         this.LevelRunModel.RunFinished += OnRunFinishedHandler;
-        this.runInfoHeaderText.text += " " + this.LevelRunModel.LevelRunData.LevelNumber;
+        this.runInfoHeaderText.text += " " + this.LevelRunModel.LevelNumber;
         this.runInfoGroup.gameObject.SetActive(true);
-        //TODO determine when the tutorial will be shown.
         if (this.ShouldShowTutorial()) {
             this.ShowTutorialGUI();
         }
@@ -230,14 +255,13 @@ public class LevelRunGUIComponent : MonoBehaviour {
         }
     }
 
-    public void StartRun() {
+    private void StartRun() {
         this.runInfoGroup.gameObject.SetActive(false);
         this.pauseGameButton.interactable = true;
         this.levelRunComponent.StartRun();
     }
 
-    //TODO rename this and reference the buttons from code
-    public void PauseGame() {
+    private void PauseGameClickedHandler() {
         if (this.levelRunComponent.IsGamePaused) {
             return;
         }
@@ -246,8 +270,7 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.pauseMenuGroup.gameObject.SetActive(true);
     }
 
-    //TODO rename this and reference the buttons from code
-    public void ResumeGame() {
+    private void ResumeGameClickedHandler() {
         if (!this.levelRunComponent.IsGamePaused) {
             return;
         }
@@ -256,8 +279,7 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.pauseMenuGroup.gameObject.SetActive(false);
     }
 
-    //TODO rename this and reference the buttons from code
-    public void RestartGame() {
+    private void RestartGameClickedHandler() {
         if (!this.levelRunComponent.IsGameFinished) {
             this.levelRunComponent.FinishRun();
         }
@@ -266,8 +288,7 @@ public class LevelRunGUIComponent : MonoBehaviour {
         SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
     }
 
-
-    public void ExitGame() {
+    private void ExitGame() {
         if (!this.levelRunComponent.IsGameFinished) {
             this.levelRunComponent.FinishRun();
         }
@@ -276,8 +297,7 @@ public class LevelRunGUIComponent : MonoBehaviour {
     }
 
     private bool ShouldShowTutorial() {
-        //TODO implement this
-        return true;
+        return this.LevelRunModel.ShowRunTutorial;
     }
 
     private void ShowTutorialGUI() {

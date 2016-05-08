@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -19,6 +18,10 @@ public class LevelSelectComponent : MonoBehaviour {
     private Button shopButton;
     [SerializeField]
     private Button logoutButton;
+    [SerializeField]
+    private GUIHighligherComponent guiHighligherComponent;
+    [SerializeField]
+    private MessagePopupComponent messagePopupComponent;
 
     private PlayerModel PlayerModel { get { return PlayerModel.Instance; } }
     private LevelRunModel LevelRunModel { get { return LevelRunModel.Instance; } }
@@ -44,23 +47,43 @@ public class LevelSelectComponent : MonoBehaviour {
             throw new NullReferenceException("logoutButton is null");
         }
 
+        if (this.guiHighligherComponent == null) {
+            throw new NullReferenceException("guiHighligherComponent is null");
+        }
+
+        if (this.messagePopupComponent == null) {
+            throw new NullReferenceException("messagePopupComponent is null");
+        }
+
         this.shopButton.onClick.AddListener(GoToShopScene);
         this.logoutButton.onClick.AddListener(Logout);
     }
 
     public void Start() {
-        Action<LevelRunData> onLevelRunButtonClickedAction = (levelRunData => {
-            LevelRunModel.Initialize(levelRunData, this.GetHeroSpawnData());
+        bool showLevelRunTutorial = !this.PlayerModel.PlayerGameData.FirstLevelRunTutorialCompleted;
+        Action<int> onLevelRunButtonClickedAction = (levelNumber => {
+            LevelRunData levelRunData = LevelsDataManager.GetLevelData(levelNumber);
+            LevelRunModel.Initialize(levelRunData, this.GetHeroSpawnData(), levelNumber, showLevelRunTutorial);
             SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
         });
 
-        IList<LevelRunData> runData = LevelsDataManager.GetLevelsData();
         int numberOfLevels = LevelsDataManager.GetNumberOfLevels();
         int highestUnlockedLevelNumber = Mathf.Clamp(this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber + 1, 1, numberOfLevels);
-        this.levelRunList.Initialize(listItemData: runData, highestUnlockedLevelNumber: highestUnlockedLevelNumber, onListItemClickedAction: onLevelRunButtonClickedAction);
+        this.levelRunList.Initialize(numberOfLevels: numberOfLevels, highestUnlockedLevelNumber: highestUnlockedLevelNumber, onListItemClickedAction: onLevelRunButtonClickedAction);
         this.scrollableLevelRunTabsAddon.Initialize();
         this.scrollableLevelRunTabsAddon.SetTab((highestUnlockedLevelNumber - 1) / Constants.Scenes.LevelSelect.NumberOdDisplayedLevelsPerTab);
         this.goldAmountText.text = this.PlayerModel.PlayerGameData.GoldAmount.ToString();
+        if (!this.PlayerModel.PlayerGameData.FirstLevelRunTutorialCompleted) {
+            this.ShowIntroTutorial();
+        }
+    }
+
+    private void ShowIntroTutorial() {
+        LevelRunDataListItemComponent firstListItem = this.levelRunList.GetListItemComponent(0);
+        RectTransform firstItemRect = firstListItem.GetComponent<RectTransform>();
+        this.guiHighligherComponent.HighlightUIElement(firstItemRect);
+        string message = string.Format(Constants.Strings.WelcomeInfoTutorialMessageTemplate, this.PlayerModel.PlayerGameData.Username);
+        this.messagePopupComponent.Show(message, null, false);
     }
 
     public void Destroy() {

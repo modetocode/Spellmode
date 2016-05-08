@@ -12,12 +12,14 @@ public class LevelRunModel : BaseModel<LevelRunModel> {
 
     public LevelRunData LevelRunData { get; private set; }
     public UnitSpawnData HeroSpawnData { get; private set; }
+    public int LevelNumber { get; private set; }
+    public bool ShowRunTutorial { get; private set; }
     public Unit HeroUnit { get; set; }
     public ProgressTracker ProgressTracker { get; set; }
     public LootItemManager LootItemManager { get; set; }
     public LevelCompetedRewardData LevelCompletedRewardData { get; set; }
 
-    public void Initialize(LevelRunData levelRunData, UnitSpawnData heroSpawnData) {
+    public void Initialize(LevelRunData levelRunData, UnitSpawnData heroSpawnData, int levelNumber, bool showRunTutorial) {
         if (levelRunData == null) {
             throw new ArgumentNullException("levelRunData");
         }
@@ -26,8 +28,14 @@ public class LevelRunModel : BaseModel<LevelRunModel> {
             throw new ArgumentNullException("heroSpawnData");
         }
 
+        if (levelNumber < 1) {
+            throw new ArgumentOutOfRangeException("levelNumber", "Cannot be less than one.");
+        }
+
         this.LevelRunData = levelRunData;
         this.HeroSpawnData = heroSpawnData;
+        this.LevelNumber = levelNumber;
+        this.ShowRunTutorial = showRunTutorial;
     }
 
     public void FireRunFinishedEvent(LevelRunFinishType finishType) {

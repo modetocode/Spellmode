@@ -12,8 +12,7 @@ public class LevelRunDataListComponent : MonoBehaviour {
     [SerializeField]
     private GridResizerComponent containter;
 
-    private IList<LevelRunData> listItemData;
-    private int highestUnlockedLevelNumber;
+    private IList<LevelRunDataListItemComponent> listItemComponents;
 
     public void Awake() {
         if (this.listItemPrefab == null) {
@@ -25,31 +24,39 @@ public class LevelRunDataListComponent : MonoBehaviour {
         }
     }
 
-    public void Initialize(IList<LevelRunData> listItemData, int highestUnlockedLevelNumber, Action<LevelRunData> onListItemClickedAction) {
-        if (listItemData == null) {
-            throw new ArgumentNullException("listItemData");
+    public void Initialize(int numberOfLevels, int highestUnlockedLevelNumber, Action<int> onListItemClickedAction) {
+        if (numberOfLevels < 1) {
+            throw new ArgumentOutOfRangeException("numberOfLevels", "Cannot be less than one.");
         }
 
-        if (highestUnlockedLevelNumber < 1) {
-            throw new ArgumentOutOfRangeException("highestUnlockedLevelNumber", "Cannot be less than one.");
+        if (highestUnlockedLevelNumber > numberOfLevels) {
+            throw new ArgumentOutOfRangeException("highestUnlockedLevelNumber", "Cannot be more than the number of levels.");
         }
 
         if (onListItemClickedAction == null) {
             throw new ArgumentNullException("onListItemClickedAction");
         }
 
-        this.listItemData = listItemData;
-        this.highestUnlockedLevelNumber = highestUnlockedLevelNumber;
-        for (int i = 0; i < this.listItemData.Count; i++) {
+        this.listItemComponents = new List<LevelRunDataListItemComponent>();
+        for (int i = 0; i < numberOfLevels; i++) {
             LevelRunDataListItemComponent instantiatedComponent = Instantiate(this.listItemPrefab);
             instantiatedComponent.transform.SetParent(containter.gameObject.transform);
             instantiatedComponent.transform.localScale = Vector3.one;
             instantiatedComponent.Initialize(
-                levelRunData: this.listItemData[i],
-                isLocked: i >= this.highestUnlockedLevelNumber,
+                levelNumber: i + 1,
+                isLocked: i >= highestUnlockedLevelNumber,
                 onListItemClickedAction: onListItemClickedAction);
+            this.listItemComponents.Add(instantiatedComponent);
         }
 
         containter.ResizeComponent();
+    }
+
+    public LevelRunDataListItemComponent GetListItemComponent(int index) {
+        if (index < 0 || index >= this.listItemComponents.Count) {
+            throw new ArgumentOutOfRangeException("index");
+        }
+
+        return this.listItemComponents[index];
     }
 }

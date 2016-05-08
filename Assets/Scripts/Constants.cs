@@ -107,6 +107,7 @@ public static class Constants {
     }
 
     public static class Strings {
+        public const string WelcomeInfoTutorialMessageTemplate = "Welcome {0}. Open the first level of the game.";
         public const string HealthInfoTutorialMessage = "This is your health. If your health drops below 0 you will fail the level and must start again.";
         public const string AmmunitionInfoTutorialMessage = "Your current number of arrows is displayed here. If you run out of arrows you cannot shoot.";
         public const string ProgressInfoTutorialMessage = "This is your progress in this level. The bar is filled automatically as you walk. When the bar is fully filled you will pass the level.";

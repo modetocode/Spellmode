@@ -19,10 +19,10 @@ public class LevelRunDataListItemComponent : MonoBehaviour {
     [SerializeField]
     Sprite notLockedBackgroundSprite;
 
-    LevelRunData levelRunData;
+    int levelNumber;
     bool isLocked;
     bool isInitialized;
-    private Action<LevelRunData> onListItemClickedAction;
+    private Action<int> onListItemClickedAction;
 
     public void Awake() {
         if (this.levelInfoText == null) {
@@ -50,19 +50,19 @@ public class LevelRunDataListItemComponent : MonoBehaviour {
         }
     }
 
-    public void Initialize(LevelRunData levelRunData, bool isLocked, Action<LevelRunData> onListItemClickedAction) {
-        if (levelRunData == null) {
-            throw new ArgumentNullException("levelRunData");
+    public void Initialize(int levelNumber, bool isLocked, Action<int> onListItemClickedAction) {
+        if (levelNumber < 1) {
+            throw new ArgumentOutOfRangeException("levelNumber", "Cannot be less than one.");
         }
 
         if (onListItemClickedAction == null) {
             throw new ArgumentNullException("onListItemClickedAction");
         }
 
-        this.levelRunData = levelRunData;
         this.isLocked = isLocked;
         this.onListItemClickedAction = onListItemClickedAction;
-        this.levelInfoText.text = this.isLocked ? string.Empty : levelRunData.LevelNumber.ToString();
+        this.levelNumber = levelNumber;
+        this.levelInfoText.text = this.isLocked ? string.Empty : this.levelNumber.ToString();
         this.levelInfoText.gameObject.SetActive(!this.isLocked);
         this.lockIconImage.gameObject.SetActive(this.isLocked);
         this.backgroundImage.sprite = this.isLocked ? this.lockedBackgroundSprite : this.notLockedBackgroundSprite;
@@ -84,6 +84,6 @@ public class LevelRunDataListItemComponent : MonoBehaviour {
     }
 
     private void onClickAction() {
-        this.onListItemClickedAction(this.levelRunData);
+        this.onListItemClickedAction(this.levelNumber);
     }
 }

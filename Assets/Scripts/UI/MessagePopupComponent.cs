@@ -36,10 +36,15 @@ public class MessagePopupComponent : MonoBehaviour {
         this.confirmButton.onClick.RemoveListener(OnConfirmButtonClickedHandler);
     }
 
-    public void Show(string message, UnityAction onConfirmClickedAction = null) {
+    public void Show(string message, UnityAction onConfirmClickedAction = null, bool showConfirmationButton = true) {
         this.textComponent.text = message;
         this.onConfirmClickedAction = onConfirmClickedAction;
+        if (onConfirmClickedAction != null && !showConfirmationButton) {
+            throw new InvalidOperationException("Cannot hide confirm button and execute an action in the same time");
+        }
+
         this.ShowPopup(true);
+        this.confirmButton.gameObject.SetActive(showConfirmationButton);
     }
 
     public void Hide() {

@@ -16,6 +16,8 @@ public class PlayerGameData {
     private int highestCompletedLevelNumber = 0;
     [SerializeField]
     private List<PlayerHeroData> heroData = new List<PlayerHeroData> { new PlayerHeroData(UnitType.HeroUnit, new UnitLevelData(1)) };
+    [SerializeField]
+    private bool firstLevelRunTutorialCompleted = false;
 
     private IDictionary<UnitType, PlayerHeroData> heroTypeToDataMap;
 
@@ -59,6 +61,14 @@ public class PlayerGameData {
 
     public string Username {
         get { return this.username; }
+    }
+
+    public bool FirstLevelRunTutorialCompleted {
+        get { return this.firstLevelRunTutorialCompleted; }
+        set {
+            this.firstLevelRunTutorialCompleted = value;
+            this.InvokeObjectUpdatedEvent();
+        }
     }
 
     public PlayerHeroData GetHeroData(UnitType heroType) {
