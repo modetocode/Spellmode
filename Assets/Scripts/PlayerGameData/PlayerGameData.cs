@@ -11,13 +11,15 @@ public class PlayerGameData {
     [SerializeField]
     private string username = string.Empty;
     [SerializeField]
-    private int goldAmount = 0;
+    private int goldAmount = 70;
     [SerializeField]
     private int highestCompletedLevelNumber = 0;
     [SerializeField]
     private List<PlayerHeroData> heroData = new List<PlayerHeroData> { new PlayerHeroData(UnitType.HeroUnit, new UnitLevelData(1)) };
     [SerializeField]
     private bool firstLevelRunTutorialCompleted = false;
+    [SerializeField]
+    private bool shopIntroTutorialCompleted = false;
 
     private IDictionary<UnitType, PlayerHeroData> heroTypeToDataMap;
 
@@ -67,6 +69,14 @@ public class PlayerGameData {
         get { return this.firstLevelRunTutorialCompleted; }
         set {
             this.firstLevelRunTutorialCompleted = value;
+            this.InvokeObjectUpdatedEvent();
+        }
+    }
+
+    public bool ShopIntroTutorialCompleted {
+        get { return this.shopIntroTutorialCompleted; }
+        set {
+            this.shopIntroTutorialCompleted = value;
             this.InvokeObjectUpdatedEvent();
         }
     }

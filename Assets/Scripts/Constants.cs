@@ -111,9 +111,11 @@ public static class Constants {
         public const string HealthInfoTutorialMessage = "This is your health. If your health drops below 0 you will fail the level and must start again.";
         public const string AmmunitionInfoTutorialMessage = "Your current number of arrows is displayed here. If you run out of arrows you cannot shoot.";
         public const string ProgressInfoTutorialMessage = "This is your progress in this level. The bar is filled automatically as you walk. When the bar is fully filled you will pass the level.";
-        public const string GoldAmountInfoTutorialMessage = "The gold collected during this level is shown here. You can buy powerful upgrades in the shop with it.";
+        public const string TotalLevelRunGoldAmountInfoTutorialMessage = "The gold collected during this level is shown here. You can buy powerful upgrades in the shop with it.";
         public const string MobileCommandsTutorialMessage = "Tap to shoot. Swipe up/down to move between platforms.";
         public const string WindowsCommandsTutorialMessage = "Press space to shoot. Press w/s buttons to move up/down between platforms.";
+        public const string TotalGoldTutorialMessage = "This is your total earned gold.";
+        public const string ShopIntroTutorialMessage = "You have enough gold to improve your hero. Visit the shop.";
     }
 }
 

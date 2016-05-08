@@ -309,7 +309,7 @@ public class LevelRunGUIComponent : MonoBehaviour {
     }
 
     private void ShowGoldInfoMessage(UnityAction onMessageConfirmedAction) {
-        this.ShowMessageAndHighlight(this.goldAmountGroupRectTransform, Constants.Strings.GoldAmountInfoTutorialMessage, onMessageConfirmedAction);
+        this.ShowMessageAndHighlight(this.goldAmountGroupRectTransform, Constants.Strings.TotalLevelRunGoldAmountInfoTutorialMessage, onMessageConfirmedAction);
     }
 
     private void ShowProgressInfoMessage(UnityAction onMessageConfirmedAction) {

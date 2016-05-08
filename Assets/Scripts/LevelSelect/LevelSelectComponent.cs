@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -22,6 +23,10 @@ public class LevelSelectComponent : MonoBehaviour {
     private GUIHighligherComponent guiHighligherComponent;
     [SerializeField]
     private MessagePopupComponent messagePopupComponent;
+    [SerializeField]
+    private RectTransform goldAmountRectTransform;
+    [SerializeField]
+    private RectTransform shopButtonRectTransform;
 
     private PlayerModel PlayerModel { get { return PlayerModel.Instance; } }
     private LevelRunModel LevelRunModel { get { return LevelRunModel.Instance; } }
@@ -55,6 +60,14 @@ public class LevelSelectComponent : MonoBehaviour {
             throw new NullReferenceException("messagePopupComponent is null");
         }
 
+        if (this.goldAmountRectTransform == null) {
+            throw new NullReferenceException("goldAmountRectTransform is null");
+        }
+
+        if (this.shopButtonRectTransform == null) {
+            throw new NullReferenceException("shopButtonRectTransform is null");
+        }
+
         this.shopButton.onClick.AddListener(GoToShopScene);
         this.logoutButton.onClick.AddListener(Logout);
     }
@@ -74,16 +87,12 @@ public class LevelSelectComponent : MonoBehaviour {
         this.scrollableLevelRunTabsAddon.SetTab((highestUnlockedLevelNumber - 1) / Constants.Scenes.LevelSelect.NumberOdDisplayedLevelsPerTab);
         this.goldAmountText.text = this.PlayerModel.PlayerGameData.GoldAmount.ToString();
         if (!this.PlayerModel.PlayerGameData.FirstLevelRunTutorialCompleted) {
-            this.ShowIntroTutorial();
+            this.ShowGameIntroTutorial();
         }
-    }
 
-    private void ShowIntroTutorial() {
-        LevelRunDataListItemComponent firstListItem = this.levelRunList.GetListItemComponent(0);
-        RectTransform firstItemRect = firstListItem.GetComponent<RectTransform>();
-        this.guiHighligherComponent.HighlightUIElement(firstItemRect);
-        string message = string.Format(Constants.Strings.WelcomeInfoTutorialMessageTemplate, this.PlayerModel.PlayerGameData.Username);
-        this.messagePopupComponent.Show(message, null, false);
+        if (this.ShouldShowShopIntroTutorial()) {
+            this.ShowShopIntroTutorial();
+        }
     }
 
     public void Destroy() {
@@ -109,5 +118,34 @@ public class LevelSelectComponent : MonoBehaviour {
         this.PlayerModel.Clear();
         this.LevelRunModel.Clear();
         SceneManager.LoadScene(Constants.Scenes.LoginSceneName);
+    }
+
+    private void ShowGameIntroTutorial() {
+        LevelRunDataListItemComponent firstListItem = this.levelRunList.GetListItemComponent(0);
+        RectTransform firstItemRect = firstListItem.GetComponent<RectTransform>();
+        string message = string.Format(Constants.Strings.WelcomeInfoTutorialMessageTemplate, this.PlayerModel.PlayerGameData.Username);
+        this.ShowMessageAndHighlight(firstItemRect, message, null, false);
+    }
+
+    private bool ShouldShowShopIntroTutorial() {
+        return this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber > 0 && !this.PlayerModel.PlayerGameData.ShopIntroTutorialCompleted;
+    }
+
+    private void ShowShopIntroTutorial() {
+        UnityAction OnTotalGoldInfoMessageConfirmed = () => {
+            ShowShopIntroMessage();
+            this.PlayerModel.PlayerGameData.ShopIntroTutorialCompleted = true;
+        };
+
+        this.ShowMessageAndHighlight(this.goldAmountRectTransform, Constants.Strings.TotalGoldTutorialMessage, OnTotalGoldInfoMessageConfirmed);
+    }
+
+    private void ShowShopIntroMessage() {
+        this.ShowMessageAndHighlight(this.shopButtonRectTransform, Constants.Strings.ShopIntroTutorialMessage, null, false);
+    }
+
+    private void ShowMessageAndHighlight(RectTransform highlightedRectTranform, string messsage, UnityAction onConfirmedAction = null, bool showConfirmationButton = true) {
+        this.guiHighligherComponent.HighlightUIElement(highlightedRectTranform);
+        this.messagePopupComponent.Show(messsage, onConfirmedAction, showConfirmationButton);
     }
 }

@@ -1581,11 +1581,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22426684, guid: ae34787f9994ff445b7b4ca3026edafd, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 216.90344
       objectReference: {fileID: 0}
     - target: {fileID: 22426684, guid: ae34787f9994ff445b7b4ca3026edafd, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 22426684, guid: ae34787f9994ff445b7b4ca3026edafd, type: 2}
       propertyPath: m_SizeDelta.x
@@ -1601,7 +1601,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22426684, guid: ae34787f9994ff445b7b4ca3026edafd, type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22426684, guid: ae34787f9994ff445b7b4ca3026edafd, type: 2}
       propertyPath: m_AnchorMax.x
@@ -1609,7 +1609,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22426684, guid: ae34787f9994ff445b7b4ca3026edafd, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22426684, guid: ae34787f9994ff445b7b4ca3026edafd, type: 2}
       propertyPath: m_Pivot.x
@@ -2340,6 +2340,8 @@ MonoBehaviour:
   logoutButton: {fileID: 1163770415}
   guiHighligherComponent: {fileID: 1708248154}
   messagePopupComponent: {fileID: 175629138}
+  goldAmountRectTransform: {fileID: 979028705}
+  shopButtonRectTransform: {fileID: 817999050}
 --- !u!114 &1334243362
 MonoBehaviour:
   m_ObjectHideFlags: 0
