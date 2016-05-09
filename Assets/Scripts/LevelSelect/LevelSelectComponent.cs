@@ -27,6 +27,8 @@ public class LevelSelectComponent : MonoBehaviour {
     private RectTransform goldAmountRectTransform;
     [SerializeField]
     private RectTransform shopButtonRectTransform;
+    [SerializeField]
+    private RectTransform loadingGroupRect;
 
     private PlayerModel PlayerModel { get { return PlayerModel.Instance; } }
     private LevelRunModel LevelRunModel { get { return LevelRunModel.Instance; } }
@@ -68,13 +70,20 @@ public class LevelSelectComponent : MonoBehaviour {
             throw new NullReferenceException("shopButtonRectTransform is null");
         }
 
+        if (this.loadingGroupRect == null) {
+            throw new NullReferenceException("loadingGroupRect is null");
+        }
+
         this.shopButton.onClick.AddListener(GoToShopScene);
         this.logoutButton.onClick.AddListener(Logout);
+        this.loadingGroupRect.gameObject.SetActive(false);
     }
 
     public void Start() {
         bool showLevelRunTutorial = !this.PlayerModel.PlayerGameData.FirstLevelRunTutorialCompleted;
         Action<int> onLevelRunButtonClickedAction = (levelNumber => {
+            this.HideMessageAndHighlight();
+            this.loadingGroupRect.gameObject.SetActive(true);
             LevelRunData levelRunData = LevelsDataManager.GetLevelData(levelNumber);
             LevelRunModel.Initialize(levelRunData, this.GetHeroSpawnData(), levelNumber, showLevelRunTutorial);
             SceneManager.LoadScene(Constants.Scenes.LevelRunSceneName);
@@ -147,5 +156,10 @@ public class LevelSelectComponent : MonoBehaviour {
     private void ShowMessageAndHighlight(RectTransform highlightedRectTranform, string messsage, UnityAction onConfirmedAction = null, bool showConfirmationButton = true) {
         this.guiHighligherComponent.HighlightUIElement(highlightedRectTranform);
         this.messagePopupComponent.Show(messsage, onConfirmedAction, showConfirmationButton);
+    }
+
+    private void HideMessageAndHighlight() {
+        this.guiHighligherComponent.HideHighlight();
+        this.messagePopupComponent.Hide();
     }
 }
