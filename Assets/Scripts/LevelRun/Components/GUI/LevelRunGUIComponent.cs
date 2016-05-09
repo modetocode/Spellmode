@@ -44,6 +44,10 @@ public class LevelRunGUIComponent : MonoBehaviour {
     [SerializeField]
     private RectTransform levelFailedInfoGroup;
     [SerializeField]
+    private Button levelFailedTryAgainButton;
+    [SerializeField]
+    private Button levelFailedExitButton;
+    [SerializeField]
     private LevelCompletedGUIComponent levelCompletedComponent;
     [SerializeField]
     private GUIHighligherComponent guiHighligherComponent;
@@ -128,6 +132,14 @@ public class LevelRunGUIComponent : MonoBehaviour {
             throw new NullReferenceException("levelFailedInfoGroup is null");
         }
 
+        if (this.levelFailedTryAgainButton == null) {
+            throw new NullReferenceException("levelFailedTryAgainButton is null");
+        }
+
+        if (this.levelFailedExitButton == null) {
+            throw new NullReferenceException("levelFailedExitButton is null");
+        }
+
         if (this.levelCompletedComponent == null) {
             throw new NullReferenceException("levelCompletedComponent is null");
         }
@@ -164,6 +176,8 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.pauseMenuResumeGameButton.onClick.AddListener(ResumeGameClickedHandler);
         this.pauseMenuExitGameButton.onClick.AddListener(ExitGame);
         this.levelFailedInfoGroup.gameObject.SetActive(false);
+        this.levelFailedTryAgainButton.onClick.AddListener(RestartGameClickedHandler);
+        this.levelFailedExitButton.onClick.AddListener(ExitGame);
         this.levelCompletedComponent.ShowComponent(false);
         this.pauseGameButton.interactable = false;
         this.pauseGameButton.onClick.AddListener(PauseGameClickedHandler);
@@ -185,6 +199,8 @@ public class LevelRunGUIComponent : MonoBehaviour {
         this.pauseMenuRestartGameButton.onClick.RemoveListener(RestartGameClickedHandler);
         this.pauseMenuResumeGameButton.onClick.RemoveListener(ResumeGameClickedHandler);
         this.pauseMenuExitGameButton.onClick.RemoveListener(ExitGame);
+        this.levelFailedTryAgainButton.onClick.RemoveListener(RestartGameClickedHandler);
+        this.levelFailedExitButton.onClick.RemoveListener(ExitGame);
     }
 
     public void Update() {
