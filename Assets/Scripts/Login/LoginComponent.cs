@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -10,6 +11,10 @@ public class LoginComponent : MonoBehaviour {
     private InputField usernameInputField;
     [SerializeField]
     private Button confirmButton;
+    [SerializeField]
+    private Button exitButton;
+    [SerializeField]
+    private YesNoPopupComponent yesNoPopupComponent;
 
     private GameData gameData;
 
@@ -22,7 +27,16 @@ public class LoginComponent : MonoBehaviour {
             throw new System.NullReferenceException("confirmButton is null");
         }
 
+        if (this.exitButton == null) {
+            throw new System.NullReferenceException("exitButton is null");
+        }
+
+        if (this.yesNoPopupComponent == null) {
+            throw new System.NullReferenceException("yesNoPopupComponent is null");
+        }
+
         this.confirmButton.onClick.AddListener(Login);
+        this.exitButton.onClick.AddListener(ShowYesNoMessageForExitApplication);
     }
 
     public void Start() {
@@ -32,6 +46,7 @@ public class LoginComponent : MonoBehaviour {
 
     public void Destroy() {
         this.confirmButton.onClick.RemoveListener(Login);
+        this.exitButton.onClick.RemoveListener(ShowYesNoMessageForExitApplication);
     }
 
     private void Login() {
@@ -47,4 +62,16 @@ public class LoginComponent : MonoBehaviour {
         SceneManager.LoadScene(Constants.Scenes.LevelSelectSceneName);
     }
 
+    private void ShowYesNoMessageForExitApplication() {
+        UnityAction onYesClickedAction = this.ExitApplication;
+        this.yesNoPopupComponent.Show(Constants.Strings.ExitApplicationMessage, onYesClickedAction);
+    }
+
+    private void ExitApplication() {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }

@@ -116,6 +116,10 @@ public static class Constants {
         public const string WindowsCommandsTutorialMessage = "Press space to shoot. Press w/s buttons to move up/down between platforms.";
         public const string TotalGoldTutorialMessage = "This is your total earned gold.";
         public const string ShopIntroTutorialMessage = "You have enough gold to improve your hero. Visit the shop.";
+        public const string ShopHealthUpgradeYesNoMesssageTemplate = "Are you sure you want to increase the total health of the hero to {0}?";
+        public const string ShopDamageUpgradeYesNoMessageTemplate = "Are you syure you want to increase the damage per hit of the hero to {0}?";
+        public const string ShopAmmunitionUpgradeYesNoMessageTemplate = "Are you sure you want to increase the number of starting arrows per level to {0}?";
+        public const string ExitApplicationMessage = "Are you sure you want to exit?";
     }
 }
 

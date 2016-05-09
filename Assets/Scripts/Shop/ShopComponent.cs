@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -36,6 +37,8 @@ public class ShopComponent : MonoBehaviour {
     private Text goldAmountText;
     [SerializeField]
     private Button backToLevelSelectButton;
+    [SerializeField]
+    private YesNoPopupComponent yesNoPopupComponent;
 
     private int healthUpgradeCost;
     private int damageUpgradeCost;
@@ -104,10 +107,14 @@ public class ShopComponent : MonoBehaviour {
             throw new NullReferenceException("backToLevelSelectButton is null");
         }
 
+        if (this.yesNoPopupComponent == null) {
+            throw new NullReferenceException("yesNoPopupComponent is null");
+        }
+
         this.backToLevelSelectButton.onClick.AddListener(GoToLevelSelect);
-        this.healthUpgradeButton.onClick.AddListener(BuyHealthUpgrade);
-        this.damageUpgradeButton.onClick.AddListener(BuyDamageUpgrade);
-        this.ammunitionUpgradeButton.onClick.AddListener(BuyAmmunitionUpgrade);
+        this.healthUpgradeButton.onClick.AddListener(ShowHealthUpgradeYesNoPopup);
+        this.damageUpgradeButton.onClick.AddListener(ShowDamagePerHitUpgradeYesNoPopup);
+        this.ammunitionUpgradeButton.onClick.AddListener(ShowAmmunitionUpgradeYesNoPopup);
     }
 
     public void Start() {
@@ -153,6 +160,27 @@ public class ShopComponent : MonoBehaviour {
         this.healthUpgradeButton.interactable = this.healthUpgradeCost <= this.availableGoldAmount;
         this.damageUpgradeButton.interactable = this.damageUpgradeCost <= this.availableGoldAmount;
         this.ammunitionUpgradeButton.interactable = this.ammunitionUpgradeCost <= this.availableGoldAmount;
+    }
+
+    private void ShowHealthUpgradeYesNoPopup() {
+        string newHealthValue = UnitStatsCalculator.CalculateMaxHealthValue(this.currentUnitType, this.currentUnitLevelData.HealthUpgradeLevel + 1).ToString();
+        string message = string.Format(Constants.Strings.ShopHealthUpgradeYesNoMesssageTemplate, newHealthValue);
+        UnityAction onYesClickedAction = BuyHealthUpgrade;
+        this.yesNoPopupComponent.Show(message, onYesClickedAction);
+    }
+
+    private void ShowDamagePerHitUpgradeYesNoPopup() {
+        string newDamageValue = UnitStatsCalculator.CalculateDamagePerHitValue(this.currentUnitType, this.currentUnitLevelData.DamageUpgradeLevel + 1).ToString();
+        string message = string.Format(Constants.Strings.ShopDamageUpgradeYesNoMessageTemplate, newDamageValue);
+        UnityAction onYesClickedAction = BuyDamageUpgrade;
+        this.yesNoPopupComponent.Show(message, onYesClickedAction);
+    }
+
+    private void ShowAmmunitionUpgradeYesNoPopup() {
+        string newAmmunitionValue = UnitStatsCalculator.CalculateAmmunitionValue(this.currentUnitType, this.currentUnitLevelData.AmmunitionUpgradeLevel + 1).ToString();
+        string message = string.Format(Constants.Strings.ShopAmmunitionUpgradeYesNoMessageTemplate, newAmmunitionValue);
+        UnityAction onYesClickedAction = BuyAmmunitionUpgrade;
+        this.yesNoPopupComponent.Show(message, onYesClickedAction);
     }
 
     private void BuyHealthUpgrade() {
