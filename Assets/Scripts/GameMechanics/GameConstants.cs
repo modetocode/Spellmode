@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -12,6 +13,8 @@ public class GameConstants : ScriptableObject {
     private int goldIncreaseAmountForLevelCompleted;
     [SerializeField]
     private int goldIncreaseCostForHeroStatUpdate;
+    [SerializeField]
+    private List<LevelRunData> gameLevels;
 
     public int GetGoldRewardForLevel(int levelNumber) {
         if (levelNumber < 1) {
@@ -27,5 +30,9 @@ public class GameConstants : ScriptableObject {
         }
 
         return statLevel * goldIncreaseCostForHeroStatUpdate;
+    }
+
+    public List<LevelRunData> GetGameLevelsData() {
+        return this.gameLevels;
     }
 }

@@ -140,7 +140,7 @@ public class ShopComponent : MonoBehaviour {
     }
 
     private void UpdateHeroUpgradePrices() {
-        GameConstants gameConstants = GameMechanicsManager.GetGameConstanstsData();
+        GameConstants gameConstants = GameMechanicsManager.GetGameConstantsData();
         this.healthUpgradeCost = gameConstants.GetGoldCostForHeroStat(this.currentUnitLevelData.HealthUpgradeLevel);
         this.damageUpgradeCost = gameConstants.GetGoldCostForHeroStat(this.currentUnitLevelData.DamageUpgradeLevel);
         this.ammunitionUpgradeCost = gameConstants.GetGoldCostForHeroStat(this.currentUnitLevelData.AmmunitionUpgradeLevel);

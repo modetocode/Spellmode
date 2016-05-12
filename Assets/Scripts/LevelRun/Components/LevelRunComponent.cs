@@ -94,7 +94,7 @@ class LevelRunComponent : MonoBehaviour {
         this.backgroundComponent.PauseMovement();
         if (finishType == LevelRunFinishType.RunCompleted) {
             int goldLootedAmount = this.LevelRunModel.LootItemManager.GetCollectedLootAmountByType(LootItemType.Gold);
-            GameConstants gameConstants = GameMechanicsManager.GetGameConstanstsData();
+            GameConstants gameConstants = GameMechanicsManager.GetGameConstantsData();
             int levelNumber = this.LevelRunModel.LevelNumber;
             int levelCompletedGoldAmount = gameConstants.GetGoldRewardForLevel(levelNumber);
             this.PlayerModel.PlayerGameData.GoldAmount += goldLootedAmount + levelCompletedGoldAmount;

@@ -1,0 +1,172 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8c8b80b303bc6f498d5e98735b38cef, type: 3}
+  m_Name: Level06
+  m_EditorClassIdentifier: 
+  lengthInMeters: 65
+  defendingTeamUnitSpawnData:
+  - platformType: 1
+    positionOnPlatformInMeters: 10
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 10
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 15
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 20
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 20
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 25
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 30
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 30
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 35
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 40
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 40
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 45
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 50
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 50
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 55
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 60
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 60
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 2
+      damageUpgradeLevel: 2
+      ammunitionUpgradeLevel: 2
+    unitHasAutoAttack: 1
+  lootSpawnData:
+  - platformType: 1
+    positionOnPlatformInMeters: 26
+    lootItemType: 1
+    lootItemAmount: 10
+  - platformType: 0
+    positionOnPlatformInMeters: 36
+    lootItemType: 1
+    lootItemAmount: 10
+  - platformType: 0
+    positionOnPlatformInMeters: 56
+    lootItemType: 1
+    lootItemAmount: 10
+  - platformType: 0
+    positionOnPlatformInMeters: 21
+    lootItemType: 0
+    lootItemAmount: 60
+  - platformType: 1
+    positionOnPlatformInMeters: 41
+    lootItemType: 0
+    lootItemAmount: 60

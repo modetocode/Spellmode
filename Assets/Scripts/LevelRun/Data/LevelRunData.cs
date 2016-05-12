@@ -4,17 +4,26 @@ using UnityEngine;
 /// <summary>
 /// The data that is needed for level run
 /// </summary>
-[Serializable]
-public class LevelRunData {
+public class LevelRunData : ScriptableObject {
 
     [SerializeField]
     private float lengthInMeters;
     [SerializeField]
-    private List<UnitSpawnData> defendingTeamUnitSpawnData;
+    private List<UnitSpawnData> defendingTeamUnitSpawnData = new List<UnitSpawnData>();
     [SerializeField]
-    private List<LootItemSpawnData> lootSpawnData;
+    private List<LootItemSpawnData> lootSpawnData = new List<LootItemSpawnData>();
 
-    public float LengthInMeters { get { return this.lengthInMeters; } }
+    public float LengthInMeters {
+        get { return this.lengthInMeters; }
+        set {
+            if (value <= 0f) {
+                throw new ArgumentOutOfRangeException("Cannot be zero or less.");
+            }
+
+            this.lengthInMeters = value;
+        }
+    }
+
     public IList<UnitSpawnData> DefendingTeamUnitSpawnData { get { return this.defendingTeamUnitSpawnData; } }
     public IList<LootItemSpawnData> LootSpawnData { get { return this.lootSpawnData; } }
 

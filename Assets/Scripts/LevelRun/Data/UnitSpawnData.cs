@@ -10,9 +10,9 @@ public class UnitSpawnData : SpawnData {
     [SerializeField]
     private UnitType unitType;
     [SerializeField]
-    private UnitLevelData unitLevelData;
+    private UnitLevelData unitLevelData = new UnitLevelData(1);
     [SerializeField]
-    private bool unitHasAutoAttack;
+    private bool unitHasAutoAttack = true;
 
     public UnitType UnitType { get { return this.unitType; } }
     public UnitLevelData UnitLevelData { get { return this.unitLevelData; } }

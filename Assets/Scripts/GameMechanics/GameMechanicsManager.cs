@@ -58,7 +58,7 @@ public static class GameMechanicsManager {
         return GetInstance<LootTableProgressionData>(Constants.GameMechanics.LootTableAssetName);
     }
 
-    public static GameConstants GetGameConstanstsData() {
+    public static GameConstants GetGameConstantsData() {
         return GetInstance<GameConstants>(Constants.GameMechanics.GameConstantsAssetName);
     }
 
@@ -85,7 +85,7 @@ public static class GameMechanicsManager {
 
     [MenuItem(Constants.GameMechanics.GameMechanicsMenuName + "/" + Constants.GameMechanics.GameConstantsMenuName)]
     private static void DisplayGameConstantsData() {
-        Selection.activeObject = GetGameConstanstsData();
+        Selection.activeObject = GetGameConstantsData();
     }
 #endif
 }

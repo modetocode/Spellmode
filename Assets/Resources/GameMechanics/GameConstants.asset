@@ -13,3 +13,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   goldIncreaseAmountForLevelCompleted: 30
   goldIncreaseCostForHeroStatUpdate: 100
+  gameLevels:
+  - {fileID: 11400000, guid: 55137886fa6400e43b44e8259a2d47c3, type: 2}
+  - {fileID: 11400000, guid: 0f37d17e82ddf914db31202d5b34333a, type: 2}
+  - {fileID: 11400000, guid: 34916a5a8e10b324f86bd94467e6dcbc, type: 2}
+  - {fileID: 11400000, guid: 0bdd40cb68dcc9c4981d54113729976d, type: 2}
+  - {fileID: 11400000, guid: 8fa36adb6b78ebc46b8bb89fdb8b9fc2, type: 2}
+  - {fileID: 11400000, guid: 438fb29876f517b438aa7751419db8ca, type: 2}
+  - {fileID: 11400000, guid: a304f0537eb8be04ba3845fe98d25cd6, type: 2}
+  - {fileID: 11400000, guid: 3cf8e2dcd65d0694db0d92d645d9129b, type: 2}
+  - {fileID: 11400000, guid: 694aa9dff1343cb4b83510e0c96a7b4f, type: 2}
+  - {fileID: 11400000, guid: 6490caaeaec110548a84d233093ab3e3, type: 2}
+  - {fileID: 11400000, guid: c9c953afb064d5c44b8e4bece3fa1a36, type: 2}
+  - {fileID: 11400000, guid: 6a3747e48f2fd1d468b27ad7670ce7ad, type: 2}
+  - {fileID: 11400000, guid: f6eb0aff3bf6e54468b94676af89c644, type: 2}
+  - {fileID: 11400000, guid: 14056f03fe3c98b49b8a2418f5e3d76a, type: 2}
+  - {fileID: 11400000, guid: 03426b462ac6d274699669e0c8239196, type: 2}
+  - {fileID: 11400000, guid: 96cb319d2d743f6429d2a8c88a104722, type: 2}
+  - {fileID: 11400000, guid: d2eb16e746225f94c9ae4942abd6c549, type: 2}
+  - {fileID: 11400000, guid: e6f5b995e04b57a419034b915560c313, type: 2}
+  - {fileID: 11400000, guid: de42acffb045c8f41a711f353f4b5469, type: 2}
+  - {fileID: 11400000, guid: 5c8cba257c6d11a4cb25b0872a8acadd, type: 2}
+  - {fileID: 11400000, guid: aa7ffe9d6ababa34899ea68bffec1474, type: 2}
