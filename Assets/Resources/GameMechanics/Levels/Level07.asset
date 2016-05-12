@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c8b80b303bc6f498d5e98735b38cef, type: 3}
   m_Name: Level07
   m_EditorClassIdentifier: 
-  lengthInMeters: 1
+  lengthInMeters: 65
   defendingTeamUnitSpawnData:
   - platformType: 1
     positionOnPlatformInMeters: 10
