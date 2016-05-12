@@ -15,8 +15,8 @@ MonoBehaviour:
   - UnitType: 1
     LootProgressionData:
     - lootItemType: 1
-      amountPerLevel: 3
-      randomFactorRatio: 0.5
+      amountPerLevel: 2
+      randomFactorRatio: 0.2
   - UnitType: 2
     LootProgressionData:
     - lootItemType: 0
