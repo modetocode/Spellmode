@@ -457,4 +457,12 @@ MonoBehaviour:
   - platformType: 1
     positionOnPlatformInMeters: 13
     lootItemType: 1
-    lootItemAmount: 7
+    lootItemAmount: 15
+  - platformType: 0
+    positionOnPlatformInMeters: 37
+    lootItemType: 1
+    lootItemAmount: 15
+  - platformType: 0
+    positionOnPlatformInMeters: 52
+    lootItemType: 1
+    lootItemAmount: 15

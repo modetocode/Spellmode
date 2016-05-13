@@ -374,7 +374,15 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 6
     unitHasAutoAttack: 1
   lootSpawnData:
+  - platformType: 1
+    positionOnPlatformInMeters: 10
+    lootItemType: 1
+    lootItemAmount: 12
+  - platformType: 0
+    positionOnPlatformInMeters: 10
+    lootItemType: 1
+    lootItemAmount: 12
   - platformType: 0
     positionOnPlatformInMeters: 67
     lootItemType: 1
-    lootItemAmount: 10
+    lootItemAmount: 20

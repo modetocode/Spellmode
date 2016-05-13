@@ -14,39 +14,7 @@ MonoBehaviour:
   lengthInMeters: 90
   defendingTeamUnitSpawnData:
   - platformType: 0
-    positionOnPlatformInMeters: 10
-    unitType: 2
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 0
     positionOnPlatformInMeters: 11
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 1
-    positionOnPlatformInMeters: 10
-    unitType: 2
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 1
-    positionOnPlatformInMeters: 11
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 0
-    positionOnPlatformInMeters: 15
     unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
@@ -54,15 +22,7 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 0
-    positionOnPlatformInMeters: 16
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 0
-    positionOnPlatformInMeters: 20
+    positionOnPlatformInMeters: 12
     unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
@@ -70,7 +30,7 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 0
-    positionOnPlatformInMeters: 21
+    positionOnPlatformInMeters: 13
     unitType: 1
     unitLevelData:
       healthUpgradeLevel: 5
@@ -78,7 +38,15 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 1
-    positionOnPlatformInMeters: 20
+    positionOnPlatformInMeters: 12
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 13
     unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
@@ -87,6 +55,22 @@ MonoBehaviour:
     unitHasAutoAttack: 1
   - platformType: 1
     positionOnPlatformInMeters: 21
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 22
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 23
     unitType: 1
     unitLevelData:
       healthUpgradeLevel: 5
@@ -94,7 +78,15 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 0
-    positionOnPlatformInMeters: 30
+    positionOnPlatformInMeters: 22
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 23
     unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
@@ -103,7 +95,31 @@ MonoBehaviour:
     unitHasAutoAttack: 1
   - platformType: 0
     positionOnPlatformInMeters: 31
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 32
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 33
     unitType: 1
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 32
+    unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
       damageUpgradeLevel: 5
@@ -118,31 +134,7 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 1
-    positionOnPlatformInMeters: 34
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 0
-    positionOnPlatformInMeters: 36
-    unitType: 2
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 0
-    positionOnPlatformInMeters: 37
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 1
-    positionOnPlatformInMeters: 39
+    positionOnPlatformInMeters: 41
     unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
@@ -150,7 +142,15 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 1
-    positionOnPlatformInMeters: 40
+    positionOnPlatformInMeters: 42
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 43
     unitType: 1
     unitLevelData:
       healthUpgradeLevel: 5
@@ -167,30 +167,6 @@ MonoBehaviour:
     unitHasAutoAttack: 1
   - platformType: 0
     positionOnPlatformInMeters: 43
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 1
-    positionOnPlatformInMeters: 45
-    unitType: 2
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 1
-    positionOnPlatformInMeters: 46
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 0
-    positionOnPlatformInMeters: 48
     unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
@@ -198,14 +174,6 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 0
-    positionOnPlatformInMeters: 49
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 1
     positionOnPlatformInMeters: 51
     unitType: 2
     unitLevelData:
@@ -213,32 +181,24 @@ MonoBehaviour:
       damageUpgradeLevel: 5
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 52
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 53
+    unitType: 1
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
   - platformType: 1
     positionOnPlatformInMeters: 52
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 0
-    positionOnPlatformInMeters: 54
-    unitType: 2
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 0
-    positionOnPlatformInMeters: 55
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 1
-    positionOnPlatformInMeters: 57
     unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
@@ -246,24 +206,24 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 1
-    positionOnPlatformInMeters: 58
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 0
-    positionOnPlatformInMeters: 60
+    positionOnPlatformInMeters: 53
     unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
       damageUpgradeLevel: 5
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
-  - platformType: 0
+  - platformType: 1
     positionOnPlatformInMeters: 61
-    unitType: 1
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 62
+    unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
       damageUpgradeLevel: 5
@@ -271,14 +231,6 @@ MonoBehaviour:
     unitHasAutoAttack: 1
   - platformType: 1
     positionOnPlatformInMeters: 63
-    unitType: 2
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 1
-    positionOnPlatformInMeters: 64
     unitType: 1
     unitLevelData:
       healthUpgradeLevel: 5
@@ -286,7 +238,7 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 0
-    positionOnPlatformInMeters: 66
+    positionOnPlatformInMeters: 62
     unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
@@ -294,23 +246,31 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 0
-    positionOnPlatformInMeters: 67
-    unitType: 1
-    unitLevelData:
-      healthUpgradeLevel: 5
-      damageUpgradeLevel: 5
-      ammunitionUpgradeLevel: 5
-    unitHasAutoAttack: 1
-  - platformType: 1
-    positionOnPlatformInMeters: 70
+    positionOnPlatformInMeters: 63
     unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
       damageUpgradeLevel: 5
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
-  - platformType: 1
+  - platformType: 0
     positionOnPlatformInMeters: 71
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 72
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 73
     unitType: 1
     unitLevelData:
       healthUpgradeLevel: 5
@@ -319,7 +279,15 @@ MonoBehaviour:
     unitHasAutoAttack: 1
   - platformType: 1
     positionOnPlatformInMeters: 72
-    unitType: 1
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 73
+    unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
       damageUpgradeLevel: 5
@@ -327,6 +295,30 @@ MonoBehaviour:
     unitHasAutoAttack: 1
   - platformType: 1
     positionOnPlatformInMeters: 80
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 81
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 82
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 1
+    positionOnPlatformInMeters: 83
     unitType: 1
     unitLevelData:
       healthUpgradeLevel: 5
@@ -334,8 +326,16 @@ MonoBehaviour:
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 0
-    positionOnPlatformInMeters: 80
-    unitType: 1
+    positionOnPlatformInMeters: 82
+    unitType: 2
+    unitLevelData:
+      healthUpgradeLevel: 5
+      damageUpgradeLevel: 5
+      ammunitionUpgradeLevel: 5
+    unitHasAutoAttack: 1
+  - platformType: 0
+    positionOnPlatformInMeters: 83
+    unitType: 2
     unitLevelData:
       healthUpgradeLevel: 5
       damageUpgradeLevel: 5
@@ -345,20 +345,12 @@ MonoBehaviour:
     positionOnPlatformInMeters: 88
     unitType: 2
     unitLevelData:
-      healthUpgradeLevel: 6
-      damageUpgradeLevel: 6
-      ammunitionUpgradeLevel: 6
-    unitHasAutoAttack: 1
-  - platformType: 0
-    positionOnPlatformInMeters: 89
-    unitType: 1
-    unitLevelData:
       healthUpgradeLevel: 5
       damageUpgradeLevel: 5
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
   - platformType: 0
-    positionOnPlatformInMeters: 90
+    positionOnPlatformInMeters: 89
     unitType: 1
     unitLevelData:
       healthUpgradeLevel: 5
@@ -369,16 +361,28 @@ MonoBehaviour:
     positionOnPlatformInMeters: 88
     unitType: 2
     unitLevelData:
-      healthUpgradeLevel: 6
-      damageUpgradeLevel: 6
-      ammunitionUpgradeLevel: 6
-    unitHasAutoAttack: 1
-  - platformType: 1
-    positionOnPlatformInMeters: 89
-    unitType: 1
-    unitLevelData:
       healthUpgradeLevel: 5
       damageUpgradeLevel: 5
       ammunitionUpgradeLevel: 5
     unitHasAutoAttack: 1
-  lootSpawnData: []
+  lootSpawnData:
+  - platformType: 1
+    positionOnPlatformInMeters: 16
+    lootItemType: 1
+    lootItemAmount: 14
+  - platformType: 1
+    positionOnPlatformInMeters: 36
+    lootItemType: 1
+    lootItemAmount: 14
+  - platformType: 1
+    positionOnPlatformInMeters: 56
+    lootItemType: 1
+    lootItemAmount: 12
+  - platformType: 0
+    positionOnPlatformInMeters: 66
+    lootItemType: 1
+    lootItemAmount: 12
+  - platformType: 1
+    positionOnPlatformInMeters: 76
+    lootItemType: 1
+    lootItemAmount: 12
