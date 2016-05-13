@@ -12,6 +12,8 @@ public class GameConstants : ScriptableObject {
     [SerializeField]
     private int goldIncreaseAmountForLevelCompleted;
     [SerializeField]
+    private int goldIncreaseAmountForFirstTimeLevelCompleted;
+    [SerializeField]
     private int goldIncreaseCostForHeroStatUpdate;
     [SerializeField]
     private List<LevelRunData> gameLevels;
@@ -22,6 +24,14 @@ public class GameConstants : ScriptableObject {
         }
 
         return levelNumber * goldIncreaseAmountForLevelCompleted;
+    }
+
+    public int GetFirstTimeCompletedGoldRewardForLevel(int levelNumber) {
+        if (levelNumber < 1) {
+            throw new ArgumentOutOfRangeException("levelNumber");
+        }
+
+        return levelNumber * goldIncreaseAmountForFirstTimeLevelCompleted;
     }
 
     public int GetGoldCostForHeroStat(int statLevel) {

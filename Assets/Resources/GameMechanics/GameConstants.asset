@@ -11,7 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cece276746da6a947b1a0c34a0d4ee78, type: 3}
   m_Name: GameConstants
   m_EditorClassIdentifier: 
-  goldIncreaseAmountForLevelCompleted: 30
+  goldIncreaseAmountForLevelCompleted: 10
+  goldIncreaseAmountForFirstTimeLevelCompleted: 20
   goldIncreaseCostForHeroStatUpdate: 100
   gameLevels:
   - {fileID: 11400000, guid: 55137886fa6400e43b44e8259a2d47c3, type: 2}

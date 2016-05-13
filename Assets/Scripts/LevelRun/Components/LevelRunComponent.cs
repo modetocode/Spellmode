@@ -97,9 +97,12 @@ class LevelRunComponent : MonoBehaviour {
             GameConstants gameConstants = GameMechanicsManager.GetGameConstantsData();
             int levelNumber = this.LevelRunModel.LevelNumber;
             int levelCompletedGoldAmount = gameConstants.GetGoldRewardForLevel(levelNumber);
-            this.PlayerModel.PlayerGameData.GoldAmount += goldLootedAmount + levelCompletedGoldAmount;
-            this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber = Math.Max(this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber, levelNumber);
-            this.LevelRunModel.LevelCompletedRewardData = new LevelCompetedRewardData(levelCompletedGoldAmount, goldLootedAmount, this.PlayerModel.PlayerGameData.GoldAmount);
+            int highestCompletedLevelNumber = this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber;
+            bool isFirstTimeLevelCompleted = highestCompletedLevelNumber == levelNumber - 1;
+            int firstTimeCompletedGoldAmount = isFirstTimeLevelCompleted ? gameConstants.GetFirstTimeCompletedGoldRewardForLevel(levelNumber) : 0;
+            this.PlayerModel.PlayerGameData.GoldAmount += goldLootedAmount + levelCompletedGoldAmount + firstTimeCompletedGoldAmount;
+            this.PlayerModel.PlayerGameData.HighestCompletedLevelNumber = Math.Max(highestCompletedLevelNumber, levelNumber);
+            this.LevelRunModel.LevelCompletedRewardData = new LevelCompetedRewardData(levelCompletedGoldAmount, firstTimeCompletedGoldAmount, goldLootedAmount, this.PlayerModel.PlayerGameData.GoldAmount);
         }
 
         this.runFinished = true;

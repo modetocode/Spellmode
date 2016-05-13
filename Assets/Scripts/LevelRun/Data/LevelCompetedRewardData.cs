@@ -5,12 +5,17 @@
 /// </summary>
 public class LevelCompetedRewardData {
     public int LevelCompletedGoldRewardAmount { get; private set; }
+    public int FirstTimeCompletedGoldRewardAmount { get; private set; }
     public int GoldLootedAmount { get; private set; }
     public int PlayerTotalGold { get; private set; }
 
-    public LevelCompetedRewardData(int levelCompletedGoldRewardAmount, int goldLootedAmount, int playersTotalGold) {
+    public LevelCompetedRewardData(int levelCompletedGoldRewardAmount, int firstTimeCompletedGoldRewardAmount, int goldLootedAmount, int playersTotalGold) {
         if (levelCompletedGoldRewardAmount < 0) {
             throw new ArgumentOutOfRangeException("levelCompletedGoldRewardAmount", "Cannot be less than zero.");
+        }
+
+        if (firstTimeCompletedGoldRewardAmount < 0) {
+            throw new ArgumentOutOfRangeException("firstTimeCompletedGoldRewardAmount", "Cannot be less than zero.");
         }
 
         if (goldLootedAmount < 0) {
@@ -22,6 +27,7 @@ public class LevelCompetedRewardData {
         }
 
         this.LevelCompletedGoldRewardAmount = levelCompletedGoldRewardAmount;
+        this.FirstTimeCompletedGoldRewardAmount = firstTimeCompletedGoldRewardAmount;
         this.GoldLootedAmount = goldLootedAmount;
         this.PlayerTotalGold = playersTotalGold;
     }

@@ -15,6 +15,10 @@ public class LevelCompletedGUIComponent : MonoBehaviour {
     [SerializeField]
     private Text totalGoldAmountText;
     [SerializeField]
+    private Text firstTimeCompletedGoldAmountText;
+    [SerializeField]
+    private RectTransform firstTimeCompletedGroupRect;
+    [SerializeField]
     private Button confirmButton;
 
     private LevelRunModel LevelRunModel { get { return LevelRunModel.Instance; } }
@@ -30,6 +34,14 @@ public class LevelCompletedGUIComponent : MonoBehaviour {
 
         if (this.totalGoldAmountText == null) {
             throw new NullReferenceException("totalGoldAmountText");
+        }
+
+        if (this.firstTimeCompletedGoldAmountText == null) {
+            throw new NullReferenceException("firstTimeCompletedGoldAmountText");
+        }
+
+        if (this.firstTimeCompletedGroupRect == null) {
+            throw new NullReferenceException("firstTimeCompletedGroupRect");
         }
 
         if (this.confirmButton == null) {
@@ -50,6 +62,8 @@ public class LevelCompletedGUIComponent : MonoBehaviour {
 
         string rewardsPrefix = "+";
         this.levelCompletedGoldRewardAmountText.text = rewardsPrefix + levelCompletedRewardData.LevelCompletedGoldRewardAmount.ToString();
+        this.firstTimeCompletedGoldAmountText.text = rewardsPrefix + levelCompletedRewardData.FirstTimeCompletedGoldRewardAmount.ToString();
+        this.firstTimeCompletedGroupRect.gameObject.SetActive(levelCompletedRewardData.FirstTimeCompletedGoldRewardAmount > 0);
         this.goldLootedAmountText.text = rewardsPrefix + levelCompletedRewardData.GoldLootedAmount.ToString();
         this.totalGoldAmountText.text = levelCompletedRewardData.PlayerTotalGold.ToString();
     }
