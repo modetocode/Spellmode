@@ -8,16 +8,23 @@ using UnityEngine;
 public class LootItemComponent : MonoBehaviour {
 
     public LootItem LootItem { get; private set; }
+    public Action<LootItemComponent> OnDestroyAction { get; private set; }
 
-    public void Initialize(LootItem lootItem) {
+    public void Initialize(LootItem lootItem, Action<LootItemComponent> onDestroyAction) {
         if (lootItem == null) {
             throw new ArgumentNullException("lootItem");
         }
 
+        if (onDestroyAction == null) {
+            throw new ArgumentNullException("onDestroyAction");
+        }
+
         this.LootItem = lootItem;
+        this.OnDestroyAction = onDestroyAction;
+        this.transform.position = lootItem.SpawnPosition;
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
+    public void OnTriggerEnter2D(Collider2D other) {
         if (this.LootItem == null) {
             return;
         }
@@ -30,11 +37,13 @@ public class LootItemComponent : MonoBehaviour {
         //TODO should we check if the loot item can be collected for hardcoded unit type?
         if (unitComponent.Unit.UnitType == UnitType.HeroUnit) {
             this.LootItem.MarkAsCollected();
-            Destroy(this.gameObject);
+            this.Destroy();
         }
     }
 
-    internal void Destroy() {
-        Destroy(this.gameObject);
+    public void Destroy() {
+        this.OnDestroyAction(this);
+        this.LootItem = null;
+        this.OnDestroyAction = null;
     }
 }

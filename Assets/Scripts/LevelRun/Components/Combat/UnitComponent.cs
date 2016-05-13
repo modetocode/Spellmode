@@ -8,6 +8,8 @@ using UnityEngine;
 public class UnitComponent : MonoBehaviour {
 
     public Unit Unit { get; private set; }
+    public Action<UnitComponent> OnDestroyAction { get; private set; }
+
     private Animator unitAnimator;
     private Vector2 previousUnitPosition;
 
@@ -22,20 +24,29 @@ public class UnitComponent : MonoBehaviour {
         }
     }
 
-    public void Initialize(Unit unit) {
+    public void Initialize(Unit unit, Action<UnitComponent> onDestroyAction) {
         if (unit == null) {
             throw new ArgumentNullException("unit");
         }
 
+        if (onDestroyAction == null) {
+            throw new ArgumentNullException("onDestroyAction");
+        }
+
         this.Unit = unit;
+        this.OnDestroyAction = onDestroyAction;
         this.previousUnitPosition = Vector2.zero;
         this.Unit.Weapon.WeaponFired += ShowFireAnimation;
         this.Unit.Died += ShowDeathAnimation;
         this.Unit.HealthChanged += ShowHitAnimation;
+        this.SetPosition();
     }
 
     public void Destroy() {
-        Destroy(this.gameObject);
+        this.UnsubsribeFromEvents();
+        this.OnDestroyAction(this);
+        this.Unit = null;
+        this.OnDestroyAction = null;
     }
 
     public void Update() {
@@ -49,7 +60,7 @@ public class UnitComponent : MonoBehaviour {
         }
 
         this.previousUnitPosition = this.Unit.PositionInMeters;
-        this.transform.position = this.Unit.PositionInMeters;
+        this.SetPosition();
         this.unitAnimator.SetFloat(Constants.Animations.MainCharacter.MoveSpeedParameterName, currentMovementSpeed);
 
     }
@@ -68,14 +79,14 @@ public class UnitComponent : MonoBehaviour {
         }
     }
 
+    private void SetPosition() {
+        this.transform.position = this.Unit.PositionInMeters;
+    }
+
     private void UnsubsribeFromEvents() {
         if (this.Unit != null) {
             this.Unit.Weapon.WeaponFired -= ShowFireAnimation;
             this.Unit.Died -= ShowDeathAnimation;
         }
-    }
-
-    public void OnDestroy() {
-        this.UnsubsribeFromEvents();
     }
 }
