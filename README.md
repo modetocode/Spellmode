@@ -1,3 +1,12 @@
+#Spellmode (Hero Adventures)
+# 0. Getting started
+This project **Spellmode (Hero Adventures)** was made with Unity 5.3.3 using C# language for scripting. After cloning of the repository the contents has to be opened as a project in Unity.  In Unity Editor, the game can be started only from the login scene located in **Scenes/Login.unity**. 
+
+This is a demo game that was created in a 2 months time. Have fun, enjoy the game and feel free to write to me about any suggestions about the code structure or the game. 
+
+The application was published on the Play Store. [Link to app](https://play.google.com/store/apps/details?id=com.ModeToCode.HeroAdventures)
+
+
 #1. Architecture
 ##1.1 Overview
 The game Hero Adventures consists of the following features: 
@@ -110,3 +119,6 @@ Because of the different resolutions and multiple devices that this game can be 
 
 Acknowledgement for the author of the textures: Designed by Freepik (http://www.freepik.com)
 
+# 5. Licence
+
+The licence info is shown in the file [LICENSE.txt](/LICENSE.txt)
